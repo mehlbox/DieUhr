@@ -2,8 +2,8 @@
 <html>
 <body style="background-color: #EEEEEE; font-size: 5vw;">
 <?php
-$file = $_SERVER['DOCUMENT_ROOT'].'message.txt';
-$status = $_SERVER['DOCUMENT_ROOT'].'status.inf';
+$file = $_SERVER['DOCUMENT_ROOT'].'/message.txt';
+$status = $_SERVER['DOCUMENT_ROOT'].'/status.inf';
 
 
 
@@ -45,4 +45,6 @@ if (!empty($_POST['del'])) $formtext = ""; else $formtext = file_get_contents($f
 </form>
 </body>
 </html>
-
+<!--
+<?php echo shell_exec('bash '.$_SERVER['DOCUMENT_ROOT'].'refresh.sh 2>&1'); ?>
+-->
