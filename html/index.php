@@ -6,7 +6,7 @@
 	<script type="text/javascript" src="js/jquery.js"></script>
 <style>
 body {
-	background: black;
+	background: green;
 }
 #clock {
     height: 85vmin;
@@ -26,6 +26,9 @@ body {
 .the_date {
 	font-size:40%;
 }
+.the_message {
+	font-size:40%;
+}
 </style>
 </head>
 <body onload="startClock(true)">
@@ -36,6 +39,7 @@ body {
 		<span class="the_date">
 			<span class='cl_day'></span><span class='cl_month'></span><span class='cl_year'></span>
 		</span>
+		<span class="the_message"><marquee> Wir singen das Lied Nr: 5</marquee></span>
 	</div>
 </body>
 </html>
