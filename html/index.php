@@ -1,46 +1,43 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<body>
+<?php
+$file = $_SERVER['DOCUMENT_ROOT'].'message.txt';
+$status = $_SERVER['DOCUMENT_ROOT'].'status.inf';
 
-<head>
-	<script type="text/javascript" src="js/clock.js"></script>
-	<script type="text/javascript" src="js/jquery.js"></script>
-<style>
-body {
-	background: green;
+
+
+if (!empty($_POST['send']) && !empty($_POST['message'])) file_put_contents($file, $_POST['message']);
+
+echo "<p>Text: ".file_get_contents($file)."</p>";
+
+if (!empty($_POST['off'] )) file_put_contents($status, FALSE);
+
+if (!empty($_POST['on'] )) file_put_contents($status, TRUE);
+
+if (file_get_contents($status)) {
+	echo "<p>Anzeige: EIN</p>";
+} else {
+	echo "<p>Anzeige: AUS</p>";
 }
-#clock {
-    height: 85vmin;
-    width: 100vmax;
-    position:absolute;
-	margin: auto;
-    background-color: black;
-    top: 0; left: 0; bottom: 0; right: 0;	
-	font-family:Verdana,sans-serif;color:#FFFFFF;
-	text-align:center;
-	display:block;
-	font-size: 45vmin;	
-}
-.the_clock {
-	font-size:100%;
-}
-.the_date {
-	font-size:40%;
-}
-.the_message {
-	font-size:40%;
-}
-</style>
-</head>
-<body onload="startClock(true)">
-	<div id="clock">
-		<span class="the_clock">
-			<span class='cl_hours'></span><span class='cl_minutes'></span>
-		</span>
-		<span class="the_date">
-			<span class='cl_day'></span><span class='cl_month'></span><span class='cl_year'></span>
-		</span>
-		<span class="the_message"><marquee> Wir singen das Lied Nr: 5</marquee></span>
-	</div>
+
+?>
+ 
+<form action="index.php" method="get" >
+ 
+<p>Text:
+<input type="text" name="message" value="<?php echo file_get_contents($file); ?>" style="width:80vw;"/>
+</p>
+
+<p>
+<input type="submit" name="send" value="senden"  formmethod="post" />
+</p>
+<p>
+<input type="submit" name="on"  value="einschalten" formmethod="post" />
+<input type="submit" name="off" value="ausschalten" formmethod="post" />
+</p>
+</form>
+
 </body>
 </html>
 
