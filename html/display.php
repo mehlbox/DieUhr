@@ -1,12 +1,26 @@
+<?php
+$file   = $_SERVER['DOCUMENT_ROOT'].'/data/message.txt';
+$status = $_SERVER['DOCUMENT_ROOT'].'/data/status.inf' ;
+
+if ($_GET['timeout']) {
+	file_put_contents($status, FALSE);
+	header("Location: display.php");
+}
+
+if (file_get_contents($status)) {
+	header( "refresh:120;url=display.php?timeout=1" );
+} else {
+	header( "refresh:600;url=display.php" );
+}
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-
 <head>
 	<script type="text/javascript" src="js/clock.js"></script>
 	<script type="text/javascript" src="js/jquery.js"></script>
 <style>
 body {
-	background: green;
+	background: black;
 }
 #clock {
     height: 85vmin;
@@ -14,11 +28,11 @@ body {
     position:absolute;
 	margin: auto;
     background-color: black;
-    top: 0; left: 0; bottom: 0; right: 0;	
+    top: 0; left: 0; bottom: 0; right: 0;
 	font-family:Verdana,sans-serif;color:#FFFFFF;
 	text-align:center;
 	display:block;
-	font-size: 45vmin;	
+	font-size: 45vmin;
 }
 .the_clock {
 	font-size:100%;
@@ -27,7 +41,7 @@ body {
 	font-size:40%;
 }
 .the_message {
-	font-size:40%;
+	font-size:50%;
 }
 </style>
 </head>
@@ -37,9 +51,6 @@ body {
 			<span class='cl_hours'></span><span class='cl_minutes'></span>
 		</span>
 <?php
-$file   = $_SERVER['DOCUMENT_ROOT'].'message.txt';
-$status = $_SERVER['DOCUMENT_ROOT'].'status.inf' ;
-
 if (file_get_contents($status)) {
 	echo "<span class='the_message'><marquee scrollamount='20'>".file_get_contents($file)."</marquee></span>";
 } else {
@@ -49,4 +60,3 @@ if (file_get_contents($status)) {
 	</div>
 </body>
 </html>
-
