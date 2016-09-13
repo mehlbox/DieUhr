@@ -20,10 +20,10 @@ if (file_get_contents($status)) {
 	<script type="text/javascript" src="js/jquery.js"></script>
 <style>
 body {
-	background: black;
+	background: green;
 }
 #clock {
-    height: 85vmin;
+    height:100vmin;
     width: 100vmax;
     position:absolute;
 	margin: auto;
@@ -32,17 +32,23 @@ body {
 	font-family:Verdana,sans-serif;color:#FFFFFF;
 	text-align:center;
 	display:block;
-	font-size: 45vmin;
+	font-size: 50vmin;
 }
 .the_clock {
 	font-size:100%;
 }
 .the_date {
-	font-size:40%;
-}
-.the_message {
 	font-size:50%;
 }
+@-webkit-keyframes marquee {
+ 0%   { text-indent: 100% }
+ 100% { text-indent: -200% }
+}
+.marquee {
+ font-size: 60%;
+ overflow: hidden;
+ white-space: nowrap;
+ -webkit-animation: marquee 10s linear infinite;}
 </style>
 </head>
 <body onload="startClock(true)">
@@ -52,7 +58,7 @@ body {
 		</span>
 <?php
 if (file_get_contents($status)) {
-	echo "<span class='the_message'><marquee scrollamount='20'>".file_get_contents($file)."</marquee></span>";
+	echo "<div class='marquee'>".file_get_contents($file)."</div>";
 } else {
 	echo "<span class='the_date'><span class='cl_day'></span><span class='cl_month'></span><span class='cl_year'></span></span>";
 }
