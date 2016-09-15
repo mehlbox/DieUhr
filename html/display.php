@@ -1,8 +1,9 @@
 <?php
 $file   = $_SERVER['DOCUMENT_ROOT'].'/data/message.txt';
 $status = $_SERVER['DOCUMENT_ROOT'].'/data/status.inf' ;
+$marquee = $_SERVER['DOCUMENT_ROOT'].'/data/marquee.inf';
 
-if ($_GET['timeout']) {
+if (!empty($_GET['timeout'])) {
 	file_put_contents($status, FALSE);
 	header("Location: display.php");
 }
@@ -41,14 +42,24 @@ body {
 	font-size:50%;
 }
 @-webkit-keyframes marquee {
- 0%   { text-indent: 100% }
- 100% { text-indent: -200% }
+ 0%   { text-indent: 100vw }
+ 100% { text-indent: -300vw }
 }
 .marquee {
- font-size: 60%;
- overflow: hidden;
- white-space: nowrap;
- -webkit-animation: marquee 10s linear infinite;}
+	font-size: 60%;
+	position: relative;
+	overflow: hidden;
+	white-space: nowrap;
+	-webkit-animation: marquee 15s linear infinite;
+}
+.simple {
+	font-size: 25%;
+	line-height: 1em;
+	height: 2em;
+	position: relative;
+	overflow: hidden;
+	white-space: pre;
+}
 </style>
 </head>
 <body onload="startClock(true)">
@@ -57,9 +68,15 @@ body {
 			<span class='cl_hours'></span><span class='cl_minutes'></span>
 		</span>
 <?php
-if (file_get_contents($status)) {
+if (file_get_contents($status) && file_get_contents($marquee)) {
 	echo "<div class='marquee'>".file_get_contents($file)."</div>";
-} else {
+}
+
+if (file_get_contents($status) && !file_get_contents($marquee)) {
+	echo "<div class='simple'>".file_get_contents($file)."</div>";
+}
+
+if (!file_get_contents($status)) {
 	echo "<span class='the_date'><span class='cl_day'></span><span class='cl_month'></span><span class='cl_year'></span></span>";
 }
 ?>
