@@ -1,5 +1,6 @@
 # DieUhr
 - Use RASPBIAN JESSIE LITE from https://www.raspberrypi.org/downloads/raspbian/
+
 ## how to install:
 ```bash
 sudo apt-get update && apt-get upgrade -y
