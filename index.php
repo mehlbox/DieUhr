@@ -51,7 +51,7 @@ input, select {
 	border: solid 0.1vw #000000;
 	-webkit-border-radius: 2vw;
 	-webkit-box-shadow: #555555 0.5vw 0.5vw 0.5vw;
-	background-image: -webkit-linear-gradient(top, #D4D5D5, #fdfdfd);
+	background-image: -webkit-linear-gradient(top, #C5C5C5, #fdfdfd);
 }
 .box, .boxw{
 	float: left;
