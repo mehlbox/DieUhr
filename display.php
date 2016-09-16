@@ -3,7 +3,7 @@ $file   = $_SERVER['DOCUMENT_ROOT'].'/data/message.txt';
 $status = $_SERVER['DOCUMENT_ROOT'].'/data/status.inf' ;
 $mode   = $_SERVER['DOCUMENT_ROOT'].'/data/mode.inf';
 
-if (file_get_contents($mode) == 'wedding') header("Location: hochzeit.php");
+if (file_get_contents($status) && file_get_contents($mode) == 'wedding') header("Location: hochzeit.php");
 
 if (!empty($_GET['timeout'])) {
 	file_put_contents($status, FALSE);

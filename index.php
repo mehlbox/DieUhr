@@ -142,18 +142,6 @@ if (file_get_contents($preview)) {
 	
 	
 	</div>
-	<div class="box">Status:
-<?php
-if (file_get_contents($status)) {
-        echo '
-		<div style="background-color: #99FF55; border: 0; padding: 1vmin; ">EIN</br>
-		<input type="submit" name="status_off" value="ausschalten" /></div>';
-} else {
-        echo '
-		<div style="background-color: #FF9955; border: 0; padding: 1vmin; ">AUS</br>
-		<input type="submit" name="status_on"  value="einschalten" /></div>';
-} ?>
-	</div>
 <?php } ?>
 	<div class="box">Modus:
 		<div style="background-color: #999999; border: 0; padding: 1vmin;">
@@ -166,13 +154,24 @@ if (file_get_contents($status)) {
 			<input type="submit" />
 		</div>
 	</div>
-<?php if (file_get_contents($mode) != 'wedding') { ?>
-	<div class="box">Meine Ansicht:
+	<div class="box">Status:
+<?php
+if (file_get_contents($status)) {
+        echo '
+		<div style="background-color: #99FF55; border: 0; padding: 1vmin; ">EIN</br>
+		<input type="submit" name="status_off" value="ausschalten" /></div>';
+} else {
+        echo '
+		<div style="background-color: #FF9955; border: 0; padding: 1vmin; ">AUS</br>
+		<input type="submit" name="status_on"  value="einschalten" /></div>';
+} ?>
+	</div>
+	<div class="box">
 		<div style="background-color: #999999; border: 0; padding: 1vmin;">
-		</br>
 		<input type="submit" value="aktualisieren" />
 		</div>
 	</div>
+<?php if (file_get_contents($mode) != 'wedding') { ?>
 	<div class="boxw">Eingabe:
 			<textarea name="message"><?php echo $formtext; ?></textarea>
 			<input type="submit" name="save"  value="speichern" />
