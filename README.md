@@ -13,7 +13,9 @@ mkdir data
 cd date
 touch message.txt mode.inf preview.inf status.inf wedding.txt
 chmod 777 *
+cd ..
+xinit ./startMidori.sh
 ```
 Optional:
-- add run.sh to /etc/rc.local for autostart
+- add '''xinit ./startMidori.sh''' to /etc/rc.local for autostart
 - have fun
