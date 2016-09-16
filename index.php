@@ -110,7 +110,7 @@ textarea {
 <body onload="startClock(true)">
 <form method="post" >
 <?php if (file_get_contents($mode) != 'wedding') { ?>
-	<div class="boxw">
+	<div class="boxw">Ansicht:
 		<div id="clock">
 		<span class="the_clock">
 			<span class='cl_hours'></span><span class='cl_minutes'></span>
@@ -129,7 +129,7 @@ if (!file_get_contents($status) && !file_get_contents($preview)) {
 }
 ?>
 		</div>
-		Anzeige Modus:
+		</br>
 <?php
 if (file_get_contents($preview)) {
         echo '
@@ -137,12 +137,27 @@ if (file_get_contents($preview)) {
 } else {
         echo '
 		<div style="background-color: #FF7755; border: 0; padding: 1vmin;"><input type="submit" name="preview_on"  value="umschalten" />Live Anzeige</div>';
-} ?>
-	
-	
-	
+} ?>	
+	</div>	
+<?php } ?>
+
+<?php if (file_get_contents($mode) != 'wedding') { ?>
+	<div class="boxw">Eingabe:
+			<textarea name="message"><?php echo $formtext; ?></textarea>
+			<input type="submit" name="save"  value="speichern" />
+			<input type="submit" name="del"   value="löschen" />
+			<input type="submit" name="reset" value="Das Lied ..." />
+	</div>
+<?php } else { ?>
+	<div class="boxw">Ansicht nicht verfügbar.
+	</div>
+	<div class="boxw">Namen Brautpaar:
+			<textarea name="message"><?php echo $formtext; ?></textarea>
+			<input type="submit" name="save"  value="speichern" />
+			<input type="submit" name="del"   value="löschen" />
 	</div>
 <?php } ?>
+
 	<div class="box">Modus:
 		<div style="background-color: #999999; border: 0; padding: 1vmin;">
 			<select name="mode" style="font-size: 5vw; border: 0; padding: 1vmin; margin: 2%; width: 95%;">
@@ -151,7 +166,7 @@ if (file_get_contents($preview)) {
 				<option value="wedding"        <?php if (file_get_contents($mode) == 'wedding')        echo 'selected="selected"'; ?> >Hochzeit</option>
 				<!--<option value="largetextblock" <?php if (file_get_contents($mode) == 'largetextblock') echo 'selected="selected"'; ?> >Text + keine Uhr</option>-->
 			</select>
-			<input type="submit" />
+			<input type="submit" value="OK" />
 		</div>
 	</div>
 	<div class="box">Status:
@@ -166,25 +181,6 @@ if (file_get_contents($status)) {
 		<input type="submit" name="status_on"  value="einschalten" /></div>';
 } ?>
 	</div>
-	<div class="box">
-		<div style="background-color: #999999; border: 0; padding: 1vmin;">
-		<input type="submit" value="aktualisieren" />
-		</div>
-	</div>
-<?php if (file_get_contents($mode) != 'wedding') { ?>
-	<div class="boxw">Eingabe:
-			<textarea name="message"><?php echo $formtext; ?></textarea>
-			<input type="submit" name="save"  value="speichern" />
-			<input type="submit" name="reset" value="zurücksetzen" />
-			<input type="submit" name="del"   value="löschen" />
-	</div>
-<?php } else { ?>
-	<div class="boxw">Namen Brautpaar:
-			<textarea name="message"><?php echo $formtext; ?></textarea>
-			<input type="submit" name="save"  value="speichern" />
-			<input type="submit" name="del"   value="löschen" />
-	</div>
-<?php } ?>
 </form>
 </body>
 </html>
