@@ -3,7 +3,11 @@ $file = $_SERVER['DOCUMENT_ROOT'].'/data/wedding.txt';
 $status = $_SERVER['DOCUMENT_ROOT'].'/data/status.inf' ;
 $mode = $_SERVER['DOCUMENT_ROOT'].'/data/mode.inf';
 $formtext = file_get_contents($file);
-if ( !file_get_contents($status) || file_get_contents($mode) != 'wedding') header("Location: display.php");
+if ( !file_get_contents($status) || file_get_contents($mode) != 'wedding') { 
+	header("Location: display.php");
+} else {
+	header( "refresh:600;url=hochzeit.php" );
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
