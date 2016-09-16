@@ -37,12 +37,16 @@ function formSubmit() {
 body {
 	background-color: #FFFFFF;
 	font-size: 5vw;
+	font-family:Verdana,sans-serif;
 }
 div {
 	background-color: #EAEAEA;
-	padding: 1vw
-	margin: 1vw;
+	padding: 2vw
+	margin: 2vw;
 	-webkit-border-radius: 2vw;
+}
+div div {
+	padding: 1vw;
 }
 input, select {
 	font-size: 5vw;
@@ -61,6 +65,7 @@ input, select {
 	-webkit-border-radius: 3vw;
 	-webkit-box-shadow: #B3B3B3 1vw 1vw 1vw;
 	box-sizing: border-box;
+	background-image: -webkit-linear-gradient(top, #fdfdfd, #C5C5C5);
 }
 .box {
 	width: 46vw;
@@ -69,11 +74,11 @@ input, select {
 	width: 94vw;
 }
 #clock {
-    height:45vw;
-    width: 80vw;
+	height:45vw;
+	width: 80vw;
 	margin: auto;
-    background-color: black;
-	font-family:Verdana,sans-serif;color:#FFFFFF;
+	background-color: black;
+	color:#FFFFFF;
 	text-align:center;
 	display:block;
 	font-size: 21vw;
@@ -86,8 +91,8 @@ input, select {
 	font-size:50%;
 }
 @-webkit-keyframes marquee {
- 0%   { text-indent: 100vw }
- 100% { text-indent: -300vw }
+	0%   { text-indent: 100vw  }
+	100% { text-indent: -300vw }
 }
 .marquee {
 	font-size: 60%;
@@ -178,17 +183,15 @@ if (file_get_contents($preview)) {
 <?php
 if (file_get_contents($status)) {
         echo '
-		<div style="background-color: #99DD55; padding: 1vw; text-align:center;">EIN</br>
-		<input type="submit" name="status_off" value="ausschalten" style="width: 37vw;" /></div>';
+		<div style="background-color: #99DD55; text-align: center; ">EIN</br>
+		<input type="submit" name="status_off" value="ausschalten" style="width: 36vw;" /></div>';
 } else {
         echo '
-		<div style="background-color: #FF7755; padding: 1vw; text-align:center;">AUS</br>
-		<input type="submit" name="status_on"  value="einschalten" style="width: 37vw;" /></div>';
+		<div style="background-color: #FF7755; text-align: center; ">AUS</br>
+		<input type="submit" name="status_on"  value="einschalten" style="width: 36vw;" /></div>';
 } ?>
 	</div>
 </form>
 </body>
 </html>
-<!--
-<?php echo shell_exec('bash '.$_SERVER['DOCUMENT_ROOT'].'/refresh.sh 2>&1'); ?>
--->
+<?php echo '<!--'.shell_exec('bash '.$_SERVER['DOCUMENT_ROOT'].'/refresh.sh 2>&1').'-->'; ?>
