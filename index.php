@@ -1,19 +1,22 @@
 <?php
-$file   = $_SERVER['DOCUMENT_ROOT'].'/data/message.txt';
-$status = $_SERVER['DOCUMENT_ROOT'].'/data/status.inf';
-$marquee = $_SERVER['DOCUMENT_ROOT'].'/data/marquee.inf';
+$status  = $_SERVER['DOCUMENT_ROOT'].'/data/status.inf';
 $preview = $_SERVER['DOCUMENT_ROOT'].'/data/preview.inf';
+$mode    = $_SERVER['DOCUMENT_ROOT'].'/data/mode.inf';
 
+if (!empty($_POST['mode'] )) file_put_contents($mode, $_POST['mode'] ); // modus
 
-if (!empty($_POST['save'])) file_put_contents($file, $_POST['message']); // speichern
+if (file_get_contents($mode) == 'wedding') {
+	$file = $_SERVER['DOCUMENT_ROOT'].'/data/wedding.txt';
+} else {
+	$file = $_SERVER['DOCUMENT_ROOT'].'/data/message.txt';
+}
 
-if (!empty($_POST['status_off'] )) file_put_contents($status, FALSE);
-if (!empty($_POST['status_on']  )) file_put_contents($status, TRUE);
-if (!empty($_POST['marquee_off'] )) file_put_contents($marquee, FALSE);
-if (!empty($_POST['marquee_on']  )) file_put_contents($marquee, TRUE);
+if (!empty($_POST['status_off']  )) file_put_contents($status, FALSE);
+if (!empty($_POST['status_on']   )) file_put_contents($status, TRUE);
 if (!empty($_POST['preview_off'] )) file_put_contents($preview, FALSE);
 if (!empty($_POST['preview_on']  )) file_put_contents($preview, TRUE);
 
+if (!empty($_POST['save'])) file_put_contents($file, $_POST['message']); // speichern
 $formtext = file_get_contents($file);
 if (!empty($_POST['reset'])) $formtext = "Das Lied Nr.: ";
 if (!empty($_POST['del'])) $formtext = "";
@@ -43,21 +46,21 @@ input {
 	padding: 2vw;
 	margin: 1vw;
 }
-.box {
+.box, .boxw{
 	float: left;
-	width: 46vw;
-	margin-right: 2vw;
-	margin-top: 2vw;
+	margin: 1vw;
 	padding: 2vw;
+	border: solid 2px #737373;
+	-webkit-border-radius: 3vw;
+	-webkit-box-shadow: #B3B3B3 1vw 1vw 1vw;
 	box-sizing: border-box;
+	
+}
+.box {
+	width: 46vw;
 }
 .boxw {
-	float: left;
-	width: 90vw;
-	margin-right: 2vw;
-	margin-top: 2vw;
-	padding: 2vw;
-
+	width: 94vw;
 }
 #clock {
     height:45vw;
@@ -105,18 +108,19 @@ textarea {
 </style>
 </head>
 <body onload="startClock(true)">
-<form action="/" method="post" >
+<form method="post" >
+<?php if (file_get_contents($mode) != 'wedding') { ?>
 	<div class="boxw">
 		<div id="clock">
 		<span class="the_clock">
 			<span class='cl_hours'></span><span class='cl_minutes'></span>
 		</span>
 <?php
-if ((file_get_contents($status) || file_get_contents($preview)) && file_get_contents($marquee)) {
+if ((file_get_contents($status) || file_get_contents($preview)) && file_get_contents($mode) == 'marquee') {
 	echo "<div class='marquee'>".file_get_contents($file)."</div>";
 }
 
-if ((file_get_contents($status) || file_get_contents($preview)) && !file_get_contents($marquee)) {
+if ((file_get_contents($status) || file_get_contents($preview)) && file_get_contents($mode) == 'textblock') {
 	echo "<div class='simple'>".file_get_contents($file)."</div>";
 }
 
@@ -150,34 +154,23 @@ if (file_get_contents($status)) {
 		<input type="submit" name="status_on"  value="einschalten" /></div>';
 } ?>
 	</div>
-	<div class="box">Animation:
-<?php
-if (file_get_contents($marquee)) {
-        echo '
-		<div style="background-color: #9999FF; border: 0; padding: 1vmin;">Laufschrift</br>
-		<input type="submit" name="marquee_off" value="umschalten" /></div>';
-} else {
-        echo '
-		<div style="background-color: #9999DD; border: 0; padding: 1vmin;">Statisch</br>
-		<input type="submit" name="marquee_on"  value="umschalten" /></div>';
-} ?>
+<?php } ?>
+	<div class="box">Modus:
+		<div style="background-color: #999999; border: 0; padding: 1vmin;">
+			<select name="mode" style="font-size: 5vw; border: 0; padding: 1vmin; margin: 2%; width: 95%;">
+				<option value="marquee"        <?php if (file_get_contents($mode) == 'marquee')        echo 'selected="selected"'; ?> >Laufschrift</option>
+				<option value="textblock"      <?php if (file_get_contents($mode) == 'textblock')      echo 'selected="selected"'; ?> >Textblock</option>
+				<option value="wedding"        <?php if (file_get_contents($mode) == 'wedding')        echo 'selected="selected"'; ?> >Hochzeit</option>
+				<!--<option value="largetextblock" <?php if (file_get_contents($mode) == 'largetextblock') echo 'selected="selected"'; ?> >Text + keine Uhr</option>-->
+			</select>
+			<input type="submit" />
+		</div>
 	</div>
+<?php if (file_get_contents($mode) != 'wedding') { ?>
 	<div class="box">Meine Ansicht:
 		<div style="background-color: #999999; border: 0; padding: 1vmin;">
 		</br>
 		<input type="submit" value="aktualisieren" />
-		</div>
-	</div>
-	<div class="box">Anzeige:
-		<div style="background-color: #999999; border: 0; padding: 1vmin;">
-<form>
-    <select multiple name="anzeigen" style="font-size: 5vw; border: 0; padding: 1vmin; margin: 2%; width: 95%;">
-      <option value="Uhr">Uhr</option>
-      <option>Namen (Hochzeit)</option>
-      <option selected='selected'>Datum</option>
-      <option>Nachricht</option>
-    </select>
-</form>
 		</div>
 	</div>
 	<div class="boxw">Eingabe:
@@ -186,6 +179,13 @@ if (file_get_contents($marquee)) {
 			<input type="submit" name="reset" value="zurücksetzen" />
 			<input type="submit" name="del"   value="löschen" />
 	</div>
+<?php } else { ?>
+	<div class="boxw">Namen Brautpaar:
+			<textarea name="message"><?php echo $formtext; ?></textarea>
+			<input type="submit" name="save"  value="speichern" />
+			<input type="submit" name="del"   value="löschen" />
+	</div>
+<?php } ?>
 </form>
 </body>
 </html>

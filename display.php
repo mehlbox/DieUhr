@@ -1,7 +1,9 @@
 <?php
 $file   = $_SERVER['DOCUMENT_ROOT'].'/data/message.txt';
 $status = $_SERVER['DOCUMENT_ROOT'].'/data/status.inf' ;
-$marquee = $_SERVER['DOCUMENT_ROOT'].'/data/marquee.inf';
+$mode   = $_SERVER['DOCUMENT_ROOT'].'/data/mode.inf';
+
+if (file_get_contents($mode) == 'wedding') header("Location: hochzeit.php");
 
 if (!empty($_GET['timeout'])) {
 	file_put_contents($status, FALSE);
@@ -68,11 +70,11 @@ body {
 			<span class='cl_hours'></span><span class='cl_minutes'></span>
 		</span>
 <?php
-if (file_get_contents($status) && file_get_contents($marquee)) {
+if (file_get_contents($status) && file_get_contents($mode) == 'marquee') {
 	echo "<div class='marquee'>".file_get_contents($file)."</div>";
 }
 
-if (file_get_contents($status) && !file_get_contents($marquee)) {
+if (file_get_contents($status) && file_get_contents($mode) == 'textblock') {
 	echo "<div class='simple'>".file_get_contents($file)."</div>";
 }
 
