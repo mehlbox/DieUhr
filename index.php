@@ -21,11 +21,11 @@ $formtext = file_get_contents($file);
 if (!empty($_POST['reset'])) $formtext = "Das Lied Nr.: ";
 if (!empty($_POST['del'])) $formtext = "";
 
-header( "refresh:120;url=/" );
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<title>DieUhr</title>
 <script type="text/javascript" src="js/clock.js"></script>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
@@ -33,39 +33,36 @@ function formSubmit() {
     document.getElementById("test").submit();
 }
 </script>
-<style>
+<style type="text/css">
 body {
-	background-color: #FFFFFF;
+	background-color: #DDDDDD;
 	font-size: 5vw;
 	font-family:Verdana,sans-serif;
 }
-div {
-	background-color: #EAEAEA;
-	padding: 2vw
-	margin: 2vw;
-	-webkit-border-radius: 2vw;
-}
 div div {
-	padding: 1vw;
+	padding: 2vw 1vw;
+	margin: 2vw 1vw;
 }
 input, select {
 	font-size: 5vw;
 	padding: 2vw;
 	margin: 1vw;
-	border: solid 0.1vw #000000;
-	-webkit-border-radius: 2vw;
-	-webkit-box-shadow: #555555 0.5vw 0.5vw 0.5vw;
-	background-image: -webkit-linear-gradient(top, #C5C5C5, #fdfdfd);
+}
+textarea {
+	width: 95%;
+	font-size: 5vw;
+	background-color:#FFFF66; 
+	border: 0.3vw solid #000000;
+	padding: 1vw;
+	margin: 1vw;
 }
 .box, .boxw{
 	float: left;
-	margin: 1vw;
+	margin: 2vw 1vw;
 	padding: 2vw;
-	border: solid 2px #737373;
-	-webkit-border-radius: 3vw;
-	-webkit-box-shadow: #B3B3B3 1vw 1vw 1vw;
+	-webkit-box-shadow: #999999 1vw 1vw 1vw;
 	box-sizing: border-box;
-	background-image: -webkit-linear-gradient(top, #fdfdfd, #C5C5C5);
+	background-image: -webkit-linear-gradient(top, #FFFFFF, #AAAAAA);
 }
 .box {
 	width: 46vw;
@@ -91,7 +88,7 @@ input, select {
 	font-size:50%;
 }
 @-webkit-keyframes marquee {
-	0%   { text-indent: 100vw  }
+	0%   { text-indent:  100vw }
 	100% { text-indent: -300vw }
 }
 .marquee {
@@ -112,14 +109,6 @@ input, select {
 	white-space: pre;
 	background-color: #000000;
 	-webkit-border-radius: 0;
-}
-textarea {
-	width: 95%;
-	font-size: 5vw;
-	background-color:#FFFF66; 
-	border: 0.3vw solid #000000;
-	padding: 1vw;
-	margin: 1vw;
 }
 </style>
 </head>
