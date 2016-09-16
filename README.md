@@ -17,5 +17,5 @@ cd ..
 xinit ./startMidori.sh
 ```
 Optional:
-- add ```xinit ./startMidori.sh``` to /etc/rc.local for autostart
+- add ```xinit /var/www/html/startMidori.sh``` to /etc/rc.local for autostart
 - have fun
