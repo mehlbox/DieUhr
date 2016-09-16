@@ -28,35 +28,35 @@ header( "refresh:120;url=/" );
 <style>
 body {
 	background-color: #FFFFFF;
-	font-size: 5vmin;
+	font-size: 5vw;
 }
 div {
 	background-color: #DDDDDD;
-	padding: 1vmin
-	margin: 1vmin;
+	padding: 1vw
+	margin: 1vw;
 }
 div div{
 	background-color: #000000;
 }
 input {
-	font-size: 5vmin;
-	padding: 2vmin;
-	margin: 1vmin;
+	font-size: 5vw;
+	padding: 2vw;
+	margin: 1vw;
 }
 .box {
 	float: left;
-	width: 48%;
-	margin-right: 2%;
-	margin-top: 2%;
-	padding: 2%;
+	width: 46vw;
+	margin-right: 2vw;
+	margin-top: 2vw;
+	padding: 2vw;
 	box-sizing: border-box;
 }
 .boxw {
 	float: left;
-	width: 94%;
-	margin-right: 2%;
-	margin-top: 2%;
-	padding: 2%;
+	width: 90vw;
+	margin-right: 2vw;
+	margin-top: 2vw;
+	padding: 2vw;
 
 }
 #clock {
@@ -64,7 +64,6 @@ input {
     width: 80vw;
 	margin: auto;
     background-color: black;
-    top: 0; left: 0; bottom: 0; right: 0;
 	font-family:Verdana,sans-serif;color:#FFFFFF;
 	text-align:center;
 	display:block;
@@ -167,6 +166,18 @@ if (file_get_contents($marquee)) {
 		<div style="background-color: #999999; border: 0; padding: 1vmin;">
 		</br>
 		<input type="submit" value="aktualisieren" />
+		</div>
+	</div>
+	<div class="box">Anzeige:
+		<div style="background-color: #999999; border: 0; padding: 1vmin;">
+<form>
+    <select multiple name="anzeigen" style="font-size: 5vw; border: 0; padding: 1vmin; margin: 2%; width: 95%;">
+      <option value="Uhr">Uhr</option>
+      <option>Namen (Hochzeit)</option>
+      <option selected='selected'>Datum</option>
+      <option>Nachricht</option>
+    </select>
+</form>
 		</div>
 	</div>
 	<div class="boxw">Eingabe:
