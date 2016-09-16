@@ -3,11 +3,16 @@
 
 ## how to install:
 ```bash
-sudo apt-get update && apt-get upgrade -y
-sudo apt-get install midori matchbox xinit xdotool unclutter apache2 php5 libapache2-mod-php5 git -y
+sudo su
+apt-get update && apt-get upgrade -y
+apt-get install midori matchbox xinit xdotool unclutter apache2 php5 libapache2-mod-php5 git -y
 rm /var/www/html/index.html
 git clone https://github.com/mehlbox/DieUhr.git /var/www/html/
-/var/www/html/install.sh
+cd /var/www/html
+mkdir data
+cd date
+touch message.txt mode.inf preview.inf status.inf wedding.txt
+chmod 777 *
 ```
 Optional:
 - add run.sh to /etc/rc.local for autostart
