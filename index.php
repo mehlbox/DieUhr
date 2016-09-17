@@ -26,6 +26,7 @@ if (!empty($_POST['del'])) $formtext = "";
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=11">
 <title>DieUhr</title>
 <script type="text/javascript" src="js/clock.js"></script>
 <script type="text/javascript" src="js/jquery.js"></script>
@@ -90,6 +91,18 @@ textarea {
 	font-size:50%;
 }
 @-webkit-keyframes marquee {
+	0%   { text-indent:  100vw }
+	100% { text-indent: -300vw }
+}
+@-moz-keyframes marquee {
+	0%   { text-indent:  100vw }
+	100% { text-indent: -300vw }
+}
+@-ms-keyframes marquee {
+	0%   { text-indent:  100vw }
+	100% { text-indent: -300vw }
+}
+@keyframes marquee {
 	0%   { text-indent:  100vw }
 	100% { text-indent: -300vw }
 }
