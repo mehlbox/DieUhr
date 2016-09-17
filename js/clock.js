@@ -1,5 +1,5 @@
 var leadingZeroHour = 'true';
-	var dateFormat = 'dd.mm.yyyy';
+var dateFormat = 'dd.mm.yyyy';
 
 	if(dateFormat == "dd.mm" || dateFormat == "dd.month" || dateFormat == "dd.mon") {
 		$(".cl_year").addClass("hidden");

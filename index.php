@@ -25,14 +25,10 @@ if (!empty($_POST['del'])) $formtext = "";
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <title>DieUhr</title>
 <script type="text/javascript" src="js/clock.js"></script>
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript">
-function formSubmit() {
-    document.getElementById("test").submit();
-}
-</script>
 <style type="text/css">
 body {
 	background-color: #DDDDDD;
@@ -58,11 +54,18 @@ textarea {
 }
 .box, .boxw{
 	float: left;
-	margin: 2vw 1vw;
+	margin: 3vw 0 0 1.5vw;
 	padding: 2vw;
-	-webkit-box-shadow: #999999 1vw 1vw 1vw;
 	box-sizing: border-box;
+	background-color: #FFFFFF;
 	background-image: -webkit-linear-gradient(top, #FFFFFF, #AAAAAA);
+	background-image: -moz-linear-gradient(top, #FFFFFF, #AAAAAA);
+	background-image: -ms-linear-gradient(top, #FFFFFF, #AAAAAA);
+	background-image: -o-linear-gradient(top, #FFFFFF, #AAAAAA);
+	background-image: linear-gradient(top, #FFFFFF, #AAAAAA);
+	-webkit-box-shadow: 1vw 1vw 1vw 0 #999999;
+	-moz-box-shadow: 1vw 1vw 1vw 0 #999999;
+    box-shadow: 1vw 1vw 1vw 0 #999999;
 }
 .box {
 	width: 46vw;
@@ -79,7 +82,6 @@ textarea {
 	text-align:center;
 	display:block;
 	font-size: 21vw;
-	-webkit-border-radius: 0;
 }
 .the_clock {
 	font-size:100%;
@@ -96,9 +98,10 @@ textarea {
 	position: relative;
 	overflow: hidden;
 	white-space: nowrap;
-	-webkit-animation: marquee 15s linear infinite;
 	background-color: #000000;
-	-webkit-border-radius: 0;
+	-webkit-animation: marquee 15s linear infinite;
+	-moz-animation: marquee 15s linear infinite;
+	animation: marquee 15s linear infinite;
 }
 .simple {
 	font-size: 25%;
@@ -108,14 +111,64 @@ textarea {
 	overflow: hidden;
 	white-space: pre;
 	background-color: #000000;
-	-webkit-border-radius: 0;
+}
+
+.tabrow {
+  margin: 0;
+  overflow: hidden;
+}
+.tabrow li {
+  border-radius: 3vw 3vw 0 0;
+  margin: 3vw 3vw 0 0;
+  border:solid 1px #CCCCCC;
+  background: #CCCCCC;
+  display: inline-block;
+  -webkit-box-shadow: 1vw 1vw 1vw 0 #999999;
+  -moz-box-shadow: 1vw 1vw 1vw 0 #999999;
+  box-shadow: 1vw 1vw 1vw 0 #999999;
+}
+.tabrow input {
+  background: transparent;
+  margin: 0 2vw;
+  padding: 2vw;
+  border:0;
+  
+}
+.tabrow li.selected {
+ border:solid 1px #FFFFFF;
+ background: #FFFFFF;
+}
+
+.ref a{
+  float: right;
+  font-size: 2em;
+  display: block;
+  text-decoration: none;
+  background-color: #f7f7f7;
+  color: #000000;
+  width: 12vw;
+  height: 12vw;
+  line-height: 12vw;
+  text-align: center;
+  border-radius: 20%;
+  -webkit-box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
+  -moz-box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
+  box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
+  margin-right: 3vw;
 }
 </style>
 </head>
 <body onload="startClock(true)">
-<form method="post" >
+	<div class="ref"><a href="">&#8635</a>
+    </div>
+<form method="post" action="">
+<ul class="tabrow">
+  <li <?php if (file_get_contents($preview) ) echo 'class="selected"'; ?>><input type="submit" name="preview_on"  value="Vorschau" /></li>
+  <li <?php if (!file_get_contents($preview)) echo 'class="selected"'; ?>><input type="submit" name="preview_off" value="Live"     /></li>
+</ul>
+
 <?php if (file_get_contents($mode) != 'wedding') { ?>
-	<div class="boxw"><?php if (file_get_contents($preview)) { echo 'Vorschau:'; } else { echo 'Live Ansicht:'; } ?>
+	<div class="boxw" style="margin-top: 0;">
 		<div id="clock">
 		<span class="the_clock">
 			<span class='cl_hours'></span><span class='cl_minutes'></span>
@@ -133,28 +186,25 @@ if (!file_get_contents($status) && !file_get_contents($preview)) {
 	echo "<span class='the_date'><span class='cl_day'></span><span class='cl_month'></span><span class='cl_year'></span></span>";
 }
 ?>
-		</div>
-<?php
-if (file_get_contents($preview)) {
-        echo '<input type="submit" name="preview_off" value="zur Live Ansicht wechseln" style="width: 87vw;" />';
-} else {
-        echo '<input type="submit" name="preview_on"  value="zur Vorschau wechseln"     style="width: 87vw;" />';
-} ?>	
+		</div>	
 	</div>	
 <?php } ?>
 
 <?php if (file_get_contents($mode) != 'wedding') { ?>
 	<div class="boxw">Eingabe:
-			<textarea name="message"><?php echo $formtext; ?></textarea>
+			<textarea name="message" rows="" cols=""><?php echo $formtext; ?></textarea>
 			<input type="submit" name="save"  value="speichern" />
 			<input type="submit" name="del"   value="löschen" />
 			<input type="submit" name="reset" value="Das Lied ..." />
 	</div>
 <?php } else { ?>
-	<div class="boxw">Vorschau nicht verfügbar.
+	<div class="boxw" style="margin-top: 0;">
+		<div id="clock">
+			<div class='simple'>Ansicht nicht verfügbar.</div>
+		</div>
 	</div>
 	<div class="boxw">Namen Brautpaar:
-			<textarea name="message"><?php echo $formtext; ?></textarea>
+			<textarea name="message" rows="" cols=""><?php echo $formtext; ?></textarea>
 			<input type="submit" name="save"  value="speichern" />
 			<input type="submit" name="del"   value="löschen" />
 	</div>
@@ -172,11 +222,11 @@ if (file_get_contents($preview)) {
 <?php
 if (file_get_contents($status)) {
         echo '
-		<div style="background-color: #99DD55; text-align: center; ">EIN</br>
+		<div style="background-color: #99DD55; text-align: center;">EIN
 		<input type="submit" name="status_off" value="ausschalten" style="width: 36vw;" /></div>';
 } else {
         echo '
-		<div style="background-color: #FF7755; text-align: center; ">AUS</br>
+		<div style="background-color: #FF7755; text-align: center;">AUS
 		<input type="submit" name="status_on"  value="einschalten" style="width: 36vw;" /></div>';
 } ?>
 	</div>
