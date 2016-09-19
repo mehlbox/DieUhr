@@ -69,7 +69,7 @@ if ((file_get_contents($modeF) != $mode || file_get_contents($messageF) != $mess
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=8">
+<?php //<meta http-equiv="X-UA-Compatible" content="IE=8"> //Use IE and this setting for dev for old browser?>
 <title>DieUhr</title>
 <script type="text/javascript" src="js/clock.js"></script>
 <script type="text/javascript" src="js/jquery.js"></script>
