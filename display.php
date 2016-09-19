@@ -3,14 +3,14 @@ $file   = $_SERVER['DOCUMENT_ROOT'].'/data/message.txt';
 $status = $_SERVER['DOCUMENT_ROOT'].'/data/status.inf' ;
 $mode   = $_SERVER['DOCUMENT_ROOT'].'/data/mode.inf';
 
-if (file_get_contents($status) && file_get_contents($mode) == 'wedding') header("Location: hochzeit.php");
+if (file_get_contents($status) == 'einschalten' && file_get_contents($mode) == 'wedding') header("Location: hochzeit.php");
 
 if (!empty($_GET['timeout'])) {
-	file_put_contents($status, FALSE);
+	file_put_contents($status, 'ausschalten');
 	header("Location: display.php");
 }
 
-if (file_get_contents($status)) {
+if (file_get_contents($status) == 'einschalten') {
 	header( "refresh:180;url=display.php?timeout=1" );
 } else {
 	header( "refresh:600;url=display.php" );
@@ -26,6 +26,7 @@ if (file_get_contents($status)) {
 <style type="text/css">
 body {
 	background: green;
+	overflow: hidden;
 }
 #clock {
     height:100vmin;
@@ -72,15 +73,15 @@ body {
 			<span class='cl_hours'></span><span class='cl_minutes'></span>
 		</span>
 <?php
-if (file_get_contents($status) && file_get_contents($mode) == 'marquee') {
+if (file_get_contents($status) == 'einschalten' && file_get_contents($mode) == 'marquee') {
 	echo "<div class='marquee'>".file_get_contents($file)."</div>";
 }
 
-if (file_get_contents($status) && file_get_contents($mode) == 'textblock') {
+if (file_get_contents($status) == 'einschalten' && file_get_contents($mode) == 'textblock') {
 	echo "<div class='simple'>".file_get_contents($file)."</div>";
 }
 
-if (!file_get_contents($status)) {
+if (file_get_contents($status) == 'ausschalten') {
 	echo "<span class='the_date'><span class='cl_day'></span><span class='cl_month'></span><span class='cl_year'></span></span>";
 }
 ?>
