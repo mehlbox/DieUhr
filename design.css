@@ -23,8 +23,14 @@ input, select {
 }
 
 select {
-	width: 39vw;
-}	
+	margin:0;
+	padding: 0 3vw;
+	height:10vw;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
 textarea {
 	width: 95%;
 	font-size:18pt;
@@ -154,19 +160,26 @@ textarea {
  background: #FFFFFF;
 }
 
+.button {
+  width: 120px;
+  width: 12vw;
+  margin:0;
+}
+
 .button button {
-  float: right;
   background-color: #f7f7f7;
-  width: 55px;
   height: 55px;
+  width: 120px;
   width: 12vw;
   height: 12vw;
-  border:0;
-  border-radius: 20%;
+  border: solid 2px black;
+  border-radius: 25%;
   -webkit-box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
   -moz-box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
   box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
-  margin: -2vw 1.5vw 0vw 0vw;
+  margin: -2vw 1.5vw -2vw 0vw;
+  font-size: 14pt;
+  font-size: 0vw;
 }
 
 .button img {

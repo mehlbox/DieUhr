@@ -2,16 +2,19 @@
 $file   = $_SERVER['DOCUMENT_ROOT'].'/data/message.txt';
 $schalterF = $_SERVER['DOCUMENT_ROOT'].'/data/schalter.inf' ;
 $mode   = $_SERVER['DOCUMENT_ROOT'].'/data/mode.inf';
+$timerF    = $_SERVER['DOCUMENT_ROOT'].'/data/timer.inf';
+
+$timer = file_get_contents($timerF);
 
 if (file_get_contents($schalterF) == 'einschalten' && file_get_contents($mode) == 'wedding') header("Location: hochzeit.php");
 
-if (!empty($_GET['timeout'])) {
+if (!empty($_GET['timeout'])) { //after timeout
 	file_put_contents($schalterF, 'ausschalten');
-	header("Location: display.php");
+	header("Location: display.php"); 
 }
 
-if (file_get_contents($schalterF) == 'einschalten') {
-	header( "refresh:180;url=display.php?timeout=1" );
+if (file_get_contents($schalterF) == 'einschalten' && $timer != 'inf') {
+	header( "refresh:$timer;url=display.php?timeout=1" );
 } else {
 	header( "refresh:600;url=display.php" );
 }
