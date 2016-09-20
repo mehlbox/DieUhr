@@ -3,7 +3,7 @@ body {
 	font-size:18pt;
 	font-size:5vw;
 	font-family:Verdana,sans-serif;
-    margin: 0 auto;
+    margin: 4vw 0.5vw;
 }
 div div {
 	padding: 2vw 1vw;
@@ -16,6 +16,10 @@ input, select {
 	margin: 10px;
 	padding: 2vw;
 	margin: 1vw;
+	-webkit-box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
+    -moz-box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
+    box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
+	background-color
 }
 
 select {
@@ -47,6 +51,18 @@ textarea {
 	-moz-box-shadow: 1vw 1vw 1vw 0 #999999;
     box-shadow: 1vw 1vw 1vw 0 #999999;
 }
+
+.ebox {
+	font-size:4vw;
+	width: 94vw;
+	float: left;
+	margin: 3vw 0 0 2vw;
+	padding: 2vw;
+	box-sizing: border-box;
+	background-color: #FFBBBB;
+	border: solid 1vw red;
+}
+
 .box {
 	width: 242px;
 	width: 46vw;
@@ -56,6 +72,7 @@ textarea {
 	width: 94vw;
 }
 #clock {
+	overflow: hidden;
 	height:90px;
 	width: 160px;
 	height:45vw;
@@ -100,6 +117,7 @@ textarea {
 	animation: marquee 15s linear infinite;
 }
 .simple {
+	
 	font-size: 25%;
 	line-height: 1em;
 	height: 2em;
@@ -110,50 +128,50 @@ textarea {
 }
 
 .tabrow {
-  margin: 0;
-  margin-top: 2vw;
+  padding:0;
+  margin: 0 2vw;
   overflow: hidden;
 }
 .tabrow li {
+  list-style: none;
   border-radius: 3vw 3vw 0 0;
-  margin: 3vw 3vw 0 0;
   background: #CCCCCC;
   display: inline-block;
   -webkit-box-shadow: 1vw 1vw 1vw 0 #999999;
   -moz-box-shadow: 1vw 1vw 1vw 0 #999999;
   box-shadow: 1vw 1vw 1vw 0 #999999;
+  
 }
 .tabrow input {
   border: 0;
   background: transparent;
-  margin: 0 2vw;
   padding: 2vw;
+  -webkit-box-shadow: 0 0 0 0;
+  -moz-box-shadow: 0 0 0 0;
+  box-shadow: 0 0 0 0;
 }
 .tabrow li.selected {
  background: #FFFFFF;
 }
 
-.button a {
-  font-family: 'iec_symbols_unicoderegular';
+.button button {
   float: right;
-  font-size: 2em;
-  display: block;
-  text-decoration: none;
   background-color: #f7f7f7;
-  color: #000000;
   width: 55px;
   height: 55px;
   width: 12vw;
   height: 12vw;
-  line-height: 12vw;
-  text-align: center;
+  border:0;
   border-radius: 20%;
   -webkit-box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
   -moz-box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
   box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
-  margin: -1vw 4vw 0vw 0vw;
+  margin: -2vw 1.5vw 0vw 0vw;
 }
 
+.button img {
+	margin: 1vw;
+}
 
 
 

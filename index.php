@@ -1,19 +1,13 @@
 <?php
 $modeF    = $_SERVER['DOCUMENT_ROOT'].'/data/mode.inf';
-$statusF  = $_SERVER['DOCUMENT_ROOT'].'/data/status.inf';
+$schalterF  = $_SERVER['DOCUMENT_ROOT'].'/data/schalter.inf';
 $messageF = $_SERVER['DOCUMENT_ROOT'].'/data/message.txt';
-
-if (!empty($_GET['notaus'])) {
-	file_put_contents($statusF, 'ausschalten');
-	header("location: index.php");
-}
 
 // for new clients
 if (empty($_COOKIE['mode'])) { setcookie('mode', 'marquee', time()+(3600*24)); $_COOKIE['mode'] = 'marquee'; }                    
 if (empty($_COOKIE['tab']))  { setcookie('tab', 'Vorschau', time()+(3600*24)); $_COOKIE['tab']  = 'Vorschau';}                           
 
-
-								$status  = file_get_contents($statusF);  // on, off, send again
+								$schalter  = file_get_contents($schalterF);  // on, off, send again
 								$mode    = $_COOKIE['mode'];
 								$tab     = $_COOKIE['tab'];     // selected tab
 if (isset($_COOKIE['message'])){$message = $_COOKIE['message'];} else {$message = NULL;} // message only if exists
@@ -33,25 +27,36 @@ if (!empty($_POST['message'] )) { //new message
 	setcookie('message', $message, time()+(3600*24));
 }
 
+if (!empty($_POST['symbol'] )) { //new message
+	$message = $message.$_POST['symbol'];
+	setcookie('message', $message, time()+(3600*24));
+}
+
 if (!empty($_POST['mode'] )) { // switch text kind
 	$mode = $_POST['mode'];
 	setcookie('mode', $mode, time()+(3600*24));
 }
 
-if (!empty($_POST['save']) && $status != 'ausschalten' ) { // message has been saved anyway. actual function is to turn on again if not off
-	$status = 'einschalten';
-	file_put_contents($statusF, $status);
-	file_put_contents($messageF, $message);
-	file_put_contents($modeF, $mode);
+if (!empty($_POST['save']) && $schalter != 'ausschalten' ) { // message has been saved already. nothing to do.
+
 }
 
-if (!empty($_POST['status'] )) { // turn on off
-	$status = $_POST['status'];
-	if ($status == 'erneut senden') $status = 'einschalten';
-	file_put_contents($statusF, $status);
-	if ($status == 'einschalten') { // save new stuff when turning on
-		file_put_contents($modeF, $mode);
+if (!empty($_POST['schalter'] )) { // turn on off
+	$schalter = $_POST['schalter'];
+	file_put_contents($schalterF, $schalter);
+	$output = shell_exec('bash '.$_SERVER['DOCUMENT_ROOT'].'/refresh.sh 2>&1');
+}
+
+if (!empty($_POST['settings'] )) {
+	if ($_POST['settings'] == 'übernehmen' ) {
+		file_put_contents($modeF,    $mode);
 		file_put_contents($messageF, $message);
+	}
+	if ($_POST['settings'] == 'verwerfen' ) {
+		$mode    = file_get_contents($modeF);
+		$message = file_get_contents($messageF);
+		setcookie('mode',    $mode,    time()+(3600*24));
+		setcookie('message', $message, time()+(3600*24));
 	}
 }
 
@@ -60,30 +65,43 @@ if (!empty($_POST['tab'] )) { // switch tab
 	setcookie('tab', $tab, time()+(3600*24));
 }
 
-if ((file_get_contents($modeF) != $mode || file_get_contents($messageF) != $message) && file_get_contents($statusF) == 'einschalten')  { // check if live vs preview is different
-	$status = 'erneut senden';
-}
-
 ?>
+
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<?php //<meta http-equiv="X-UA-Compatible" content="IE=8"> //Use IE and this setting for dev for old browser?>
+<?php echo '<meta http-equiv="X-UA-Compatible" content="IE=11">'; //Use IE and this setting for dev for old browser?>
 <title>DieUhr</title>
 <script type="text/javascript" src="js/clock.js"></script>
 <script type="text/javascript" src="js/jquery.js"></script>
 <link href="design.css" rel="stylesheet">
 <style type="text/css">
 body {
-	overflow: hidden;
+	
 }
 </style>
 </head>
 <body onload="startClock(true)">
-	<div class="button"><a href="?notaus=1" style="background-color:#FF7755;">&#x2B58</a></div> <!--off-->
-	<div class="button"><a href="">&#x27F3</a></div> <!--refresh-->
 <form method="post" action="">
+	<div class="button"><?php
+	if ($schalter == 'ausschalten') {
+		echo '<button type="sumit" name="schalter" value="einschalten" style="background-color:#FF7755;">';
+	} else {
+		echo '<button type="sumit" name="schalter" value="ausschalten" style="background-color:#99DD55;">';
+	} ?>
+	<img src="OnOff.svg" ></button></div>
+<?php
+if ((file_get_contents($modeF) != $mode || file_get_contents($messageF) != $message)) {
+echo '
+	<div class="button">
+	<button type="sumit" name="settings" value="übernehmen" style="background-color:#99DD55;"><img src="done.svg"></button>
+	</div>
+	<div class="button">
+	<button type="sumit" name="settings" value="verwerfen"  style="background-color:#FF7755;"><img src="remove.svg" ></button>
+	</div>'; } ?>
 <ul class="tabrow">
   <li <?php if ($tab == 'Vorschau') echo 'class="selected"'; ?>><input type="submit" name="tab" value="Vorschau" /></li>
   <li <?php if ($tab == 'Live')     echo 'class="selected"'; ?>><input type="submit" name="tab" value="Live"     /></li>
@@ -99,11 +117,11 @@ if ($tab == 'Vorschau' && $mode == 'marquee')   echo '<div class="marquee">'.$me
 if ($tab == 'Vorschau' && $mode == 'textblock') echo '<div class="simple">' .$message.'</div>';
 if ($tab == 'Vorschau' && $mode == 'wedding')   echo '<div class="simple">Ansicht nicht verfügbar!</div>';
 
-if (file_get_contents($statusF) != 'ausschalten' && $tab == 'Live' && file_get_contents($modeF) == 'marquee')   echo '<div class="marquee">'.file_get_contents($messageF).'</div>';
-if (file_get_contents($statusF) != 'ausschalten' && $tab == 'Live' && file_get_contents($modeF) == 'textblock') echo '<div class="simple">'. file_get_contents($messageF).'</div>';
-if (file_get_contents($statusF) != 'ausschalten' && $tab == 'Live' && file_get_contents($modeF) == 'wedding')   echo '<div class="simple">Ansicht nicht verfügbar!</div>';
+if (file_get_contents($schalterF) != 'ausschalten' && $tab == 'Live' && file_get_contents($modeF) == 'marquee')   echo '<div class="marquee">'.file_get_contents($messageF).'</div>';
+if (file_get_contents($schalterF) != 'ausschalten' && $tab == 'Live' && file_get_contents($modeF) == 'textblock') echo '<div class="simple">'. file_get_contents($messageF).'</div>';
+if (file_get_contents($schalterF) != 'ausschalten' && $tab == 'Live' && file_get_contents($modeF) == 'wedding')   echo '<div class="simple">Ansicht nicht verfügbar!</div>';
 
-if (file_get_contents($statusF) == 'ausschalten' && $tab == 'Live' ) {
+if (file_get_contents($schalterF) == 'ausschalten' && $tab == 'Live' ) {
 	echo "<span class='the_date'>
 			<span class='cl_day'></span><span class='cl_month'></span><span class='cl_year'></span>
 		  </span>";
@@ -111,41 +129,55 @@ if (file_get_contents($statusF) == 'ausschalten' && $tab == 'Live' ) {
 ?>
 		</div>	
 	</div>	
-	<div class="boxw">Eingabe:
+	<div class="boxw" <?php if (file_get_contents($messageF) != $message ) echo 'style="outline: solid 0.5vw red"'; ?>>Eingabe:
+			<div style="margin:0; padding:0; float: right;">
+				<select name="symbol" style="margin:0; padding:0; width: 25vw;" onchange="if(this.value != 0) this.form.submit();">
+				
+				<option value="" >Symbole</option>
+				<option value="&#10047;" >&#10047;</option>
+				<option value="&#10049;" >&#10049;</option>
+				<option value="&#10084;" >&#10084;</option>
+				<option value="&#10082;" >&#10082;</option>
+				
+				<option value="&#10017;" >&#10017;</option>
+				<option value="&#10032;" >&#10032;</option>
+				<option value="&#10038;" >&#10038;</option>
+				<option value="&#10039;" >&#10039;</option>
+				
+				<option value="&#937;"  >&#937;</option>
+				<option value="&#9986;" >&#9986;</option>
+				<option value="&#9990;" >&#9990;</option>
+				<option value="&#9993;" >&#9993;</option>
+				
+				<option value="&#10003;">&#10003;</option>
+				<option value="&#10007;">&#10007;</option>
+				<option value="&#8635;" >&#8635;</option>
+				<option value="&#10132;">&#10132;</option>
+
+				</select>
+			</div>
 			<textarea name="message" rows="" cols=""><?php echo $message; ?></textarea>
 			<input type="submit" name="save"  value="speichern" />
 			<input type="submit" name="del"   value="löschen" />
 			<input type="submit" name="reset" value="Das Lied ..." />
 	</div>
-	<div class="box">Anzeigemodus:
+	<div class="box" <?php if (file_get_contents($modeF) != $mode ) echo 'style="outline: solid 0.5vw red"'; ?>>Modus:
 			<select name="mode" onchange="if(this.value != 0) this.form.submit();">
-				<option value="marquee"        <?php if ($mode == 'marquee')        echo 'selected="selected"'; ?> >Laufschrift</option>
-				<option value="textblock"      <?php if ($mode == 'textblock')      echo 'selected="selected"'; ?> >Textblock</option>
-				<option value="wedding"        <?php if ($mode == 'wedding')        echo 'selected="selected"'; ?> >Hochzeit</option>
+				<option value="marquee"   <?php if ($mode == 'marquee')   echo 'selected="selected"'; ?> >Laufschrift</option>
+				<option value="textblock" <?php if ($mode == 'textblock') echo 'selected="selected"'; ?> >Textblock</option>
+				<option value="wedding"   <?php if ($mode == 'wedding')   echo 'selected="selected"'; ?> >Hochzeit</option>
 			</select>
 	</div>
-	<div class="box">Status:
-<?php
-if ($status == 'einschalten') {
-        echo '
-		<div style="background-color: #99DD55; text-align: center;">EIN
-		<input type="submit" name="status" value="ausschalten" /></div>';
-} else if ($status == 'ausschalten'){
-        echo '
-		<div style="background-color: #FF7755; text-align: center;">AUS
-		<input type="submit" name="status"  value="einschalten" /></div>';
-} else {
-		echo '
-		<div style="background-color: #FFFF66; text-align: center;">nicht aktuell
-		<input type="submit" name="status"  value="erneut senden" /></div>';
-} ?>
+	<div class="box" <?php //if (file_get_contents($modeF) != $mode ) echo 'style="outline: solid 0.5vw red"'; ?>>Dauer:
+			<select name="timer" onchange="if(this.value != 0) this.form.submit();">
+				<option value="1" <?php //if ($timer == '1') echo 'selected="selected"'; ?> >eine Minute</option>
+				<option value="3" <?php //if ($timer == '3') echo 'selected="selected"'; ?> >3 Minuten</option>
+				<option value="5" <?php //if ($timer == '5') echo 'selected="selected"'; ?> >5 Minuten</option>
+				<option value="10"<?php //if ($timer == '10') echo 'selected="selected"'; ?> >10 Minuten</option>
+				<option value="keep"   <?php //if ($timer == 'keep') echo 'selected="selected"'; ?> >Dauerhaft</option>
+			</select>
 	</div>
-	<?php $output = shell_exec('bash '.$_SERVER['DOCUMENT_ROOT'].'/refresh.sh 2>&1');
-	if (!empty($output)) echo '
-	<div class="boxw" style="color: red; font-size: 3vw;">
-		<b>Error:</b></br>
-		'.$output ; ?>
-	</div>
+	<?php if (!empty($output)) echo '<div class="ebox"><b>Error:</b></br>'.$output.'</div>' ; ?>
 </form>
 </body>
 </html>

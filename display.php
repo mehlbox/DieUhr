@@ -1,16 +1,16 @@
 <?php
 $file   = $_SERVER['DOCUMENT_ROOT'].'/data/message.txt';
-$status = $_SERVER['DOCUMENT_ROOT'].'/data/status.inf' ;
+$schalterF = $_SERVER['DOCUMENT_ROOT'].'/data/schalter.inf' ;
 $mode   = $_SERVER['DOCUMENT_ROOT'].'/data/mode.inf';
 
-if (file_get_contents($status) == 'einschalten' && file_get_contents($mode) == 'wedding') header("Location: hochzeit.php");
+if (file_get_contents($schalterF) == 'einschalten' && file_get_contents($mode) == 'wedding') header("Location: hochzeit.php");
 
 if (!empty($_GET['timeout'])) {
-	file_put_contents($status, 'ausschalten');
+	file_put_contents($schalterF, 'ausschalten');
 	header("Location: display.php");
 }
 
-if (file_get_contents($status) == 'einschalten') {
+if (file_get_contents($schalterF) == 'einschalten') {
 	header( "refresh:180;url=display.php?timeout=1" );
 } else {
 	header( "refresh:600;url=display.php" );
@@ -35,7 +35,8 @@ body {
 	margin: auto;
     background-color: black;
     top: 0; left: 0; bottom: 0; right: 0;
-	font-family:Verdana,sans-serif;color:#FFFFFF;
+	font-family:Verdana,sans-serif;
+	color:#FFFFFF;
 	text-align:center;
 	display:block;
 	font-size: 50vmin;
@@ -73,15 +74,15 @@ body {
 			<span class='cl_hours'></span><span class='cl_minutes'></span>
 		</span>
 <?php
-if (file_get_contents($status) == 'einschalten' && file_get_contents($mode) == 'marquee') {
+if (file_get_contents($schalterF) == 'einschalten' && file_get_contents($mode) == 'marquee') {
 	echo "<div class='marquee'>".file_get_contents($file)."</div>";
 }
 
-if (file_get_contents($status) == 'einschalten' && file_get_contents($mode) == 'textblock') {
+if (file_get_contents($schalterF) == 'einschalten' && file_get_contents($mode) == 'textblock') {
 	echo "<div class='simple'>".file_get_contents($file)."</div>";
 }
 
-if (file_get_contents($status) == 'ausschalten') {
+if (file_get_contents($schalterF) == 'ausschalten') {
 	echo "<span class='the_date'><span class='cl_day'></span><span class='cl_month'></span><span class='cl_year'></span></span>";
 }
 ?>
