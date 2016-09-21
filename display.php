@@ -1,7 +1,5 @@
 <?php
-$file      = $_SERVER['DOCUMENT_ROOT'].'/data/message.txt';
 $schalterF = $_SERVER['DOCUMENT_ROOT'].'/data/switch.txt' ;
-$mode      = $_SERVER['DOCUMENT_ROOT'].'/data/mode.txt';
 $timerF    = $_SERVER['DOCUMENT_ROOT'].'/data/timer.txt';
 
 $timer = file_get_contents($timerF);
@@ -60,7 +58,7 @@ body {
 	white-space: nowrap;
 	-webkit-animation: marquee 15s linear infinite;
 }
-.simple {
+.textblock {
 	font-size: 25%;
 	line-height: 1em;
 	height: 2em;
@@ -73,22 +71,17 @@ body {
 <body onload="startClock(true)">
 	<div id="clock">
 		<span class="the_clock">
-			<span class='cl_hours'></span><span class='cl_minutes'></span>
+			<span class="cl_hours"></span><span class="cl_minutes"></span>
 		</span>
-<?php
-if (file_get_contents($schalterF) == 'on' && file_get_contents($mode) == 'marquee') {
-	echo "<div class='marquee'>".file_get_contents($file)."</div>";
-}
+		<div id="displayText"></div>
+			<span class='the_date'>
+				<span class='cl_day'></span><span class='cl_month'></span><span class='cl_year'></span>
+			</span>
 
-if (file_get_contents($schalterF) == 'on' && file_get_contents($mode) == 'textblock') {
-	echo "<div class='simple'>".file_get_contents($file)."</div>";
-}
-
-if (file_get_contents($schalterF) == 'off') {
-	echo "<span class='the_date'><span class='cl_day'></span><span class='cl_month'></span><span class='cl_year'></span></span>";
-}
-?>
-	</div>
-<script type="text/javascript" src="js/function.js"></script>
+		</div>	
+<script type="text/javascript" src="js/display_function.js"></script>
+<script>
+displayCheck();
+</script>
 </body>
 </html>
