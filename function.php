@@ -1,8 +1,8 @@
 <?php
-$mode   = $_SERVER['DOCUMENT_ROOT'].'data/mode.txt';
-$switch = $_SERVER['DOCUMENT_ROOT'].'data/switch.txt';
-$message= $_SERVER['DOCUMENT_ROOT'].'data/message.txt';
-$timer  = $_SERVER['DOCUMENT_ROOT'].'data/timer.txt';
+$mode   = $_SERVER['DOCUMENT_ROOT'].'/data/mode.txt';
+$switch = $_SERVER['DOCUMENT_ROOT'].'/data/switch.txt';
+$message= $_SERVER['DOCUMENT_ROOT'].'/data/message.txt';
+$timer  = $_SERVER['DOCUMENT_ROOT'].'/data/timer.txt';
 
 if (!empty($_REQUEST["message"])) {
 	file_put_contents($message, $_REQUEST["message"]);
