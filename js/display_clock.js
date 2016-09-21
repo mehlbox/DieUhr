@@ -98,16 +98,16 @@ var dateFormat = 'dd.mon.yyyy';
 
 	var onOff = getCookie('switch');
 	
-		if ( onOff == 'off' ) {
-			printClock(std, min, sec);
-			printDate(day, month, year);
-		}
 		if ( onOff == 'on' ) {
 			printClock(std, min, sec);
 			$(".cl_day").html('');
 			$(".cl_month").html('');
 			$(".cl_year").html('');
+		} else {
+			printClock(std, min, sec);
+			printDate(day, month, year);
 		}
+
 
 		timerid = setTimeout("startClock()",1000);
 }
