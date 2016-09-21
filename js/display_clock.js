@@ -96,8 +96,18 @@ var dateFormat = 'dd.mon.yyyy';
 		var year = Datum.getFullYear();
 
 
-		printClock(std, min, sec);
-		printDate(day, month, year);
+	var onOff = getCookie('switch');
+	
+		if ( onOff == 'off' ) {
+			printClock(std, min, sec);
+			printDate(day, month, year);
+		}
+		if ( onOff == 'on' ) {
+			printClock(std, min, sec);
+			$(".cl_day").html('');
+			$(".cl_month").html('');
+			$(".cl_year").html('');
+		}
 
 		timerid = setTimeout("startClock()",1000);
 }
