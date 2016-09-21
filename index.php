@@ -91,16 +91,14 @@
 </form>
 <script type="text/javascript" src="js/function.js"></script>
 <script>
+chkOnOff();
+
+if (getCookie('tab')    == '') 	setCookie('tab',    'preview');
+if (getCookie('mode')   == '') 	setCookie('mode',   'textblock');
+if (getCookie('timer')  == '') 	setCookie('timer',  '180');
+
 var tab = getCookie('tab');
-	if (tab == '') tab ='preview';
 	$('#'+tab).addClass("selected");
-	
-var state = getCookie('switch');
-	if (state == 'on') {
-		$('#switch').css("background-color", "#99DD55");
-	} else {
-		$('#switch').css("background-color", "#FF7755");
-	}
 
 var mode = getCookie('mode');
 	$("#mode").val(mode).change();
@@ -109,7 +107,8 @@ var timer = getCookie('timer');
 	$("#timer").val(timer).change();
 
 var message = getCookie('message');
-	setText('message', 'message', message) ;
+	setText('message', 'message', message);
+checkDisplay();
 </script>
 </body>
 </html>

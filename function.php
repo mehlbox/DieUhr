@@ -17,15 +17,16 @@ if (!empty($_REQUEST["timer"])) {
 	file_put_contents($timer, $_REQUEST["timer"]);
 }
 
+if (!empty($_REQUEST["check"])) {
+	if ( file_get_contents($mode) != $_COOKIE['mode'] || file_get_contents($timer) != $_COOKIE['timer'] || file_get_contents($message) != $_COOKIE['message'] ) {
+		echo 'block'; // display block, buttons appear
+	} else {
+		echo 'none';
+	}
+}
+
 if ( !empty($_REQUEST["switch"]) || ( !empty($_REQUEST["mode"]) && !empty($_REQUEST["message"]) && !empty($_REQUEST["timer"]) )) {
 	echo shell_exec('bash '.$_SERVER['DOCUMENT_ROOT'].'/refresh.sh 2>&1');
 }
 
-if (!empty($_REQUEST["check"])) {
-	if ( file_get_contents($mode) == $_COOKIE['mode'] && file_get_contents($timer) == $_COOKIE['timer'] && file_get_contents($message) == $_COOKIE['message'] ) {
-		echo 'none'; 
-	} else {
-		echo 'block'; // display block, buttons appear
-	}
-}
 ?>

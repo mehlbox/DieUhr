@@ -18,10 +18,7 @@ function checkDisplay() {
 		document.getElementById('displayText').className = getCookie('mode');
 	}
 	startClock();
-	chkButt();
-}
 
-function chkButt() {
   var xhttp;
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
@@ -55,7 +52,27 @@ function setTab(tab){
 	checkDisplay();
 }
 
-function onOff(){
+function chkOnOff(){
+var xhttp;
+var chkOnOff
+  xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+		chkOnOff = xhttp.responseText;
+	    setCookie('switch', chkOnOff);
+	    if (chkOnOff == 'on') {
+			$('#switch').css("background-color", "#99DD55");
+		} else {
+			$('#switch').css("background-color", "#FF7755");
+		}
+    }
+  };
+  xhttp.open("GET", "data/switch.txt", true);
+  xhttp.send();
+  setTimeout("chkOnOff()",1000);
+}
+  
+function onOff(){ // toggel
 	var state = getCookie('switch')
 	if (state == 'on') {
 		$('#switch').css("background-color", "#FF7755");
