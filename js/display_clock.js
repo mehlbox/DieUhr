@@ -95,29 +95,10 @@ var dateFormat = 'dd.mon.yyyy';
 		var month = Datum.getMonth()+1;
 		var year = Datum.getFullYear();
 
-		
-	var tab   = getCookie('tab');
-	var onOff = getCookie('switch');
-	if ( tab == 'live' ) {
-		if ( onOff == 'off' ) {
-			printClock(std, min, sec);
-			printDate(day, month, year);
-		}
-		if ( onOff == 'on' ) {
-			printClock(std, min, sec);
-			$(".cl_day").html('');
-			$(".cl_month").html('');
-			$(".cl_year").html('');
-		}
-	}
 
-	if ( tab == 'preview' ) {
 		printClock(std, min, sec);
-		$(".cl_day").html('');
-		$(".cl_month").html('');
-		$(".cl_year").html('');
-	}
-	
+		printDate(day, month, year);
+
 		timerid = setTimeout("startClock()",1000);
 }
 

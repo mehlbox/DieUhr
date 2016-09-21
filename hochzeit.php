@@ -1,9 +1,9 @@
 <?php
-$file = $_SERVER['DOCUMENT_ROOT'].'/data/wedding.txt';
-$status = $_SERVER['DOCUMENT_ROOT'].'/data/status.inf' ;
-$mode = $_SERVER['DOCUMENT_ROOT'].'/data/mode.inf';
+$file = $_SERVER['DOCUMENT_ROOT']  .'/data/message.txt';
+$switch = $_SERVER['DOCUMENT_ROOT'].'/data/switch.txt' ;
+$mode = $_SERVER['DOCUMENT_ROOT']  .'/data/mode.txt';
 $formtext = file_get_contents($file);
-if ( !file_get_contents($status) || file_get_contents($mode) != 'wedding') { 
+if ( file_get_contents($switch) == 'off' || file_get_contents($mode) != 'wedding') { 
 	header("Location: display.php");
 } else {
 	header( "refresh:600;url=hochzeit.php" );

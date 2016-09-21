@@ -12,8 +12,6 @@ div div {
 input, select {
 	font-size:18pt;
 	font-size: 5vw;
-	padding: 10px;
-	margin: 10px;
 	padding: 2vw;
 	margin: 1vw;
 	-webkit-box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
@@ -42,8 +40,6 @@ textarea {
 }
 .box, .boxw{
 	float: left;
-	margin: 20px 0 0 15px;
-	padding: 15px 20px;
 	margin: 3vw 0 0 2vw;
 	padding: 2vw;
 	box-sizing: border-box;
@@ -70,17 +66,13 @@ textarea {
 }
 
 .box {
-	width: 242px;
 	width: 46vw;
 }
 .boxw {
-	width: 500px;
 	width: 94vw;
 }
 #clock {
 	overflow: hidden;
-	height:90px;
-	width: 160px;
 	height:45vw;
 	width: 80vw;
 	margin: auto;
@@ -122,7 +114,7 @@ textarea {
 	-moz-animation: marquee 15s linear infinite;
 	animation: marquee 15s linear infinite;
 }
-.simple {
+.textblock {
 	
 	font-size: 25%;
 	line-height: 1em;
@@ -161,18 +153,15 @@ textarea {
 }
 
 .button {
-  width: 120px;
   width: 12vw;
   margin:0;
 }
 
 .button button {
   background-color: #f7f7f7;
-  height: 55px;
-  width: 120px;
   width: 12vw;
   height: 12vw;
-  border: solid 2px black;
+  border: solid 0.5vw black;
   border-radius: 25%;
   -webkit-box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
   -moz-box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
@@ -180,6 +169,10 @@ textarea {
   margin: -2vw 1.5vw -2vw 0vw;
   font-size: 14pt;
   font-size: 0vw;
+}
+.button button:active {
+	border: solid 1vw gray;
+	border-radius: 50%;
 }
 
 .button img {

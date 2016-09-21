@@ -1,31 +1,30 @@
 <?php
-$file   = $_SERVER['DOCUMENT_ROOT'].'/data/message.txt';
-$schalterF = $_SERVER['DOCUMENT_ROOT'].'/data/schalter.inf' ;
-$mode   = $_SERVER['DOCUMENT_ROOT'].'/data/mode.inf';
-$timerF    = $_SERVER['DOCUMENT_ROOT'].'/data/timer.inf';
+$file      = $_SERVER['DOCUMENT_ROOT'].'/data/message.txt';
+$schalterF = $_SERVER['DOCUMENT_ROOT'].'/data/switch.txt' ;
+$mode      = $_SERVER['DOCUMENT_ROOT'].'/data/mode.txt';
+$timerF    = $_SERVER['DOCUMENT_ROOT'].'/data/timer.txt';
 
 $timer = file_get_contents($timerF);
 
-if (file_get_contents($schalterF) == 'einschalten' && file_get_contents($mode) == 'wedding') header("Location: hochzeit.php");
-
 if (!empty($_GET['timeout'])) { //after timeout
-	file_put_contents($schalterF, 'ausschalten');
+	file_put_contents($schalterF, 'off');
 	header("Location: display.php"); 
 }
 
-if (file_get_contents($schalterF) == 'einschalten' && $timer != 'inf') {
+if (file_get_contents($schalterF) == 'on' && $timer != 'inf') {
 	header( "refresh:$timer;url=display.php?timeout=1" );
-} else {
-	header( "refresh:600;url=display.php" );
 }
+
+header( "refresh:600;url=display.php" );
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <title>DieUhr</title>
-	<script type="text/javascript" src="js/clock.js"></script>
-	<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/display_clock.js"></script>
 <style type="text/css">
 body {
 	background: green;
@@ -77,18 +76,19 @@ body {
 			<span class='cl_hours'></span><span class='cl_minutes'></span>
 		</span>
 <?php
-if (file_get_contents($schalterF) == 'einschalten' && file_get_contents($mode) == 'marquee') {
+if (file_get_contents($schalterF) == 'on' && file_get_contents($mode) == 'marquee') {
 	echo "<div class='marquee'>".file_get_contents($file)."</div>";
 }
 
-if (file_get_contents($schalterF) == 'einschalten' && file_get_contents($mode) == 'textblock') {
+if (file_get_contents($schalterF) == 'on' && file_get_contents($mode) == 'textblock') {
 	echo "<div class='simple'>".file_get_contents($file)."</div>";
 }
 
-if (file_get_contents($schalterF) == 'ausschalten') {
+if (file_get_contents($schalterF) == 'off') {
 	echo "<span class='the_date'><span class='cl_day'></span><span class='cl_month'></span><span class='cl_year'></span></span>";
 }
 ?>
 	</div>
+<script type="text/javascript" src="js/function.js"></script>
 </body>
 </html>
