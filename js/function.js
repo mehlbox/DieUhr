@@ -17,7 +17,6 @@ function checkDisplay() {
 		document.getElementById('displayText').innerHTML = getCookie('message');
 		document.getElementById('displayText').className = getCookie('mode');
 	}
-	startClock();
 
   var xhttp;
   xhttp = new XMLHttpRequest();
