@@ -46,7 +46,7 @@
 				<option value="inf" >&#8734;</option> //infinity
 			</select>
 			<select id="symbol" name="symbol" style="width: 20vw;" onchange="addSymbol()">
-				<option value="" >&#10047;&#10084;&#10017;</option>
+				<option value="" selected>&#10047;&#10084;&#10017;</option>
 				<option value="&#10047;" >&#10047;</option>
 				<option value="&#10049;" >&#10049;</option>
 				<option value="&#10084;" >&#10084;</option>

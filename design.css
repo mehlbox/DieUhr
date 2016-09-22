@@ -3,7 +3,7 @@ body {
 	font-size:18pt;
 	font-size:5vw;
 	font-family:Verdana,sans-serif;
-    margin: 4vw 0.5vw;
+	margin: 4vw 0.5vw;
 }
 div div {
 	padding: 2vw 1vw;
@@ -74,7 +74,7 @@ textarea {
 #clock {
 	overflow: hidden;
 	height:45vw;
-	width: 80vw;
+	width:80vw;
 	margin: auto;
 	background-color: black;
 	color:#FFFFFF;

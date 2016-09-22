@@ -18,7 +18,7 @@ var chkOnOff
   xhttp.open("GET", "data/switch.txt", true);
   xhttp.send();
   startClock();
-  setTimeout("displayCheck()",3000);
+  setTimeout("displayCheck()",1000);
 }
 
 function chkOnOff(){
@@ -71,5 +71,4 @@ function setCookie(cname, cvalue) {
     d.setTime(d.getTime() + (24*60*60*1000));
     var expires = "expires="+ d.toUTCString();
     document.cookie = cname + "=" + cvalue + "; " + expires;
-	checkDisplay();
 }
