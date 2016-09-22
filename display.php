@@ -68,7 +68,7 @@ body {
 }
 </style>
 </head>
-<body onload="startClock(true)">
+<body onload="displayCheck()">
 	<div id="clock">
 		<span class="the_clock">
 			<span class="cl_hours"></span><span class="cl_minutes"></span>
@@ -80,8 +80,5 @@ body {
 
 		</div>	
 <script type="text/javascript" src="js/display_function.js"></script>
-<script>
-displayCheck();
-</script>
 </body>
 </html>

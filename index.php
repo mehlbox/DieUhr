@@ -6,8 +6,9 @@
 <link href="design.css" rel="stylesheet">
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/clock.js"></script>
+<script type="text/javascript" src="js/function.js"></script>
 </head>
-<body onload="startClock(true)">
+<body onload="checkDisplay();chkOnOff()">
 <form method="post" action="">
 	<div class="button" style="float: right;">
 		<button id="switch" type="button" onclick="onOff()"><img src="svg/OnOff.svg" ></button>
@@ -89,10 +90,7 @@
 	</div>
 	<div id="error"></div>
 </form>
-<script type="text/javascript" src="js/function.js"></script>
 <script>
-chkOnOff();
-
 if (getCookie('tab')    == '') 	setCookie('tab',    'preview');
 if (getCookie('mode')   == '') 	setCookie('mode',   'textblock');
 if (getCookie('timer')  == '') 	setCookie('timer',  '180');
@@ -108,7 +106,6 @@ var timer = getCookie('timer');
 
 var message = getCookie('message');
 	setText('message', 'message', message);
-checkDisplay();
 </script>
 </body>
 </html>

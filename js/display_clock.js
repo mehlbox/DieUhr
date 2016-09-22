@@ -96,7 +96,7 @@ var dateFormat = 'dd.mon.yyyy';
 		var year = Datum.getFullYear();
 
 
-	var onOff = getCookie('switch');
+		var onOff = getCookie('switch');
 	
 		if ( onOff == 'on' ) {
 			printClock(std, min, sec);
@@ -107,9 +107,6 @@ var dateFormat = 'dd.mon.yyyy';
 			printClock(std, min, sec);
 			printDate(day, month, year);
 		}
-
-
-		timerid = setTimeout("startClock()",1000);
 }
 
 

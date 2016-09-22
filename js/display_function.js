@@ -17,7 +17,8 @@ var chkOnOff
   };
   xhttp.open("GET", "data/switch.txt", true);
   xhttp.send();
-  setTimeout("displayCheck()",1000);
+  startClock();
+  setTimeout("displayCheck()",3000);
 }
 
 function chkOnOff(){
