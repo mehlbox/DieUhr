@@ -19,7 +19,7 @@ function checkDisplay() {
 	}
 	chkButt();
 	startClock();
-	setTimeout("checkDisplay()",3000);
+	setTimeout("checkDisplay()",2000);
 }
 
 function chkButt() {
@@ -30,7 +30,7 @@ function chkButt() {
       document.getElementById('bth').style.display = xhttp.responseText;
     }
   };
-  xhttp.open("GET", "function.php?check=1", true);
+  xhttp.open("GET", "/function.php?check=1", true);
   xhttp.send();
 }
 
@@ -101,7 +101,7 @@ function saveAll() {
 		   document.getElementById('error').innerHTML = xhttp.responseText;
       }
   };
-  xhttp.open('GET', 'function.php?message='+message+'&timer='+timer+'&mode='+mode, true);
+  xhttp.open('GET', '/function.php?message='+message+'&timer='+timer+'&mode='+mode, true);
   xhttp.send();
   
 }
@@ -116,7 +116,7 @@ function saveVar(cname) {
 		   document.getElementById('error').innerHTML = xhttp.responseText;
       }
   };
-  xhttp.open('GET', 'function.php?'+cname+'='+cvalue, true);
+  xhttp.open('GET', '/function.php?'+cname+'='+cvalue, true);
   xhttp.send();
 }
 
@@ -133,7 +133,7 @@ function loadClass(cname, id) {
       document.getElementById(id).className = xhttp.responseText;
     }
   };
-  xhttp.open("GET", "data/"+cname+".txt", true);
+  xhttp.open("GET", "/data/"+cname+".txt", true);
   xhttp.send();
 }
 
@@ -142,23 +142,25 @@ function loadTxt(cname, id) {
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-      document.getElementById(id).innerHTML = xhttp.responseText;
+      	document.getElementById(id).innerHTML = xhttp.responseText;
     }
   };
-  xhttp.open("GET", "data/"+cname+".txt", true);
+  xhttp.open("GET", "/data/"+cname+".txt", true);
   xhttp.send();
 }
 
 function reLoadVar() {
   var xhttp;
+  var message;
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-      document.getElementById('message').value = xhttp.responseText;
-	  setCookie('message', xhttp.responseText, 1)
+    	message = xhttp.responseText;
+      	document.getElementById('message').value = message;
+	  setCookie('message', message )
     }
   };
-  xhttp.open("GET", "data/message.txt", true);
+  xhttp.open("GET", "/data/message.txt", true);
   xhttp.send();
   
 }
