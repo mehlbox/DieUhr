@@ -171,13 +171,22 @@ textarea {
   font-size: 0vw;
 }
 .button button:active {
+	background-color: #BBBBBB;
 	border: solid 1vw gray;
 	border-radius: 50%;
+	
 }
 
 .button img {
 	margin: 1vw;
 }
 
+#error {
+	float: left;
+	font-size: 3vw;
+	margin: 3vw 0 0 2vw;
+	padding: 0;
+	box-sizing: border-box;
+}
 
 

@@ -26,7 +26,7 @@ if (!empty($_GET["check"])) {
 }
 
 if ( !empty($_GET["switch"]) ) {
-	shell_exec('bash '.$_SERVER['DOCUMENT_ROOT'].'/refresh.sh 2>&1');
+	echo shell_exec('bash '.$_SERVER['DOCUMENT_ROOT'].'/refresh.sh 2>&1');
 }
 
 ?>

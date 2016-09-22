@@ -19,7 +19,8 @@ function checkDisplay() {
 	}
 	chkButt();
 	startClock();
-	setTimeout("checkDisplay()",2000);
+	chkOnOff();
+	setTimeout("checkDisplay()",1000);
 }
 
 function chkButt() {
@@ -40,6 +41,7 @@ var chkOnOff;
   xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
+		$('#switch').css("border-radius", "25%").css("border", "solid 0.5vw black");
 		chkOnOff = xhttp.responseText;
 	    if (chkOnOff == 'on') {
 			$('#switch').css("background-color", "#99DD55");
@@ -52,12 +54,11 @@ var chkOnOff;
   };
   xhttp.open("GET", "/data/switch.txt", true);
   xhttp.send();
-  setTimeout("chkOnOff()",1000);
 }
   
 function onOff(){ // toggel
 	var state = getCookie('switch');
-	$('#switch').css("background-color", "#FFFFFF");
+	$('#switch').css("background-color", "#BBBBBB").css("border-radius", "50%").css("border", "solid 1vw gray");
 	if (state == 'on') {
 		state = 'off';
 	} else {
