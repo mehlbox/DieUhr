@@ -96,14 +96,12 @@ var dateFormat = 'dd.mon.yyyy';
 		var year = Datum.getFullYear();
 
 		
-		var tab   = getCookie('tab');
-		var onOff = getCookie('switch');
-		if ( tab == 'live' ) {
-			if ( onOff == 'off' ) {
+		if ( local.tab == 'Live' ) {
+			if ( remote.onOff == 'off' ) {
 				printClock(std, min, sec);
 				printDate(day, month, year);
 			}
-			if ( onOff == 'on' ) {
+			if ( remote.onOff == 'on' ) {
 				printClock(std, min, sec);
 				$(".cl_day").html('');
 				$(".cl_month").html('');
@@ -111,7 +109,7 @@ var dateFormat = 'dd.mon.yyyy';
 			}
 		}
 
-		if ( tab == 'preview' ) {
+		if ( local.tab == 'Vorschau' ) {
 			printClock(std, min, sec);
 			$(".cl_day").html('');
 			$(".cl_month").html('');

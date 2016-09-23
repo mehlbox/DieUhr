@@ -148,7 +148,7 @@ textarea {
   -moz-box-shadow: 0 0 0 0;
   box-shadow: 0 0 0 0;
 }
-.tabrow li.selected {
+.tabrow .selected {
  background: #FFFFFF;
 }
 
