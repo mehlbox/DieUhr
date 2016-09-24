@@ -186,8 +186,8 @@ $('#message').bind('keyup',function(){ //textarea
 $('#load').click(function(){ // load button
 	local = JSON.parse(getCookie('DieUhr'));
 	$("#message").val(local.message);
-	$("#timer option[value='"+local.timer+"']").prop("selected", true)
-	$("#mode option[value='"+local.mode+"']").prop("selected", true)
+	$("#timer").val(local.timer);
+	$("#mode").val(local.mode);
 	checkDisplay();
 });
 
@@ -226,8 +226,8 @@ $("#revert").click(function(){ //revert button
 		$("#message").val(local.message);
 		$("#timer").val(local.timer);
 		$("#mode").val(local.mode);
+		checkDisplay();
 	});
-	checkDisplay();
 });
 </script>
 </body>
