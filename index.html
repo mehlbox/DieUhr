@@ -52,7 +52,7 @@
 				<option value="inf" >&#8734;</option>
 			</select>
 			<select id="symbol" style="width: 20vw;" >
-				<option value="">&#10047;&#10084;&#10017;</option>
+				<option value="">&#10047;&#10084;</option>
 				<option value="&#10047;" >&#10047;</option>
 				<option value="&#10049;" >&#10049;</option>
 				<option value="&#10084;" >&#10084;</option>
@@ -96,7 +96,9 @@
 	</div>
 <script>
 $("#error").hide();
-$('#bth').hide();
+$("#bth").hide();
+$(".displayText").hide();
+$(".displayDate").hide();
 
 var local = {
 	tab:	"Vorschau",
@@ -131,6 +133,10 @@ timeloop();
 
 $("input[name='Vorschau']").parent().addClass("selected"); // set tab
 $("#message").val(local.message); // set message
+$("#timer option[value='180']").prop("selected", true)
+
+
+
 
 $("#tab input").click(function(){ // tab buttons
 	local.tab = $(this).val();
@@ -158,8 +164,11 @@ $("#timer").change(function(){ // dropdown timer
 });
 
 $("#symbol").change(function(){ // dropdown symbol
-	local.message = $("#message").val() + $( "#symbol option:selected" ).text();
+	local.message = $("#message").val() + $( "#symbol option:selected" ).val();
+	$("#symbol option:selected").prop("selected", false)
+	$("#symbol option[value='']").prop("selected", true)
 	$("#message").val(local.message);
+	
 });
 
 $('#message').bind('keyup',function(){ //textarea
@@ -177,24 +186,25 @@ $('#del').click(function(){ // trash button
 });
 
 $("#confirm").click(function(){ //confirm button
+	$(this).addClass("grayButton");
 	local.onOff = remote.onOff;
 	sendDisplay(local);
 });
 
 $("#revert").click(function(){ //revert button
+	$(this).addClass("grayButton");
 	$.ajax({
 	url: "data.json",
 	cache: false
 	})
 	.done(function(response) {
+		$("#revert").removeClass("grayButton");
 		local = response;
 		$("#message").val(local.message);
 		$("#timer").val(local.timer);
 		$("#mode").val(local.mode);
 	});
 });
-
-timeloop();
 </script>
 </body>
 </html>

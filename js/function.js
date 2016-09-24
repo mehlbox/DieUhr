@@ -1,12 +1,3 @@
-function timeloop() {
-	getDisplay(); // ajax
-	chkOnOff();
-	checkDisplay();
-	chkButton();
-	startClock();
-	setTimeout("timeloop()",1000);
-};
-
 function sendDisplay(stream) {
 	$.ajax({
 	method: "POST",
@@ -21,44 +12,53 @@ function getDisplay(){
 	cache: false
 	})
 	.done(function(response) {
+		$("#error").hide();
 		remote = response;
+		chkOnOff();
+		checkDisplay();
+		chkButton();
+	})
+	.fail(function() {
+		$("#error").show().html("Keine Verbindung");
 	});
 };
 
 
 function checkDisplay() {	
 	if ( local.tab == 'Live' ) {
-		
-		if ( remote.onOff == 'off' ) {
-			document.getElementById('displayText').style.display = 'none';
-		}
 		if ( remote.onOff == 'on' ) {
-			document.getElementById('displayText').style.display = 'block';
-			document.getElementById('displayText').innerHTML = remote.message;
-			document.getElementById('displayText').className = remote.mode;
+			$('#displayDate').hide();
+			$('#displayText').html(remote.message).removeClass().addClass(remote.mode).show();
+		} else {
+			$('#displayText').removeClass().hide();
+			$('#displayDate').show();
 		}
 	}
 
 	if ( local.tab == 'Vorschau' ) {
-		document.getElementById('displayText').style.display = 'block';
-		document.getElementById('displayText').innerHTML = local.message;
-		document.getElementById('displayText').className = local.mode;
+		$('#displayDate').hide();
+		$('#displayText').show().html(local.message).removeClass().addClass(local.mode);
+		
 	}
 }
 
 function chkButton() {
 	if (local.message == remote.message && local.timer == remote.timer && local.mode == remote.mode) {
-		document.getElementById('bth').style.display = "none";
+		$('#bth').hide();
+		$("#confirm").removeClass("grayButton");
     } else {
-		document.getElementById('bth').style.display = "block";
+
+		$('#bth').show();
 	}
 }
 
 function chkOnOff(){
 	if (remote.onOff == 'on') {
-		$('#switch').css("background-color", "#99DD55").css("border-radius", "25%").css("border", "solid 0.5vw black");
+		$('#switch').removeClass("grayButton");
+		$('#switch').css("background-color", "#99DD55");
 	} 
 	if (remote.onOff == 'off') {
-		$('#switch').css("background-color", "#FF7755").css("border-radius", "25%").css("border", "solid 0.5vw black");
+		$('#switch').removeClass("grayButton");
+		$('#switch').css("background-color", "#FF7755");
 	}
 }

@@ -96,25 +96,8 @@ var dateFormat = 'dd.mon.yyyy';
 		var year = Datum.getFullYear();
 
 		
-		if ( local.tab == 'Live' ) {
-			if ( remote.onOff == 'off' ) {
-				printClock(std, min, sec);
-				printDate(day, month, year);
-			}
-			if ( remote.onOff == 'on' ) {
-				printClock(std, min, sec);
-				$(".cl_day").html('');
-				$(".cl_month").html('');
-				$(".cl_year").html('');
-			}
-		}
-
-		if ( local.tab == 'Vorschau' ) {
-			printClock(std, min, sec);
-			$(".cl_day").html('');
-			$(".cl_month").html('');
-			$(".cl_year").html('');
-		}
+		printClock(std, min, sec);
+		printDate(day, month, year);
 }
 
 
