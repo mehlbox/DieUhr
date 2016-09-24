@@ -3,35 +3,41 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <title>DieUhr</title>
-<link href="design.css" rel="stylesheet">
+<link href="design.css" rel="stylesheet"/>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/clock.js"></script>
 <script type="text/javascript" src="js/function.js"></script>
 </head>
 <body>
-<form method="post" action="">
-	<div class="button" style="float: right;">
-		<button id="switch" type="button" ><img src="svg/OnOff.svg" ></button>
+	<div class="onOff" style="float: right;">
+		<button id="switch" type="button" ><img src="svg/OnOff.svg" /></button>
 	</div>
-	<div class="button" style="float: right; margin-right: 2vw;">
-		<button id= "refresh" type="submit" style="background-color:#FFFF66; "><img src="svg/refresh.svg" ></button>
-	</div>
+	<!--div class="button" style="float: right; margin-right: 2vw;">
+		<button id= "refresh" type="button" style="background-color:#FFFF66; "><img src="svg/refresh.svg" ></button>
+	</div-->
 <ul id="tab" class="tabrow">
   <li><input type="button" name="Vorschau" value="Vorschau"/></li>
   <li><input type="button" name="Live"     value="Live"/></li>
 </ul>
 	<div class="boxw" style="margin-top: 0;">
 		<div id="clock">
-		<span class="the_clock">
-			<span class="cl_hours"></span><span class="cl_minutes"></span>
-		</span>
-		<div id="displayText"></div>
-			<span class='the_date'>
-				<span class='cl_day'></span><span class='cl_month'></span><span class='cl_year'></span>
-			</span>
-
+			<div id="displayTime">
+				<span class="the_clock">
+					<span class="cl_hours"></span><span class="cl_minutes"></span>
+				</span>
+			</div>
+			<div id="displayText">
+				<span class='the_message'>
+				</span>
+			</div>
+			<div id="displayDate">
+				<span class='the_date'>
+					<span class='cl_day'></span><span class='cl_month'></span><span class='cl_year'></span>
+				</span>
+			</div>
 		</div>	
-	</div>	
+	</div>
+	<div id="error"></div>
 	<div class="boxw">
 		<div style="margin:0; padding:0 1vw; float: left;">
 			<select id="mode" style="width: 43.5vw;">
@@ -43,7 +49,7 @@
 				<option value="180" >3 Min</option>
 				<option value="300" >5 Min</option>
 				<option value="600" >10Min</option>
-				<option value="inf" >&#8734;</option> //infinity
+				<option value="inf" >&#8734;</option>
 			</select>
 			<select id="symbol" style="width: 20vw;" >
 				<option value="">&#10047;&#10084;&#10017;</option>
@@ -71,28 +77,26 @@
 		<textarea id="message" name="message" ></textarea>
 
 		<div class="button" style="float: left;">
-			<button id="new" type="button" style="background-color:#FFFF66;"><img src="svg/doc.svg"></button>
+			<button id="new" type="button" style="background-color:#FFFF66;"><img src="svg/doc.svg"/></button>
 		</div>
 		<!--div class="button" style="float: left;">
-			<button type="button" style="background-color:#FFFF66" ><img src="svg/save.svg"></button>
+			<button type="button" style="background-color:#FFFF66" ><img src="svg/save.svg"/></button>
 		</div-->
 		<div id="del" class="button" style="float: left;">
-			<button type="button" style="background-color:#FFFF66;"><img src="svg/delete.svg"></button>
+			<button type="button" style="background-color:#FFFF66;"><img src="svg/delete.svg"/></button>
 		</div>
 		<div id="bth" style="margin:0; padding:0;">
 		<div class="button" style="float: left;">
-			<button id="revert" type="button" style="background-color:#FF7755;"><img src="svg/back.svg" ></button>
+			<button id="revert" type="button" style="background-color:#FF7755;"><img src="svg/back.svg" /></button>
 		</div>
 		<div class="button" style="float: left;">
-			<button id="confirm" type="button" style="background-color:#99DD55;"><img src="svg/done.svg"></button>
+			<button id="confirm" type="button" style="background-color:#99DD55;"><img src="svg/done.svg"/></button>
 		</div>
 		</div>
 	</div>
-	<div id="error"></div>
-</form>
 <script>
-
-//empty cookies
+$("#error").hide();
+$('#bth').hide();
 
 var local = {
 	tab:	"Vorschau",
@@ -117,18 +121,16 @@ var remote = {
 	message:"",
 	onOff:  ""
 };
-getDisplay(remote);
+
+function timeloop() {
+	getDisplay(); // ajax
+	startClock();
+	setTimeout("timeloop()",1000);
+};
+timeloop();
 
 $("input[name='Vorschau']").parent().addClass("selected"); // set tab
-
 $("#message").val(local.message); // set message
-
-
-
-//$("*").click(function() {console.log(JSON.stringify(local));})
-//console.log($("input[name='Vorschau']"));
-
-
 
 $("#tab input").click(function(){ // tab buttons
 	local.tab = $(this).val();
@@ -137,7 +139,7 @@ $("#tab input").click(function(){ // tab buttons
 });
 
 $('#switch').click(function(){ // toggel on off switch
-	$('#switch').css("background-color", "#BBBBBB").css("border-radius", "50%").css("border", "solid 1vw gray");
+	$(this).addClass("grayButton");
 	temp = remote;
 	if (remote.onOff == 'on') {
 		temp.onOff ='off';
@@ -146,7 +148,6 @@ $('#switch').click(function(){ // toggel on off switch
 	} 
 	sendDisplay(temp);
 });
-
 
 $("#mode").change(function(){ // dropdown mode
 	local.mode = $("#mode option:selected").val();
@@ -192,8 +193,6 @@ $("#revert").click(function(){ //revert button
 		$("#mode").val(local.mode);
 	});
 });
-
-
 
 timeloop();
 </script>
