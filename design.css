@@ -167,6 +167,7 @@ textarea {
   -moz-box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
   box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
   margin: 1vw;
+  padding: 0.5vw;
 }
 
 .grayButton, button:active {
