@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>DieUhr</title>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/clock.js"></script>
+<style type="text/css">
+body {
+	background: green;
+	overflow: hidden;
+}
+
+#clock {
+    height:720px;
+    width: 1280px;
+    position:absolute;
+    background-color: black;
+    left:0; right:0; top:0; bottom:0;
+	font-family:Verdana,sans-serif;
+	color:#FFFFFF;
+	text-align:center;
+	display:block;
+	font-size: 28vw;
+}
+
+.the_clock {
+	font-size:100%;
+}
+
+.the_date {
+	font-size:48%;
+}
+
+@-webkit-keyframes marquee {
+ 0%   { text-indent: 100vw }
+ 100% { text-indent: -300vw }
+}
+
+.marquee {
+	font-size: 60%;
+	position: relative;
+	overflow: hidden;
+	white-space: nowrap;
+	-webkit-animation: marquee 15s linear infinite;
+}
+
+.textblock {
+	font-size: 30%;
+	line-height: 1em;
+	height: 2em;
+	position: relative;
+	overflow: hidden;
+	white-space: pre;
+}
+</style>
+
+</head>
+<body>
+		<div id="clock">
+			<div id="displayTime">
+				<span class="the_clock">
+					<span class="cl_hours"></span><span class="cl_minutes"></span>
+				</span>
+			</div>
+			<div id="displayText">
+				<span class='the_message'>
+				</span>
+			</div>
+			<div id="displayDate">
+				<span class='the_date'>
+					<span class='cl_day'></span><span class='cl_month'></span><span class='cl_year'></span>
+				</span>
+			</div>
+		</div>	
+<script type="text/javascript" src="js/function.js"></script>
+<script>
+var local = {
+	tab:	"",
+	mode:	"",
+	timer:	"",
+	message:"",
+	onOff:  ""
+};
+
+var temp = {
+	tab:	"",
+	mode:	"",
+	timer:	"",
+	message:"",
+	onOff:  ""
+};
+
+var remote = {
+	tab:	"",
+	mode:	"",
+	timer:	"",
+	message:"",
+	onOff:  ""
+};
+
+var timerState = "stop";
+
+function checkTimer() {
+	if (timerState == "stop" && remote.onOff == "on") {
+		timerState = "run";
+		test = setTimeout(function() {
+			temp = remote;
+			temp.onOff = "off";
+			sendDisplay(temp);
+			timerState = "stop";
+		}, remote.timer * 1000);
+	}
+	if (remote.onOff == "off") {
+		timerState = "stop";
+	}
+}
+
+function timeloop() {
+	local.tab = 'Live';
+	getDisplay(); // ajax
+	startClock();
+	checkTimer();
+	setTimeout("timeloop()",1000);
+};
+
+timeloop();
+</script>
+</body>
+</html>
