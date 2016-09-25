@@ -66,22 +66,21 @@ textarea {
 	width: 94vw;
 }
 #clock {
-	overflow: hidden;
 	height:45vw;
-	width:80vw;
+	width:80vw;	
+	position:relativ;
 	margin: auto;
-	background-color: black;
-	color:#FFFFFF;
-	text-align:center;
-	display:block;
-	font-size: 21vw;
+	font-size: 22.4vw;
 }
+
 .the_clock {
 	font-size:100%;
 }
+
 .the_date {
-	font-size:50%;
+	font-size:48%;
 }
+
 @-webkit-keyframes marquee {
 	0%   { text-indent:  100vw }
 	100% { text-indent: -300vw }
@@ -98,24 +97,24 @@ textarea {
 	0%   { text-indent:  100vw }
 	100% { text-indent: -300vw }
 }
+
 .marquee {
 	font-size: 60%;
 	position: relative;
 	overflow: hidden;
 	white-space: nowrap;
-	background-color: #000000;
 	-webkit-animation: marquee 15s linear infinite;
 	-moz-animation: marquee 15s linear infinite;
 	animation: marquee 15s linear infinite;
 }
+
 .textblock {
-	font-size: 25%;
+	font-size: 30%;
 	line-height: 1em;
 	height: 2em;
 	position: relative;
 	overflow: hidden;
 	white-space: pre;
-	background-color: #000000;
 }
 
 .tabrow {

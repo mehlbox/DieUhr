@@ -3,56 +3,22 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <title>DieUhr</title>
+<link href="display.css" rel="stylesheet"/>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/clock.js"></script>
 <style type="text/css">
 body {
-	background: green;
-	overflow: hidden;
+	background: gray;
 }
 
 #clock {
-    height:720px;
-    width: 1280px;
+    height:56.25vw;
+    width: 100vw;
     position:absolute;
-    background-color: black;
     left:0; right:0; top:0; bottom:0;
-	font-family:Verdana,sans-serif;
-	color:#FFFFFF;
-	text-align:center;
-	display:block;
 	font-size: 28vw;
 }
 
-.the_clock {
-	font-size:100%;
-}
-
-.the_date {
-	font-size:48%;
-}
-
-@-webkit-keyframes marquee {
- 0%   { text-indent: 100vw }
- 100% { text-indent: -300vw }
-}
-
-.marquee {
-	font-size: 60%;
-	position: relative;
-	overflow: hidden;
-	white-space: nowrap;
-	-webkit-animation: marquee 15s linear infinite;
-}
-
-.textblock {
-	font-size: 30%;
-	line-height: 1em;
-	height: 2em;
-	position: relative;
-	overflow: hidden;
-	white-space: pre;
-}
 </style>
 
 </head>
