@@ -1,0 +1,52 @@
+#clock {
+	overflow: hidden;
+    background-color: black;
+	font-family:Verdana,sans-serif;
+	color:#FFFFFF;
+	text-align:center;
+	display:block;
+}
+
+.the_clock {
+	font-size:100%;
+}
+
+.the_date {
+	font-size:48%;
+}
+
+@-webkit-keyframes marquee {
+	0%   { text-indent:  100vw }
+	100% { text-indent: -300vw }
+}
+@-moz-keyframes marquee {
+	0%   { text-indent:  100vw }
+	100% { text-indent: -300vw }
+}
+@-ms-keyframes marquee {
+	0%   { text-indent:  100vw }
+	100% { text-indent: -300vw }
+}
+@keyframes marquee {
+	0%   { text-indent:  100vw }
+	100% { text-indent: -300vw }
+}
+
+.marquee {
+	font-size: 60%;
+	position: relative;
+	overflow: hidden;
+	white-space: nowrap;
+	-webkit-animation: marquee 15s linear infinite;
+	-moz-animation: marquee 15s linear infinite;
+	animation: marquee 15s linear infinite;
+}
+
+.textblock {
+	font-size: 30%;
+	line-height: 1em;
+	height: 2em;
+	position: relative;
+	overflow: hidden;
+	white-space: pre;
+}
