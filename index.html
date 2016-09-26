@@ -7,6 +7,7 @@
 <link href="display.css" rel="stylesheet"/>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/clock.js"></script>
+<script type="text/javascript" src="js/countdown.js"></script>
 <script type="text/javascript" src="js/function.js"></script>
 </head>
 <body>
@@ -24,7 +25,7 @@
 		<div id="clock">
 			<div id="displayTime">
 				<span class="the_clock">
-					<span class="cl_hours"></span><span class="cl_minutes"></span>
+					<span class="cl_hours"></span><span class="cl_minutes"></span><span class="cl_seconds"></span>
 				</span>
 			</div>
 			<div id="displayText">
@@ -44,6 +45,7 @@
 			<select id="mode" style="width: 43.5vw;">
 				<option value="textblock" >Textblock</option>
 				<option value="marquee"   >Laufschrift</option>
+				<!--option value="countdown" >Countdown</option-->
 			</select>
 			<select id="timer" style="width: 20vw;">
 				<option value="60"  >1 Min</option>
@@ -128,9 +130,13 @@ var remote = {
 	onOff:  ""
 };
 
+var endtime;
+setCountdown(0,10);
+
 function timeloop() {
 	getDisplay(); // more function after ajax respond
-	startClock();
+	if (local.mode != 'countdown') startClock();
+	if (local.mode == 'countdown') updateCountdown();
 	setTimeout("timeloop()",1000);
 };
 timeloop();

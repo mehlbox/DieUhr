@@ -18,10 +18,11 @@ var dateFormat = 'dd.mon.yyyy';
 			} else {
 				var hours = std;
 			}
-			$(".cl_seconds").html(":"+ seconds);
+			$('.the_clock').css("color", "white"); // recover from countdown
+			//$(".cl_seconds").html(":"+ seconds);
+			$(".cl_seconds").html("");
 			$(".cl_minutes").html(":"+minutes);
 			$(".cl_hours").html(hours);
-			//$(".the_clock").html(Zeit);
 	}
 
 	function printDate(day, month, year) {
