@@ -76,7 +76,7 @@ var timerState = "stop";
 var countdownState = "stop";
 
 function checkTimer() {
-	if (timerState == "stop" && remote.onOff == "on") {
+	if (timerState == "stop" && remote.onOff == "on" && remote.timer != "inf") {
 		timerState = "run";
 		setTimeout(function() {
 			temp = remote;
