@@ -48,7 +48,8 @@ var local = {
 	timer:	"",
 	message:"",
 	onOff:  "",
-	countdown: ""
+	countdown: "",
+	endtime:   ""
 };
 
 var temp = {
@@ -57,7 +58,8 @@ var temp = {
 	timer:	"",
 	message:"",
 	onOff:  "",
-	countdown: ""
+	countdown: "",
+	endtime:   ""
 };
 
 var remote = {
@@ -66,12 +68,12 @@ var remote = {
 	timer:	"",
 	message:"",
 	onOff:  "",
-	countdown: ""
+	countdown: "",
+	endtime:   ""
 };
 
 var timerState = "stop";
 var countdownState = "stop";
-var endtime; // for countdown function
 
 function checkTimer() {
 	if (timerState == "stop" && remote.onOff == "on") {

@@ -158,7 +158,6 @@ var remote = {
 	endtime:   ""
 };
 
-var endtime; // for countdown function
 local.endtime = setCountdown(local.countdown);
 
 function timeloop() {
@@ -183,7 +182,7 @@ $('#switch').click(function(){ // toggel on off switch
 		temp.onOff ='off';
 	} else {
 		temp.onOff ='on';
-		temp.endtime = setCountdown(remote.countdown);////////////
+		temp.endtime = setCountdown(remote.countdown);
 	} 
 	sendDisplay(temp);
 });
