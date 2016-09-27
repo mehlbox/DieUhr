@@ -42,7 +42,7 @@
 	animation: marquee 15s linear infinite;
 }
 
-.textblock, .countdown, .onlytext {
+.textblock, .countdown {
 	font-size: 30%;
 	position: relative;
 	overflow: hidden;
