@@ -1,4 +1,4 @@
-function getTimeRemaining() {
+function getTimeRemaining(endtime) {
   var t = Date.parse(endtime) - Date.parse(new Date());
   var seconds = Math.floor((t / 1000) % 60);
   var minutes = Math.floor((t / 1000 / 60) % 60);
@@ -9,10 +9,8 @@ function getTimeRemaining() {
   };
 }
 
-
-
-function updateCountdown() {
-    var t = getTimeRemaining();
+function updateCountdown(obj) {
+    var t = getTimeRemaining(obj.endtime);
 	if (t.total<0) { // time up... counting up now
 		t.minutes++;
 		if (t.seconds==0) t.minutes++;
@@ -20,12 +18,13 @@ function updateCountdown() {
 		if (t.minutes<0) t.minutes = t.minutes*(-1);
 		$('.the_clock').css("color", "#FF3333");
 	}
+	if (t.total>0) $('.the_clock').css("color", "#FFFFFF");
 	if (t.seconds<10) t.seconds = '0'+t.seconds
 	$('.cl_hours').html('');
     $('.cl_minutes').html(t.minutes + ':');
     $('.cl_seconds').html(t.seconds);
 }
 
-function setCountdown(min, sec) {
-	endtime = new Date(Date.parse(new Date()) + (min*60*1000) + (sec*1000));
+function setCountdown(sec) {
+	return new Date(Date.parse(new Date()) + (sec*1000));
 }

@@ -86,7 +86,7 @@ var dateFormat = 'dd.mon.yyyy';
 		months = ["Jan", "Feb", "Mrz", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"];
 		return months[month-1];
 	}
-    function startClock(){
+    function updateClock(){
 		
 		var Datum = new Date();
 		var std = Datum.getHours();

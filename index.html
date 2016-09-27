@@ -18,8 +18,8 @@
 		<button id= "refresh" type="button" style="background-color:#FFFF66; "><img src="svg/refresh.svg" ></button>
 	</div-->
 <ul id="tab" class="tabrow">
-  <li><input type="button" name="Vorschau" value="Vorschau"/></li>
-  <li><input type="button" name="Live"     value="Live"/></li>
+  <li id="Vorschau"><input type="button" name="Vorschau" value="Vorschau"/></li>
+  <li id="Live">    <input type="button" name="Live"     value="Live"/></li>
 </ul>
 	<div class="boxw" style="margin-top: 0;">
 		<div id="clock">
@@ -43,16 +43,38 @@
 	<div class="boxw">
 		<div style="margin:0; padding:0 1vw; float: left;">
 			<select id="mode" style="width: 43.5vw;">
-				<option value="textblock" >Textblock</option>
-				<option value="marquee"   >Laufschrift</option>
-				<!--option value="countdown" >Countdown</option-->
+				<option value="textblock" >Uhr + Text</option>
+				<option value="marquee"   >Uhr + Laufschrift</option>
+				<option value="countdown" >Countdown + Text</option>
+				<option value="onlytext" >Nur Text</option>
 			</select>
 			<select id="timer" style="width: 20vw;">
 				<option value="60"  >1 Min</option>
 				<option value="180" >3 Min</option>
 				<option value="300" >5 Min</option>
+				<option value="420" >7 Min</option>
 				<option value="600" >10Min</option>
 				<option value="inf" >&#8734;</option>
+			</select>
+			<select id="countdownMin" style="width: 20vw;">
+				<option value="0"   >0 Min</option>
+				<option value="60"  >1 Min</option>
+				<option value="180" >3 Min</option>
+				<option value="300" >5 Min</option>
+				<option value="420" >7 Min</option>
+				<option value="600" >10Min</option>
+				<option value="900" >15Min</option>
+				<option value="1200">20Min</option>
+				<option value="1500">25Min</option>
+				<option value="1800">30Min</option>
+			</select>
+			<select id="countdownSec" style="width: 20vw;">
+				<option value="0"  >0 Sec</option>
+				<option value="10" >10Sec</option>
+				<option value="20" >20Sec</option>
+				<option value="30" >30Sec</option>
+				<option value="40" >40Sec</option>
+				<option value="50" >50Sec</option>
 			</select>
 			<select id="symbol" style="width: 20vw;" >
 				<option value="">&#10047;&#10084;</option>
@@ -111,7 +133,9 @@ var local = {
 	mode:	"textblock",
 	timer:	"300",
 	message:"Das Lied Nr.: ",
-	onOff:  ""
+	onOff:  "",
+	countdown: "180",
+	endtime:   ""
 };
 
 var temp = {
@@ -119,7 +143,9 @@ var temp = {
 	mode:	"",
 	timer:	"",
 	message:"",
-	onOff:  ""
+	onOff:  "",
+	countdown: "",
+	endtime:   ""
 };
 
 var remote = {
@@ -127,16 +153,16 @@ var remote = {
 	mode:	"",
 	timer:	"",
 	message:"",
-	onOff:  ""
+	onOff:  "",
+	countdown: "",
+	endtime:   ""
 };
 
-var endtime;
-setCountdown(0,10);
+var endtime; // for countdown function
+local.endtime = setCountdown(local.countdown);
 
 function timeloop() {
 	getDisplay(); // more function after ajax respond
-	if (local.mode != 'countdown') startClock();
-	if (local.mode == 'countdown') updateCountdown();
 	setTimeout("timeloop()",1000);
 };
 timeloop();
@@ -145,13 +171,8 @@ $("input[name='Vorschau']").parent().addClass("selected"); // set tab
 $("#message").val(local.message); // set message
 $("#timer option[value='180']").prop("selected", true)
 
-
-
-
 $("#tab input").click(function(){ // tab buttons
 	local.tab = $(this).val();
-	$("#tab").children("li").removeClass("selected");
-	$(this).parent().addClass("selected");
 	checkDisplay();
 });
 
@@ -162,18 +183,22 @@ $('#switch').click(function(){ // toggel on off switch
 		temp.onOff ='off';
 	} else {
 		temp.onOff ='on';
+		temp.endtime = setCountdown(remote.countdown);////////////
 	} 
 	sendDisplay(temp);
-	checkDisplay();
 });
 
 $("#mode").change(function(){ // dropdown mode
 	local.mode = $("#mode option:selected").val();
+	$("#countdownMin").val(parseInt(local.countdown/60)*60); // get just the minutes in second
+	$("#countdownSec").val(local.countdown%60);		// get just the seconds
+	local.endtime = setCountdown(local.countdown);
 	checkDisplay();
 });
 
 $("#timer").change(function(){ // dropdown timer
 	local.timer = $( "#timer option:selected" ).val();
+	checkDisplay();
 });
 
 $("#symbol").change(function(){ // dropdown symbol
@@ -182,12 +207,23 @@ $("#symbol").change(function(){ // dropdown symbol
 	$("#symbol option[value='']").prop("selected", true)
 	$("#message").val(local.message);
 	checkDisplay();
-	
 });
+
+$("#countdownMin").change(function(){ // dropdown countdown minute
+	local.countdown = parseInt($( "#countdownMin option:selected" ).val()) + parseInt($( "#countdownSec option:selected" ).val());
+	local.endtime = setCountdown(local.countdown);
+	checkDisplay();
+});
+
+$("#countdownSec").change(function(){ // dropdown countdown second
+	local.countdown = parseInt($( "#countdownMin option:selected" ).val()) + parseInt($( "#countdownSec option:selected" ).val());
+	local.endtime = setCountdown(local.countdown);
+	checkDisplay();
+});
+
 
 $('#message').bind('keyup',function(){ //textarea
 	local.message = $("#message").val();
-	checkDisplay();
 });
 
 $('#load').click(function(){ // load button
@@ -195,6 +231,8 @@ $('#load').click(function(){ // load button
 	$("#message").val(local.message);
 	$("#timer").val(local.timer);
 	$("#mode").val(local.mode);
+	$("#countdownMin").val(parseInt(local.countdown/60)*60); // get just the minutes in second
+	$("#countdownSec").val(local.countdown%60);		// get just the seconds
 	checkDisplay();
 });
 
@@ -217,6 +255,8 @@ $('#del').click(function(){ // trash button
 $("#confirm").click(function(){ //confirm button
 	$(this).addClass("grayButton");
 	local.onOff = remote.onOff;
+	local.tab = 'Live'
+	temp.endtime = setCountdown(local.countdown);
 	sendDisplay(local);
 	checkDisplay();
 });
@@ -230,9 +270,12 @@ $("#revert").click(function(){ //revert button
 	.done(function(response) {
 		$("#revert").removeClass("grayButton");
 		local = response;
+		local.tab = 'Vorschau';
 		$("#message").val(local.message);
 		$("#timer").val(local.timer);
 		$("#mode").val(local.mode);
+		$("#countdownMin").val(parseInt(local.countdown/60)*60); // get just the minutes in second
+		$("#countdownSec").val(local.countdown%60);		// get just the seconds
 		checkDisplay();
 	});
 });

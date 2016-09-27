@@ -23,27 +23,62 @@ function getDisplay(){
 	});
 };
 
-
-function checkDisplay() {	
-	if ( local.tab == 'Live' ) {
-		if ( remote.onOff == 'on' ) {
-			$('#displayDate').hide();
-			$('#displayText').html(remote.message).removeClass().addClass(remote.mode).show();
-		} else {
-			$('#displayText').removeClass().hide();
-			$('#displayDate').show();
+function checkDisplay() {
+	$("#"+local.tab).siblings().removeClass();
+	$("#"+local.tab).addClass("selected");
+	if ( remote.onOff == 'on' && local.tab == 'Live' && remote.mode != 'onlytext') {
+		$('#displayTime').show();
+		$('#displayDate').hide();
+		$('#displayText').html(remote.message).removeClass().addClass(remote.mode).show();
+		if (remote.mode == 'countdown') {
+			updateCountdown(remote);
+		} else { 
+			updateClock();
 		}
 	}
+	if ( remote.onOff == 'on' && local.tab == 'Live' && remote.mode == 'onlytext') {
+		$('#displayTime').hide();
+		$('#displayDate').hide();
+		$('#displayText').html(remote.message).removeClass().addClass(remote.mode).show();
+	}
+	if ( remote.onOff == 'off' && local.tab == 'Live') {
+		$('#displayTime').show();
+		$('#displayText').removeClass().hide();
+		$('#displayDate').show();
+		updateClock();
+	}
 
-	if ( local.tab == 'Vorschau' ) {
+	if ( local.tab == 'Vorschau' && local.mode != 'onlytext') {
+		$('#displayTime').show();
 		$('#displayDate').hide();
 		$('#displayText').show().html(local.message).removeClass().addClass(local.mode);
-		
+		if (local.mode == 'countdown') {
+			updateCountdown(local);
+		} else { 
+			updateClock();
+		}
+	}
+	if ( local.tab == 'Vorschau' && local.mode == 'onlytext') {
+		$('#displayTime').hide();
+		$('#displayDate').hide();
+		$('#displayText').show().html(local.message).removeClass().addClass(local.mode);
+	}
+	
+	if (local.mode == 'countdown') {
+			$('#timer').hide();
+			$('#symbol').hide();
+			$('#countdownMin').show();
+			$('#countdownSec').show();
+	} else { 
+			$('#timer').show();
+			$('#symbol').show();
+			$('#countdownMin').hide();
+			$('#countdownSec').hide();
 	}
 }
 
-function chkButton() {
-	if (local.message == remote.message && local.timer == remote.timer && local.mode == remote.mode) {
+function chkButton() { // buttons to hide
+	if (local.message == remote.message && local.timer == remote.timer && local.mode == remote.mode && local.countdown == remote.countdown) {
 		$('#bth').hide();
 		$("#confirm").removeClass("grayButton");
     } else {

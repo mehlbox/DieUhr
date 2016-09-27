@@ -42,7 +42,14 @@
 	animation: marquee 15s linear infinite;
 }
 
-.textblock {
+.textblock, .countdown, .onlytext {
+	font-size: 30%;
+	position: relative;
+	overflow: hidden;
+	white-space: pre;
+}
+
+.maybethis {
 	font-size: 30%;
 	line-height: 1em;
 	height: 2em;

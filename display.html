@@ -6,6 +6,7 @@
 <link href="display.css" rel="stylesheet"/>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/clock.js"></script>
+<script type="text/javascript" src="js/countdown.js"></script>
 <style type="text/css">
 body {
 	background: gray;
@@ -26,7 +27,7 @@ body {
 		<div id="clock">
 			<div id="displayTime">
 				<span class="the_clock">
-					<span class="cl_hours"></span><span class="cl_minutes"></span>
+					<span class="cl_hours"></span><span class="cl_minutes"></span><span class="cl_seconds"></span>
 				</span>
 			</div>
 			<div id="displayText">
@@ -46,7 +47,8 @@ var local = {
 	mode:	"",
 	timer:	"",
 	message:"",
-	onOff:  ""
+	onOff:  "",
+	countdown: ""
 };
 
 var temp = {
@@ -54,7 +56,8 @@ var temp = {
 	mode:	"",
 	timer:	"",
 	message:"",
-	onOff:  ""
+	onOff:  "",
+	countdown: ""
 };
 
 var remote = {
@@ -62,15 +65,18 @@ var remote = {
 	mode:	"",
 	timer:	"",
 	message:"",
-	onOff:  ""
+	onOff:  "",
+	countdown: ""
 };
 
 var timerState = "stop";
+var countdownState = "stop";
+var endtime; // for countdown function
 
 function checkTimer() {
 	if (timerState == "stop" && remote.onOff == "on") {
 		timerState = "run";
-		test = setTimeout(function() {
+		setTimeout(function() {
 			temp = remote;
 			temp.onOff = "off";
 			sendDisplay(temp);
@@ -82,11 +88,23 @@ function checkTimer() {
 	}
 }
 
+function checkCountdown() {
+	if (countdownState == "stop" && remote.onOff == "on" && remote.mode == "countdown") {
+		countdownState = "run";
+		timerState = "stop";
+		remote.timer = parseInt(remote.countdown + 3600); // set timer to turn off after one hour
+		setCountdown(remote.countdown);
+	}
+	if (remote.onOff == "off" && countdownState == 'run') {
+		countdownState = "stop";
+	}
+}
+
 function timeloop() {
 	local.tab = 'Live';
 	getDisplay(); // ajax
-	startClock();
-	checkTimer();
+	checkCountdown();
+	checkTimer(); // turn off after time out (clock mode)
 	setTimeout("timeloop()",1000);
 };
 
