@@ -49,11 +49,9 @@
 	white-space: pre;
 }
 
-.maybethis {
+.onlytext {
 	font-size: 30%;
-	line-height: 1em;
-	height: 2em;
 	position: relative;
 	overflow: hidden;
-	white-space: pre;
+	white-space: pre-wrap;
 }
