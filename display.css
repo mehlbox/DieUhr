@@ -4,15 +4,18 @@
 	font-family:Verdana,sans-serif;
 	color:#FFFFFF;
 	text-align:center;
-	display:block;
 }
 
 .the_clock {
 	font-size:100%;
 }
 
-.the_date {
+#displayDate {
 	font-size:48%;
+}
+
+.the_date {
+	font-size:100%;
 }
 
 @-webkit-keyframes marquee {
@@ -35,7 +38,6 @@
 .marquee {
 	font-size: 60%;
 	position: relative;
-	overflow: hidden;
 	white-space: nowrap;
 	-webkit-animation: marquee 15s linear infinite;
 	-moz-animation: marquee 15s linear infinite;
@@ -45,13 +47,11 @@
 .textblock, .countdown {
 	font-size: 30%;
 	position: relative;
-	overflow: hidden;
 	white-space: pre;
 }
 
 .onlytext {
 	font-size: 30%;
 	position: relative;
-	overflow: hidden;
 	white-space: pre-wrap;
 }

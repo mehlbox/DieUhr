@@ -1,7 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
 <title>DieUhr</title>
 <link href="design.css" rel="stylesheet"/>
 <link href="display.css" rel="stylesheet"/>
@@ -12,7 +11,7 @@
 </head>
 <body>
 	<div class="onOff" style="float: right;">
-		<button id="switch" type="button" ><img src="svg/OnOff.svg" /></button>
+		<button id="switch" type="button" ><img src="svg/OnOff.svg" alt="On/Off" /></button>
 	</div>
 	<!--div class="button" style="float: right; margin-right: 2vw;">
 		<button id= "refresh" type="button" style="background-color:#FFFF66; "><img src="svg/refresh.svg" ></button>
@@ -29,8 +28,7 @@
 				</span>
 			</div>
 			<div id="displayText">
-				<span class='the_message'>
-				</span>
+				<span class='the_message'></span>
 			</div>
 			<div id="displayDate">
 				<span class='the_date'>
@@ -102,23 +100,23 @@
 		<textarea id="message" name="message" rows="4" ></textarea>
 
 		<div class="button" style="float: left;">
-			<button id="new" type="button" style="background-color:#FFFF66;"><img src="svg/doc.svg"/></button>
+			<button id="new" type="button" style="background-color:#FFFF66;"><img src="svg/doc.svg" alt="Vorlage"/></button>
 		</div>
 		<div id="load" class="button" style="float: left;">
-			<button type="button" style="background-color:#FFFF66" ><img src="svg/load.svg"/></button>
+			<button type="button" style="background-color:#FFFF66" ><img src="svg/load.svg" alt="laden"/></button>
 		</div>
 		<div id="save" class="button" style="float: left;">
-			<button type="button" style="background-color:#FFFF66" ><img src="svg/save.svg"/></button>
+			<button type="button" style="background-color:#FFFF66" ><img src="svg/save.svg" alt="speichern"/></button>
 		</div>
 		<div id="del" class="button" style="float: left;">
-			<button type="button" style="background-color:#FFFF66;"><img src="svg/delete.svg"/></button>
+			<button type="button" style="background-color:#FFFF66;"><img src="svg/delete.svg" alt="löschen"/></button>
 		</div>
 		<div id="bth" style="margin:0; padding:0;">
 		<div class="button" style="float: right;">
-			<button id="confirm" type="button" style="background-color:#99DD55;"><img src="svg/done.svg"/></button>
+			<button id="confirm" type="button" style="background-color:#99DD55;"><img src="svg/done.svg" alt="senden"/></button>
 		</div>
 		<div class="button" style="float: right;">
-			<button id="revert" type="button" style="background-color:#FF7755;"><img src="svg/back.svg" /></button>
+			<button id="revert" type="button" style="background-color:#FF7755;"><img src="svg/back.svg" alt="holen"/></button>
 		</div>
 		</div>
 	</div>
