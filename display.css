@@ -1,21 +1,26 @@
-#clock {
-	overflow: hidden;
+#table {
     background-color: black;
 	font-family:Verdana,sans-serif;
 	color:#FFFFFF;
 	text-align:center;
+	overflow: hidden;
 }
 
-.the_clock {
+#clock {
+  position: relative;
+  top: 50%;
+  -webkit-transform: perspective(1px) translateY(-50%);
+  -moz-transform: perspective(1px) translateY(-50%);
+  transform: perspective(1px) translateY(-50%);
+}
+
+#displayTime {
 	font-size:100%;
+	margin-top: -2%;
 }
 
 #displayDate {
 	font-size:48%;
-}
-
-.the_date {
-	font-size:100%;
 }
 
 @-webkit-keyframes marquee {
@@ -23,10 +28,6 @@
 	100% { text-indent: -300vw }
 }
 @-moz-keyframes marquee {
-	0%   { text-indent:  100vw }
-	100% { text-indent: -300vw }
-}
-@-ms-keyframes marquee {
 	0%   { text-indent:  100vw }
 	100% { text-indent: -300vw }
 }
@@ -51,6 +52,7 @@
 }
 
 .onlytext {
+	overflow: hidden;
 	font-size: 30%;
 	position: relative;
 	white-space: pre-wrap;
