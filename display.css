@@ -45,14 +45,7 @@
 	animation: marquee 15s linear infinite;
 }
 
-.textblock, .countdown {
-	font-size: 30%;
-	position: relative;
-	white-space: pre;
-}
-
-.onlytext {
-	overflow: hidden;
+.textblock, .countdown, .onlytext {
 	font-size: 30%;
 	position: relative;
 	white-space: pre-wrap;

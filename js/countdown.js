@@ -11,18 +11,22 @@ function getTimeRemaining(endtime) {
 
 function updateCountdown(obj) {
     var t = getTimeRemaining(obj.endtime);
-	if (t.total<0) { // time up... counting up now
-		t.minutes++;
-		if (t.seconds==0) t.minutes++;
-		if (t.seconds<0) t.seconds = t.seconds*(-1);
-		if (t.minutes<0) t.minutes = t.minutes*(-1);
-		$('.the_clock').css("color", "#FF3333");
-	}
-	if (t.total>0) $('.the_clock').css("color", "#FFFFFF");
-	if (t.seconds<10) t.seconds = '0'+t.seconds
 	$('.cl_hours').html('');
-    $('.cl_minutes').html(t.minutes + ':');
-    $('.cl_seconds').html(t.seconds);
+	if (t.total<0) {
+		$('.the_clock').css("color", "#FF3333");
+		t.minutes++;
+		t.seconds = t.seconds*(-1);
+		t.minutes = t.minutes*(-1);
+		if (t.seconds==0) t.minutes++;
+		if (t.seconds<10) t.seconds = '0'+t.seconds
+		$('.cl_minutes').html('-' + t.minutes + ':');
+		$('.cl_seconds').html(t.seconds);
+	} else {
+		$('.the_clock').css("color", "#FFFFFF");
+		if (t.seconds<10) t.seconds = '0'+t.seconds
+		$('.cl_minutes').html(t.minutes + ':');
+		$('.cl_seconds').html(t.seconds);
+	}
 }
 
 function setCountdown(sec) {

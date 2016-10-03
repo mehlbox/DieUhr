@@ -19,7 +19,7 @@ function getDisplay(){
 		chkButton();
 	})
 	.fail(function() {
-		$("#error").show().html("Keine Verbindung");
+		$("#error").show();
 	});
 };
 
@@ -65,20 +65,30 @@ function checkDisplay() {
 	}
 	
 	if (local.mode == 'countdown') {
-			$('#timer').hide();
 			$('#symbol').hide();
 			$('#countdownMin').show();
 			$('#countdownSec').show();
 	} else { 
-			$('#timer').show();
 			$('#symbol').show();
 			$('#countdownMin').hide();
 			$('#countdownSec').hide();
 	}
+	
+	if (local.tab == 'Setup') {
+		$('.boxw').hide();
+		$('#boxSetup').show();
+	} else {
+		$('.boxw').show();
+		$('#boxSetup').hide();
+	}
 }
 
 function chkButton() { // buttons to hide
-	if (local.message == remote.message && local.timer == remote.timer && local.mode == remote.mode && local.countdown == remote.countdown) {
+	if (local.message == remote.message &&
+		local.timeout == remote.timeout &&
+		local.countdownTimeout == remote.countdownTimeout &&
+		local.mode == remote.mode &&
+		local.countdown == remote.countdown) {
 		$('#bth').hide();
 		$("#confirm").removeClass("grayButton");
     } else {
@@ -100,6 +110,7 @@ function chkOnOff(){
 
 function setCookie(cname, cvalue) {
     var d = new Date();
+	cvalue = cvalue.replace(/;/g,"\\semi");
     d.setTime(d.getTime() + (30*24*60*60*1000));
     var expires = "expires="+ d.toUTCString();
     document.cookie = cname + "=" + cvalue + "; " + expires;
@@ -107,6 +118,7 @@ function setCookie(cname, cvalue) {
 
 function getCookie(cname) {
     var name = cname + "=";
+	var cvalue;
     var ca = document.cookie.split(';');
     for(var i = 0; i <ca.length; i++) {
         var c = ca[i];
@@ -114,7 +126,9 @@ function getCookie(cname) {
             c = c.substring(1);
         }
         if (c.indexOf(name) == 0) {
-            return c.substring(name.length,c.length);
+			cvalue = c.substring(name.length,c.length);
+			cvalue = cvalue.replace(/\\semi/g,";");
+            return cvalue;
         }
     }
     return "";

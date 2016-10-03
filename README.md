@@ -10,7 +10,7 @@ apt-get install midori matchbox xinit xdotool unclutter git apache2 php5 libapac
 rm /var/www/html/index.html
 git clone https://github.com/mehlbox/DieUhr.git /var/www/html/
 cd /var/www/html
-touch data.json
+echo "{}" > data.json
 chmod 777 data.json
 xinit ./startMidori.sh
 ```

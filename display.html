@@ -42,62 +42,36 @@ body {
 	</div>
 <script type="text/javascript" src="js/function.js"></script>
 <script>
-var local = {
-	tab:	"",
-	mode:	"",
-	timer:	"",
-	message:"",
-	onOff:  "",
-	countdown: "",
-	endtime:   ""
-};
+var local = { };
+var temp = { };
+var remote = { };
 
-var temp = {
-	tab:	"",
-	mode:	"",
-	timer:	"",
-	message:"",
-	onOff:  "",
-	countdown: "",
-	endtime:   ""
-};
-
-var remote = {
-	tab:	"",
-	mode:	"",
-	timer:	"",
-	message:"",
-	onOff:  "",
-	countdown: "",
-	endtime:   ""
-};
-
-var timerState = "stop";
+var timeoutState = "stop";
 var countdownState = "stop";
 
 function checkTimer() {
-	if (timerState == "stop" && remote.onOff == "on" && remote.timer != "inf") {
-		timerState = "run";
+	if (timeoutState == "stop" && remote.onOff == "on" && remote.timeout != "inf") {
+		timeoutState = "run";
 		setTimeout(function() {
-			temp = remote;
 			temp.onOff = "off";
 			sendDisplay(temp);
-			timerState = "stop";
-		}, remote.timer * 1000);
+			timeoutState = "stop";
+		}, remote.timeout * 1000);
 	}
 	if (remote.onOff == "off") {
-		timerState = "stop";
+		timeoutState = "stop";
 	}
 }
 
 function checkCountdown() {
 	if (countdownState == "stop" && remote.onOff == "on" && remote.mode == "countdown") {
 		countdownState = "run";
-		timerState = "stop";
-		remote.timer = parseInt(remote.countdown + 3600); // set timer to turn off after one hour
+		timeoutState = "stop";
+		remote.timeout = parseInt(remote.countdown) + parseInt(remote.countdownTimeout);
 		setCountdown(remote.countdown);
 	}
 	if (remote.onOff == "off" && countdownState == 'run') {
+		console.log(countdownState);
 		countdownState = "stop";
 	}
 }

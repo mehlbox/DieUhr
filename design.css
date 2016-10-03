@@ -72,7 +72,7 @@ textarea {
  background: #FFFFFF;
 }
 
-.box, .boxw {
+.box, .boxw, #boxSetup, #debug {
 	float: left;
 	margin: 0 0 4vw 2vw;
 	padding: 2vw;
@@ -102,7 +102,7 @@ textarea {
 .box {
 	width: 46vw;
 }
-.boxw, #error {
+.boxw, #error, #boxSetup, #debug {
 	width: 94vw;
 }
 

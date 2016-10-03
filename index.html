@@ -19,6 +19,7 @@
 <ul id="tab" class="tabrow">
   <li id="Vorschau"><input type="button" name="Vorschau" value="Vorschau"/></li>
   <li id="Live">    <input type="button" name="Live"     value="Live"/></li>
+  <li id="Setup">   <input type="button" name="Setup"    value="Setup"/></li>
 </ul>
 	<div class="boxw">
 	<div id="table">
@@ -39,7 +40,7 @@
 		</div>	
 	</div>
 	</div>
-	<div id="error"></div>
+	<div id="error">Keine Verbindung</div>
 	<div class="boxw">
 		<div style="float: left;">
 			<select id="mode" style="width: 45vw;">
@@ -47,14 +48,6 @@
 				<option value="marquee"   >Uhr + Laufschrift</option>
 				<option value="countdown" >Countdown + Text</option>
 				<option value="onlytext" >Nur Text</option>
-			</select>
-			<select id="timer" style="width: 20vw;">
-				<option value="60"  >1 Min</option>
-				<option value="180" >3 Min</option>
-				<option value="300" >5 Min</option>
-				<option value="420" >7 Min</option>
-				<option value="600" >10Min</option>
-				<option value="inf" >&#8734;</option>
 			</select>
 			<select id="countdownMin" style="width: 20vw;">
 				<option value="0"   >0 Min</option>
@@ -104,16 +97,10 @@
 		<div class="button" style="float: left;">
 			<button id="new" type="button" style="background-color:#FFFF66;"><img src="svg/doc.svg" alt="Vorlage"/></button>
 		</div>
-		<div id="load" class="button" style="float: left;">
-			<button type="button" style="background-color:#FFFF66" ><img src="svg/load.svg" alt="laden"/></button>
-		</div>
-		<div id="save" class="button" style="float: left;">
-			<button type="button" style="background-color:#FFFF66" ><img src="svg/save.svg" alt="speichern"/></button>
-		</div>
 		<div id="del" class="button" style="float: left;">
 			<button type="button" style="background-color:#FFFF66;"><img src="svg/delete.svg" alt="löschen"/></button>
 		</div>
-		<div id="bth" style="margin:0; padding:0;">
+		<div id="bth">
 		<div class="button" style="float: right;">
 			<button id="confirm" type="button" style="background-color:#99DD55;"><img src="svg/done.svg" alt="senden"/></button>
 		</div>
@@ -122,62 +109,94 @@
 		</div>
 		</div>
 	</div>
+	<div id="boxSetup" style="font-size:4vw;">
+		<table>
+			<tr>
+				<td>Text aus nach:</td>
+				<td>
+					<select id="timeout" style="width: 20vw;">
+						<option value="60"  >1 Min</option>
+						<option value="180" >3 Min</option>
+						<option value="300" >5 Min</option>
+						<option value="420" >7 Min</option>
+						<option value="600" >10Min</option>
+						<option value="600" >20Min</option>
+						<option value="600" >30Min</option>
+						<option value="inf" >&#8734;</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Countdown aus nach:</td>
+				<td>
+					<select id="countdownTimeout" style="width: 20vw;">
+						<option value="60"  >1 Min</option>
+						<option value="180" >3 Min</option>
+						<option value="300" >5 Min</option>
+						<option value="420" >7 Min</option>
+						<option value="600" >10Min</option>
+						<option value="600" >20Min</option>
+						<option value="600" >30Min</option>
+						<option value="inf" >&#8734;</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<!--div id="debug" style="font-size: 3vw;"></div-->
 <script>
 $("#error").hide();
 $("#bth").hide();
 $(".displayText").hide();
 $(".displayDate").hide();
 
-var local = {
-	tab:	"Vorschau",
-	mode:	"textblock",
-	timer:	"300",
-	message:"Das Lied Nr.: ",
-	onOff:  "",
-	countdown: "180",
-	endtime:   ""
-};
+var local = { }
+var temp = { }
+var remote = { }
 
-var temp = {
-	tab:	"",
-	mode:	"",
-	timer:	"",
-	message:"",
-	onOff:  "",
-	countdown: "",
-	endtime:   ""
-};
+try { 
+	local = JSON.parse(getCookie('DieUhr'));
+}
 
-var remote = {
-	tab:	"",
-	mode:	"",
-	timer:	"",
-	message:"",
-	onOff:  "",
-	countdown: "",
-	endtime:   ""
-};
-
+catch(err) {
+	local = {
+		tab:	"Vorschau",
+		mode:	"textblock",
+		timeout:"300",
+		message:"Das Lied Nr.: ",
+		countdown: "300",
+		countdownTimeout: "300"
+	}
+}
 local.endtime = setCountdown(local.countdown);
+
+//load
+
+$("#message").val(local.message);
+$("#timeout").val(local.timeout);
+$("#countdownTimeout").val(local.countdownTimeout);
+$("#mode").val(local.mode);
+$("#countdownMin").val(parseInt(local.countdown/60)*60); // get just the minutes in second
+$("#countdownSec").val(local.countdown%60);		// get just the seconds
+
 
 function timeloop() {
 	getDisplay(); // more function after ajax respond
 	setTimeout("timeloop()",1000);
+	$("#debug").html(JSON.stringify(local));
 };
 timeloop();
 
-$("input[name='Vorschau']").parent().addClass("selected"); // set tab
-$("#message").val(local.message); // set message
-$("#timer option[value='180']").prop("selected", true)
+
 
 $("#tab input").click(function(){ // tab buttons
 	local.tab = $(this).val();
+	setCookie('DieUhr', JSON.stringify(local));
 	checkDisplay();
 });
 
 $('#switch').click(function(){ // toggel on off switch
 	$(this).addClass("grayButton");
-	temp = remote;
 	if (remote.onOff == 'on') {
 		temp.onOff ='off';
 	} else {
@@ -185,78 +204,90 @@ $('#switch').click(function(){ // toggel on off switch
 		temp.endtime = setCountdown(remote.countdown);
 	} 
 	sendDisplay(temp);
+	temp = { };
+	setCookie('DieUhr', JSON.stringify(local));
 });
 
-$("#mode").change(function(){ // dropdown mode
+$("#mode").change(function(){ // dropdown menu mode
 	local.mode = $("#mode option:selected").val();
 	$("#countdownMin").val(parseInt(local.countdown/60)*60); // get just the minutes in second
 	$("#countdownSec").val(local.countdown%60);		// get just the seconds
 	local.endtime = setCountdown(local.countdown);
+	setCookie('DieUhr', JSON.stringify(local));
 	checkDisplay();
 });
 
-$("#timer").change(function(){ // dropdown timer
-	local.timer = $( "#timer option:selected" ).val();
+$("#timeout").change(function(){ // dropdown menu timeout
+	local.timeout = $( "#timeout option:selected" ).val();
+	setCookie('DieUhr', JSON.stringify(local));
 	checkDisplay();
 });
 
-$("#symbol").change(function(){ // dropdown symbol
+$("#countdownTimeout").change(function(){ // dropdown menu countdownTimeout
+	local.countdownTimeout = $( "#countdownTimeout option:selected" ).val();
+	setCookie('DieUhr', JSON.stringify(local));
+	checkDisplay();
+});
+
+$("#symbol").change(function(){ // dropdown menu symbol
 	local.message = $("#message").val() + $( "#symbol option:selected" ).val();
 	$("#symbol option:selected").prop("selected", false)
 	$("#symbol option[value='']").prop("selected", true)
 	$("#message").val(local.message);
+	setCookie('DieUhr', JSON.stringify(local));
 	checkDisplay();
 });
 
-$("#countdownMin").change(function(){ // dropdown countdown minute
+$("#countdownMin").change(function(){ // dropdown menu countdown minute
 	local.countdown = parseInt($( "#countdownMin option:selected" ).val()) + parseInt($( "#countdownSec option:selected" ).val());
 	local.endtime = setCountdown(local.countdown);
+	setCookie('DieUhr', JSON.stringify(local));
 	checkDisplay();
 });
 
-$("#countdownSec").change(function(){ // dropdown countdown second
+$("#countdownSec").change(function(){ // dropdown menu countdown second
 	local.countdown = parseInt($( "#countdownMin option:selected" ).val()) + parseInt($( "#countdownSec option:selected" ).val());
 	local.endtime = setCountdown(local.countdown);
+	setCookie('DieUhr', JSON.stringify(local));
 	checkDisplay();
 });
 
 
-$('#message').bind('keyup',function(){ //textarea
+$('#message').bind('keyup',function(){ // textarea
 	local.message = $("#message").val();
-});
-
-$('#load').click(function(){ // load button
-	local = JSON.parse(getCookie('DieUhr'));
-	$("#message").val(local.message);
-	$("#timer").val(local.timer);
-	$("#mode").val(local.mode);
-	$("#countdownMin").val(parseInt(local.countdown/60)*60); // get just the minutes in second
-	$("#countdownSec").val(local.countdown%60);		// get just the seconds
-	checkDisplay();
-});
-
-$('#save').click(function(){ // save button
 	setCookie('DieUhr', JSON.stringify(local));
 });
 
 $('#new').click(function(){ // template button
 	local.message = "Das Lied Nr.: ";
 	$("#message").val(local.message);
+	setCookie('DieUhr', JSON.stringify(local));
 	checkDisplay();
 });
 
 $('#del').click(function(){ // trash button
 	local.message = "";
 	$("#message").val(local.message);
+	setCookie('DieUhr', JSON.stringify(local));
 	checkDisplay();
 });
 
 $("#confirm").click(function(){ //confirm button
 	$(this).addClass("grayButton");
-	local.onOff = remote.onOff;
-	local.tab = 'Live'
-	temp.endtime = setCountdown(local.countdown);
-	sendDisplay(local);
+	temp.mode      = local.mode
+	temp.timeout   = local.timeout
+	temp.countdownTimeout = local.countdownTimeout
+	temp.message   = local.message
+	temp.countdown = local.countdown
+	temp.endtime   = setCountdown(local.countdown);
+	if (remote.onOff == 'off') {
+		temp.onOff ='on';
+		temp.endtime = setCountdown(remote.countdown);
+	} 
+	sendDisplay(temp);
+	temp = { };
+	local.tab = 'Live';
+	setCookie('DieUhr', JSON.stringify(local));
 	checkDisplay();
 });
 
@@ -271,10 +302,12 @@ $("#revert").click(function(){ //revert button
 		local = response;
 		local.tab = 'Vorschau';
 		$("#message").val(local.message);
-		$("#timer").val(local.timer);
+		$("#timeout").val(local.timeout);
+		$("#countdownTimeout").val(local.countdownTimeout);
 		$("#mode").val(local.mode);
 		$("#countdownMin").val(parseInt(local.countdown/60)*60); // get just the minutes in second
 		$("#countdownSec").val(local.countdown%60);		// get just the seconds
+		setCookie('DieUhr', JSON.stringify(local));
 		checkDisplay();
 	});
 });
