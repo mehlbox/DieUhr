@@ -12,7 +12,7 @@ body {
 	background: gray;
 }
 
-#table {
+#wrap {
 	height:56.25vw;
     width: 100vw;
 	position:absolute;
@@ -23,31 +23,21 @@ body {
 
 </head>
 <body>
-	<div id="table">
-		<div id="clock">
-			<div id="displayTime">
-				<span class="the_clock">
-					<span class="cl_hours"></span><span class="cl_minutes"></span><span class="cl_seconds"></span>
-				</span>
-			</div>
-			<div id="displayText">
-				<span class='the_message'></span>
-			</div>
-			<div id="displayDate">
-				<span class='the_date'>
-					<span class='cl_day'></span><span class='cl_month'></span><span class='cl_year'></span>
-				</span>
-			</div>
-		</div>
+	<div id="wrap">
+		<div id="center">
+			<div id="printUpperLine"></div>
+			<div id="printLowerLine"></div>
+		</div>	
 	</div>
 <script type="text/javascript" src="js/function.js"></script>
 <script>
-var local = { };
-var temp = { };
+var local  = { };
+var temp   = { };
 var remote = { };
 
 var timeoutState = "stop";
-var countdownState = "stop";
+remote.countdownState = "stop";
+
 
 function checkTimer() {
 	if (timeoutState == "stop" && remote.onOff == "on" && remote.timeout != "inf") {
@@ -58,29 +48,45 @@ function checkTimer() {
 			timeoutState = "stop";
 		}, remote.timeout * 1000);
 	}
-	if (remote.onOff == "off") {
+	if (remote.onOff == "off" && timeoutState == "run") {
 		timeoutState = "stop";
 	}
 }
 
 function checkCountdown() {
-	if (countdownState == "stop" && remote.onOff == "on" && remote.mode == "countdown") {
-		countdownState = "run";
+	if (remote.countdownState == "start" ) {
+		temp.countdownState = "runing";
+		temp.endtime = setCountdown(remote.countdown);
+		//set timeout
 		timeoutState = "stop";
-		remote.timeout = parseInt(remote.countdown) + parseInt(remote.countdownTimeout);
-		setCountdown(remote.countdown);
-	}
-	if (remote.onOff == "off" && countdownState == 'run') {
-		console.log(countdownState);
-		countdownState = "stop";
+		temp.timeout = parseInt(remote.countdown) + parseInt(remote.countdownTimeout) - 1;
+		sendDisplay(temp);
+		temp = { };
+		checkDisplay();
 	}
 }
 
+
 function timeloop() {
-	local.tab = 'Live';
-	getDisplay(); // ajax
+	$.ajax({
+	url: "data.json",
+	cache: false
+	})
+	.done(function(response) {
+		remote = response;
+		if (remote.checkOption == '1') { // handel option change
+			local.preUpperLine = '';
+			local.preLowerLine = '';
+			temp.checkOption  = '2';
+			sendDisplay(temp);
+			temp = { };
+		}
+	})
+	
 	checkCountdown();
-	checkTimer(); // turn off after time out (clock mode)
+	checkTimer(); // timeout
+	local.tab = 'Live';
+	checkDisplay();
 	setTimeout("timeloop()",1000);
 };
 

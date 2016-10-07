@@ -1,4 +1,4 @@
-#table {
+#wrap {
     background-color: black;
 	font-family:Verdana,sans-serif;
 	color:#FFFFFF;
@@ -6,7 +6,7 @@
 	overflow: hidden;
 }
 
-#clock {
+#center {
   position: relative;
   top: 50%;
   -webkit-transform: perspective(1px) translateY(-50%);
@@ -14,13 +14,13 @@
   transform: perspective(1px) translateY(-50%);
 }
 
-#displayTime {
-	font-size:100%;
-	margin-top: -2%;
+#printUpperLine {
+	font-size:30%;
+	margin-top: -4%;
 }
 
-#displayDate {
-	font-size:48%;
+#printLowerLine {
+	font-size:30%;
 }
 
 @-webkit-keyframes marquee {
@@ -37,16 +37,15 @@
 }
 
 .marquee {
-	font-size: 60%;
 	position: relative;
 	white-space: nowrap;
+	margin-top: -4%;
 	-webkit-animation: marquee 15s linear infinite;
-	-moz-animation: marquee 15s linear infinite;
-	animation: marquee 15s linear infinite;
+	   -moz-animation: marquee 15s linear infinite;
+	        animation: marquee 15s linear infinite;
 }
 
-.textblock, .countdown, .onlytext {
-	font-size: 30%;
+.textblock {
 	position: relative;
 	white-space: pre-wrap;
 }
