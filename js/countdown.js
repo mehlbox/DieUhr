@@ -1,4 +1,5 @@
 function setCountdown(sec) {
+	console.log('setCountdown '+sec)
 	return new Date(Date.parse(new Date()) + (sec*1000));
 }
 
@@ -6,6 +7,7 @@ function getTimeRemaining(endtime) {
   var t = Date.parse(endtime) - Date.parse(new Date());
   var seconds = Math.floor((t / 1000) % 60);
   var minutes = Math.floor((t / 1000 / 60) % 60);
+  //console.log('getTimeRemaining '+t/1000)
   return {
     'total': t,
     'minutes': minutes,
@@ -14,8 +16,8 @@ function getTimeRemaining(endtime) {
 }
 
 function updateCountdown(obj) {
-	var t = getTimeRemaining(obj.endtime);
-	if (obj.countdownState != 'stop') {
+	if (remote.countdownState != 'stop') {
+		var t = getTimeRemaining(remote.countdownEndtime);
 		if (t.total<0) {
 			$('.cd_minutes, .cd_seconds').css("color", "#FF3333");
 			t.minutes++;
@@ -31,8 +33,7 @@ function updateCountdown(obj) {
 			$('.cd_minutes').html(t.minutes + ':');
 			$('.cd_seconds').html(t.seconds);
 		}
-	}
-	if (obj.countdownState != 'runing') {
+	} else {
 		var tempSec = obj.countdown%60;
 			$('.cd_minutes, .cd_seconds').css("color", "#FFFFFF");
 			$('.cd_minutes').html(parseInt(obj.countdown/60) + ':');

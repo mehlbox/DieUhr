@@ -279,7 +279,6 @@
 			</div>
 		</div>
 	</div>
-	<!--div id="debug" class="boxw" style="font-size: 3vw;"></div-->
 <script>
 $("#error").hide();
 $("#bth").hide();
@@ -310,7 +309,6 @@ catch(err) {
 		message:	"Das Lied Nr.: "
 	}
 }
-local.endtime = setCountdown(local.countdown);
 local.preUpperLine = "";
 local.preLowerLine = "";
 checkOption();
@@ -330,16 +328,15 @@ function timeloop() {
 			sendDisplay(temp);
 			temp = { };
 		}
+		chkOnOff();
+		checkDisplayS(local.tab);
+		chkButton();
 	})
 	.fail(function() {
 		$("#error").show();
 	});
 
-	chkOnOff();
-	checkDisplay();
-	chkButton();
 	setTimeout("timeloop()",1000);
-	$("#debug").html(JSON.stringify(local));
 };
 timeloop();
 
@@ -349,7 +346,7 @@ $("#tab input").click(function(){ // tab buttons
 	local.preUpperLine = "";
 	local.preLowerLine = "";
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplay();
+	checkDisplayS(local.tab);
 });
 
 $('#switch').click(function(){ // toggel on off switch
@@ -368,14 +365,14 @@ $("#upperLine").change(function(){ // dropdown menu upperLine
 	local.upperLine = $("#upperLine option:selected").val();
 	local.tab = 'Vorschau';
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplay();
+	checkDisplayS(local.tab);
 });
 
 $("#lowerLine").change(function(){ // dropdown menu lowerLine
 	local.lowerLine = $("#lowerLine option:selected").val();
 	local.tab = 'Vorschau';
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplay();
+	checkDisplayS(local.tab);
 });
 
 $("#symbol").change(function(){ // dropdown menu symbol
@@ -384,7 +381,7 @@ $("#symbol").change(function(){ // dropdown menu symbol
 	$("#symbol option[value='']").prop("selected", true)
 	$("#message").val(local.message);
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplay();
+	checkDisplayS(local.tab);
 });
 
 $("#moreOption").click(function(){ // button option
@@ -394,7 +391,7 @@ $("#moreOption").click(function(){ // button option
 		local.option = 'on';
 	}
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplay();
+	checkDisplayS(local.tab);
 });
 
 $("#clockSize").change(function(){ // dropdown menu clockSize
@@ -403,7 +400,7 @@ $("#clockSize").change(function(){ // dropdown menu clockSize
 	local.preUpperLine = "";
 	local.preLowerLine = "";
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplay();
+	checkDisplayS(local.tab);
 });
 
 $("#dateSize").change(function(){ // dropdown menu dateSize
@@ -412,30 +409,28 @@ $("#dateSize").change(function(){ // dropdown menu dateSize
 	local.preUpperLine = "";
 	local.preLowerLine = "";
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplay();
+	checkDisplayS(local.tab);
 });
 
 $("#timeout").change(function(){ // dropdown menu timeout
 	local.timeout = $( "#timeout option:selected" ).val();
 	local.tab = 'Vorschau';
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplay();
+	checkDisplayS(local.tab);
 });
 
 $("#countdownMin").change(function(){ // dropdown menu countdown minute
 	local.countdown = parseInt($( "#countdownMin option:selected" ).val()) + parseInt($( "#countdownSec option:selected" ).val());
-	local.endtime = setCountdown(local.countdown);
 	local.tab = 'Vorschau';
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplay();
+	checkDisplayS(local.tab);
 });
 
 $("#countdownSec").change(function(){ // dropdown menu countdown second
 	local.countdown = parseInt($( "#countdownMin option:selected" ).val()) + parseInt($( "#countdownSec option:selected" ).val());
-	local.endtime = setCountdown(local.countdown);
 	local.tab = 'Vorschau';
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplay();
+	checkDisplayS(local.tab);
 });
 
 $("#countdownSize").change(function(){ // dropdown menu countdownSize
@@ -444,14 +439,14 @@ $("#countdownSize").change(function(){ // dropdown menu countdownSize
 	local.preUpperLine = "";
 	local.preLowerLine = "";
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplay();
+	checkDisplayS(local.tab);
 });
 
 $("#countdownTimeout").change(function(){ // dropdown menu countdownTimeout
 	local.countdownTimeout = $( "#countdownTimeout option:selected" ).val();
 	local.tab = 'Vorschau';
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplay();
+	checkDisplayS(local.tab);
 });
 
 $("#textblockSize").change(function(){ // dropdown menu textblockSize
@@ -460,7 +455,7 @@ $("#textblockSize").change(function(){ // dropdown menu textblockSize
 	local.preUpperLine = "";
 	local.preLowerLine = "";
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplay();
+	checkDisplayS(local.tab);
 });
 
 $("#marqueeSize").change(function(){ // dropdown menu marqueeSize
@@ -469,7 +464,7 @@ $("#marqueeSize").change(function(){ // dropdown menu marqueeSize
 	local.preUpperLine = "";
 	local.preLowerLine = "";
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplay();
+	checkDisplayS(local.tab);
 });
 
 $("#marqueeSpeed").change(function(){ // dropdown menu marqueeSpeed
@@ -478,7 +473,7 @@ $("#marqueeSpeed").change(function(){ // dropdown menu marqueeSpeed
 	local.preUpperLine = "";
 	local.preLowerLine = "";
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplay();
+	checkDisplayS(local.tab);
 });
 
 $('#message').bind('keyup',function(){ // textarea
@@ -491,7 +486,7 @@ $('#new').click(function(){ // template button
 	$("#message").val(local.message);
 	local.tab = 'Vorschau';
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplay();
+	checkDisplayS(local.tab);
 });
 
 $('#del').click(function(){ // trash button
@@ -499,7 +494,7 @@ $('#del').click(function(){ // trash button
 	$("#message").val(local.message);
 	local.tab = 'Vorschau';
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplay();
+	checkDisplayS(local.tab);
 });
 
 $('#reset').click(function(){ // reset button
@@ -508,7 +503,7 @@ $('#reset').click(function(){ // reset button
 	sendDisplay(temp);
 	temp = { };
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplay();
+	checkDisplayS(local.tab);
 });
 
 $('#startStop').click(function(){ // startStop button
@@ -525,7 +520,7 @@ $('#startStop').click(function(){ // startStop button
 		temp = { };
 	}
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplay();
+	checkDisplayS(local.tab);
 });
 
 $("#confirm").click(function(){ //confirm button
@@ -536,11 +531,14 @@ $("#confirm").click(function(){ //confirm button
 	delete temp.tab;
 	delete temp.preUpperLine;
 	delete temp.preLowerLine;
+	delete temp.option;
+	delete temp.countdownState;
+	if (remote.countdownState != 'stop') delete temp.countdown;
 	sendDisplay(temp);
 	temp = { };
 	local.tab = 'Live';
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplay();
+	checkDisplayS(local.tab);
 });
 
 $("#revert").click(function(){ //revert button
@@ -555,7 +553,7 @@ $("#revert").click(function(){ //revert button
 		local.tab = 'Vorschau';
 		checkOption();
 		setCookie('DieUhr', JSON.stringify(local));
-		checkDisplay();
+		checkDisplayS(local.tab);
 	});
 });
 </script>

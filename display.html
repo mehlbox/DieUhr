@@ -36,13 +36,21 @@ var temp   = { };
 var remote = { };
 
 var timeoutState = "stop";
+var timerID;
+var countdownID;
 remote.countdownState = "stop";
+local.tab = 'Live';
+
 
 
 function checkTimer() {
-	if (timeoutState == "stop" && remote.onOff == "on" && remote.timeout != "inf") {
+	//console.log('checkTimer '+timeoutState)
+	if (timeoutState == "stop" && remote.onOff == "on" && remote.timeout != "inf" && remote.countdownState == "stop") {
 		timeoutState = "run";
-		setTimeout(function() {
+		console.log('Set global timeout with '+ remote.timeout+' seconds');
+		clearTimeout(timerID);
+		clearTimeout(countdownID);
+		timerID = setTimeout(function() {
 			temp.onOff = "off";
 			sendDisplay(temp);
 			timeoutState = "stop";
@@ -54,18 +62,31 @@ function checkTimer() {
 }
 
 function checkCountdown() {
-	if (remote.countdownState == "start" ) {
+	console.log('remote.countdownEndtime '+remote.countdownEndtime)
+	if (remote.countdownState == "start" && remote.onOff == "on") {
 		temp.countdownState = "runing";
-		temp.endtime = setCountdown(remote.countdown);
-		//set timeout
 		timeoutState = "stop";
-		temp.timeout = parseInt(remote.countdown) + parseInt(remote.countdownTimeout) - 1;
+		clearTimeout(timerID);
+		clearTimeout(countdownID);
+		temp.countdownEndtime = setCountdown(remote.countdown);
+		remote.countdownEndtime = temp.countdownEndtime; //avoid showing old value for a glimbs 
 		sendDisplay(temp);
 		temp = { };
-		checkDisplay();
 	}
-}
+	
+	if (remote.countdownState == "runing" ) {
+		var t = getTimeRemaining(remote.countdownEndtime);
+		if (t.total == 0) { 	//set countdown timeout
+			console.log('Set timeout after countdown with '+ remote.countdownTimeout+' seconds');
+			countdownID = setTimeout(function() {
+				temp.onOff = "off";
+				temp.countdownState = "stop";
+				sendDisplay(temp);
+			}, remote.countdownTimeout * 1000);
+		}
+	}
 
+}
 
 function timeloop() {
 	$.ajax({
@@ -81,12 +102,14 @@ function timeloop() {
 			sendDisplay(temp);
 			temp = { };
 		}
+		if (remote.onOff == "off") {
+			clearTimeout(timerID);
+			clearTimeout(countdownID);
+		}
+		checkCountdown();
+		checkTimer();
+		checkDisplay(remote);
 	})
-	
-	checkCountdown();
-	checkTimer(); // timeout
-	local.tab = 'Live';
-	checkDisplay();
 	setTimeout("timeloop()",1000);
 };
 
