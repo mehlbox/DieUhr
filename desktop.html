@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+	<meta charset="UTF-8">
+	<title>DieUhr</title>
+	<link href="index.css" rel="stylesheet"/>
+	<link href="desktop.css" rel="stylesheet"/>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/function.js"></script>
+</head>
+<body>
+	<div class="box">Vorschau:
+		<div id="wrapC">
+			<iframe id="display" src="display.html?display=Vorschau" width="100%" height="100%" scrolling="no" frameborder="0"></iframe>
+		</div>
+	</div>
+	<div class="box">Live:
+		<div id="wrapD">
+			<iframe id="display" src="display.html?display=Live"     width="100%" height="100%" scrolling="no" frameborder="0"></iframe>
+		</div>
+	</div>
+	<div id="error">Keine Verbindung</div>
+	<div class="boxw">
+		<div style="margin-top:-2vw;">
+			<table>
+				<tr><td>Zeile oben:</td><td>Zeile unten:</td><td><button id="moreOption" class="smallButton type="button" style="background-color:#C3DF79; float:right;"><img src="svg/plus.svg" alt="mehr"/></button></td></tr>
+				<tr>
+					<td>
+						<select id="upperLine" style="width: 36vw;">
+							<option value="Uhr"        >Uhrzeit</option>
+							<option value="Datum"      >Datum</option>
+							<option value="Zeitgeber"  >Zeitgeber</option>
+							<option value="Textblock"  >Textblock</option>
+							<option value="Laufschrift">Laufschrift</option>
+							<option value="Aus"        >Aus</option>
+						</select>
+					</td>
+					<td>
+						<select id="lowerLine" style="width: 36vw;">
+							<option value="Uhr"        >Uhrzeit</option>
+							<option value="Datum"      >Datum</option>
+							<option value="Zeitgeber"  >Zeitgeber</option>
+							<option value="Textblock"  >Textblock</option>
+							<option value="Laufschrift">Laufschrift</option>
+							<option value="Aus"        >Aus</option>
+						</select>
+					</td>
+					<td>
+						<select id="symbol">
+							<option value="" >$</option>
+							<option value="&#10084;" >&#10084;</option>
+							<option value="&#10047;" >&#10047;</option>
+							<option value="&#10049;" >&#10049;</option>
+							<option value="&#10082;" >&#10082;</option>
+							
+							<option value="&#10017;" >&#10017;</option>
+							<option value="&#10032;" >&#10032;</option>
+							<option value="&#10038;" >&#10038;</option>
+							<option value="&#10039;" >&#10039;</option>
+							
+							<option value="&#937;"  >&#937; </option>
+							<option value="&#9986;" >&#9986;</option>
+							<option value="&#9990;" >&#9990;</option>
+							<option value="&#9993;" >&#9993;</option>
+							
+							<option value="&#10003;">&#10003;</option>
+							<option value="&#10007;">&#10007;</option>
+							<option value="&#8635;" >&#8635; </option>
+							<option value="&#10132;">&#10132;</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="option">
+			<div class="boxin">Haupteinstellungen:
+				<table>
+					<tr>
+						<td>Schriftgröße Uhrzeit: </td>
+						<td><select id="clockSize">
+								<option value="10%" >10%</option>
+								<option value="20%" >20%</option>
+								<option value="30%" >30%</option>
+								<option value="40%" >40%</option>
+								<option value="50%" >50%</option>
+								<option value="60%" >60%</option>
+								<option value="70%" >70%</option>
+								<option value="80%" >80%</option>
+								<option value="90%" >90%</option>
+								<option value="100%">100%</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>Schriftgröße Datum: </td>
+						<td><select id="dateSize">
+								<option value="10%" >10%</option>
+								<option value="20%" >20%</option>
+								<option value="30%" >30%</option>
+								<option value="40%" >40%</option>
+								<option value="50%" >50%</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>zurücksetzen nach: </td>
+						<td><select id="timeout">
+								<option value="60"  >1 Min</option>
+								<option value="180" >3 Min</option>
+								<option value="300" >5 Min</option>
+								<option value="420" >7 Min</option>
+								<option value="600" >10Min</option>
+								<option value="900" >15Min</option>
+								<option value="1200">20Min</option>
+								<option value="1500">25Min</option>
+								<option value="1800">30Min</option>
+								<option value="inf" >&#8734;</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="boxin">Zeitgeber:
+				<table>
+					<tr>
+						<td>Vorgabe Zeit:</td>
+						<td>
+							<select id="countdownMin">
+								<option value="0"   >0 Min</option>
+								<option value="60"  >1 Min</option>
+								<option value="180" >3 Min</option>
+								<option value="300" >5 Min</option>
+								<option value="420" >7 Min</option>
+								<option value="600" >10Min</option>
+								<option value="900" >15Min</option>
+								<option value="1200">20Min</option>
+								<option value="1500">25Min</option>
+								<option value="1800">30Min</option>
+							</select>
+						</td>
+						<td>
+							<select id="countdownSec">
+								<option value="0"  >0 Sec</option>
+								<option value="10" >10Sec</option>
+								<option value="20" >20Sec</option>
+								<option value="30" >30Sec</option>
+								<option value="40" >40Sec</option>
+								<option value="50" >50Sec</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>Schriftgröße: </td>
+						<td><select id="countdownSize">
+								<option value="10%" >10%</option>
+								<option value="20%" >20%</option>
+								<option value="30%" >30%</option>
+								<option value="40%" >40%</option>
+								<option value="50%" >50%</option>
+								<option value="60%" >60%</option>
+								<option value="70%" >70%</option>
+								<option value="80%" >80%</option>
+								<option value="90%" >90%</option>
+								<option value="100%">100%</option>
+							</select>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>überziehen: </td>
+						<td>
+							<select id="countdownTimeout">
+								<option value="0"   >0 Min</option>
+								<option value="60"  >1 Min</option>
+								<option value="180" >3 Min</option>
+								<option value="300" >5 Min</option>
+								<option value="420" >7 Min</option>
+								<option value="600" >10Min</option>
+								<option value="900" >15Min</option>
+								<option value="1200">20Min</option>
+								<option value="1500">25Min</option>
+								<option value="1800">30Min</option>
+								<option value="inf" >&#8734;</option>
+							</select>
+						</td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+			<div class="boxin">Textblock:
+				<table>
+					<tr>
+						<td>Schriftgröße: </td>
+						<td><select id="textblockSize">
+								<option value="10%" >10%</option>
+								<option value="20%" >20%</option>
+								<option value="30%" >30%</option>
+								<option value="40%" >40%</option>
+								<option value="50%" >50%</option>
+								<option value="60%" >60%</option>
+								<option value="70%" >70%</option>
+								<option value="80%" >80%</option>
+								<option value="90%" >90%</option>
+								<option value="100%">100%</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="boxin">Laufschrift:
+				<table>
+					<tr>
+						<td>Schriftgröße: </td>
+						<td><select id="marqueeSize">
+								<option value="10%" >10%</option>
+								<option value="20%" >20%</option>
+								<option value="30%" >30%</option>
+								<option value="40%" >40%</option>
+								<option value="50%" >50%</option>
+								<option value="60%" >60%</option>
+								<option value="70%" >70%</option>
+								<option value="80%" >80%</option>
+								<option value="90%" >90%</option>
+								<option value="100%">100%</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>Geschwindigkeit: </td>
+						<td><select id="marqueeSpeed">
+								<option value="50s" >10%</option>
+								<option value="45s" >20%</option>
+								<option value="40s" >30%</option>
+								<option value="35s" >40%</option>
+								<option value="30s" >50%</option>
+								<option value="25s" >60%</option>
+								<option value="20s" >70%</option>
+								<option value="15s" >80%</option>
+								<option value="10s" >90%</option>
+								<option value="5s">100%</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<textarea id="message" name="message" rows="4" ></textarea>
+
+		<div class="button" style="float: left;">
+			<button id="new" type="button" style="background-color:#FFFF66;"><img src="svg/doc.svg" alt="Vorlage"/></button>
+		</div>
+		<div id="del" class="button" style="float: left;">
+			<button type="button" style="background-color:#FFFF66;"><img src="svg/delete.svg" alt="löschen"/></button>
+		</div>
+		<div class="button" style="float: right;">
+			<button id="switch" type="button" ><img src="svg/OnOff.svg" alt="On/Off"/></button>
+		</div>
+		<div id="bth">
+			<div class="button" style="float: right;">
+				<button id="confirm" type="button" style="background-color:#99DD55;"><img src="svg/done.svg" alt="senden"/></button>
+			</div>
+			<div class="button" style="float: right;">
+				<button id="revert" type="button" style="background-color:#FF7755;"><img src="svg/back.svg" alt="holen"/></button>
+			</div>
+		</div>
+	</div>
+	<div id="countdownControl" class="box">Zeitgeber:
+		<div>
+			<div class="button" style="float: left;">
+				<button id="reset" type="button" style="background-color:#ECD580;"><img src="svg/reset.svg" alt="senden"/></button>
+			</div>
+			<div class="button" style="float: left;">
+				<button id="startStop" type="button" style="background-color:#ECD580;"><img src="svg/playpause.svg" alt="holen"/></button>
+			</div>
+		</div>
+	</div>
+
+<script>
+$("#error").hide();
+$("#bth").hide();
+$("#countdownControl").hide();
+
+var local  = { }
+var temp   = { }
+var remote = { }
+
+try { 
+	local = JSON.parse(getCookie('DieUhr'));
+	if (local.mode != undefined) {
+		setCookie('DieUhr', '');
+		throw "Old cookie...";
+	}
+}
+
+catch(err) {
+	local = {
+		upperLine:	"Uhr",
+		lowerLine:	"Textblock",
+		clockSize:	"100%",
+		dateSize:	"50%",
+		timeout:	"300",
+		countdown:			"300",
+		countdownSize:		"50%",
+		countdownTimeout:	"300",
+		textblockSize:		"30%",
+		marqueeSize:	"50%",
+		marqueeSpeed:	"15s",
+		message:	"Das Lied Nr.: "
+	}
+}
+displayChange = 0;
+local.displayChange = 2;
+checkOption();
+
+
+function timeloop() {
+	$.ajax({
+	url: "data.json",
+	cache: false
+	})
+	.done(function(response) {
+		$("#error").hide();
+		remote = response;
+		chkOnOff();
+		checkDisplayC();
+		chkButton();
+	})
+	.fail(function() {
+		$("#error").show();
+	});
+
+	setTimeout("timeloop()",1000);
+};
+timeloop();
+
+$('#switch').click(function(){ // on off switch
+	$(this).addClass("grayButton");
+	if (remote.onOff == 'on') {
+		temp.onOff ='off';
+	} else {
+		temp.onOff ='on';
+	} 
+	sendDisplay(temp);
+	temp = { };
+	setCookie('DieUhr', JSON.stringify(local));
+});
+
+$("#upperLine").change(function(){ // dropdown menu upperLine
+	local.upperLine = $("#upperLine option:selected").val();
+	local.displayChange = local.displayChange+2;
+	setCookie('DieUhr', JSON.stringify(local));
+	checkDisplayC();
+});
+
+$("#lowerLine").change(function(){ // dropdown menu lowerLine
+	local.lowerLine = $("#lowerLine option:selected").val();
+	local.displayChange = local.displayChange+2;
+	setCookie('DieUhr', JSON.stringify(local));
+	checkDisplayC();
+});
+
+$("#symbol").change(function(){ // dropdown menu symbol
+	local.message = $("#message").val() + $( "#symbol option:selected" ).val();
+	$("#symbol option:selected").prop("selected", false)
+	$("#symbol option[value='']").prop("selected", true)
+	$("#message").val(local.message);
+	setCookie('DieUhr', JSON.stringify(local));
+	checkDisplayC();
+});
+
+$("#moreOption").click(function(){ // button option
+	if (local.option == 'on') {
+		local.option = 'off';
+	} else {
+		local.option = 'on';
+	}
+	setCookie('DieUhr', JSON.stringify(local));
+	checkDisplayC();
+});
+
+$("#clockSize").change(function(){ // dropdown menu clockSize
+	local.clockSize = $( "#clockSize option:selected" ).val();
+	setCookie('DieUhr', JSON.stringify(local));
+		temp.clockSize = local.clockSize;
+		temp.displayChange = remote.displayChange+1;
+		local.displayChange = local.displayChange+1;
+		sendDisplay(temp);
+		temp = { };
+	checkDisplayC();
+});
+
+$("#dateSize").change(function(){ // dropdown menu dateSize
+	local.dateSize = $( "#dateSize option:selected" ).val();
+	setCookie('DieUhr', JSON.stringify(local));
+		temp.dateSize = local.dateSize;
+		temp.displayChange = remote.displayChange+1;
+		local.displayChange = local.displayChange+1;
+		sendDisplay(temp);
+		temp = { };
+	checkDisplayC();
+});
+
+$("#timeout").change(function(){ // dropdown menu timeout
+	local.timeout = $( "#timeout option:selected" ).val();
+	setCookie('DieUhr', JSON.stringify(local));
+		temp.timeout = local.timeout;
+		sendDisplay(temp);
+		temp = { };
+	checkDisplayC();
+});
+
+$("#countdownMin").change(function(){ // dropdown menu countdown minute
+	local.countdown = parseInt($( "#countdownMin option:selected" ).val()) + parseInt($( "#countdownSec option:selected" ).val());
+	setCookie('DieUhr', JSON.stringify(local));
+		temp.countdown = local.countdown;
+		sendDisplay(temp);
+		temp = { };
+	checkDisplayC();
+});
+
+$("#countdownSec").change(function(){ // dropdown menu countdown second
+	local.countdown = parseInt($( "#countdownMin option:selected" ).val()) + parseInt($( "#countdownSec option:selected" ).val());
+	setCookie('DieUhr', JSON.stringify(local));
+		temp.countdown = local.countdown;
+		sendDisplay(temp);
+		temp = { };
+	checkDisplayC();
+});
+
+$("#countdownSize").change(function(){ // dropdown menu countdownSize
+	local.countdownSize = $( "#countdownSize option:selected" ).val();
+	setCookie('DieUhr', JSON.stringify(local));
+		temp.countdownSize = local.countdownSize;
+		temp.displayChange = remote.displayChange+2;
+		local.displayChange = local.displayChange+2;
+		sendDisplay(temp);
+		temp = { };
+	checkDisplayC();
+});
+
+$("#countdownTimeout").change(function(){ // dropdown menu countdownTimeout
+	local.countdownTimeout = $( "#countdownTimeout option:selected" ).val();
+	setCookie('DieUhr', JSON.stringify(local));
+		temp.countdownTimeout = local.countdownTimeout;
+		sendDisplay(temp);
+		temp = { };
+	checkDisplayC();
+});
+
+$("#textblockSize").change(function(){ // dropdown menu textblockSize
+	local.textblockSize = $( "#textblockSize option:selected" ).val();
+	setCookie('DieUhr', JSON.stringify(local));
+		temp.textblockSize = local.textblockSize;
+		temp.displayChange = remote.displayChange+1;
+		local.displayChange = local.displayChange+1;
+		sendDisplay(temp);
+		temp = { };
+	checkDisplayC();
+});
+
+$("#marqueeSize").change(function(){ // dropdown menu marqueeSize
+	local.marqueeSize = $( "#marqueeSize option:selected" ).val();
+	setCookie('DieUhr', JSON.stringify(local));
+		temp.marqueeSize = local.marqueeSize;
+		temp.displayChange = remote.displayChange+1;
+		local.displayChange = local.displayChange+1;
+		sendDisplay(temp);
+		temp = { };
+	checkDisplayC();
+});
+
+$("#marqueeSpeed").change(function(){ // dropdown menu marqueeSpeed
+	local.marqueeSpeed = $( "#marqueeSpeed option:selected" ).val();
+	setCookie('DieUhr', JSON.stringify(local));
+		temp.marqueeSpeed = local.marqueeSpeed;
+		temp.displayChange = remote.displayChange+1;
+		local.displayChange = local.displayChange+1;
+		sendDisplay(temp);
+		temp = { };
+	checkDisplayC();
+});
+
+$('#message').bind('keyup',function(){ // textarea
+	local.message = $("#message").val();
+	if(local.upperLine == 'Laufschrift' || local.upperLine == 'Textblock' || local.lowerLine == 'Laufschrift' || local.lowerLine == 'Textblock') {
+		$('#display').contents().find('.textblock, .marquee').html(local.message);
+	}
+	setCookie('DieUhr', JSON.stringify(local));
+});
+
+$('#new').click(function(){ // template button
+	local.message = "Das Lied Nr.: ";
+	$("#message").val(local.message);
+	setCookie('DieUhr', JSON.stringify(local));
+	checkDisplayC();
+});
+
+$('#del').click(function(){ // trash button
+	local.message = "";
+	$("#message").val(local.message);
+	if(local.upperLine == 'Laufschrift' || local.upperLine == 'Textblock' || local.lowerLine == 'Laufschrift' || local.lowerLine == 'Textblock') {
+		$('#display').contents().find('.textblock, .marquee').html(local.message);
+	}
+	setCookie('DieUhr', JSON.stringify(local));
+	checkDisplayC();
+});
+
+$('#reset').click(function(){ // reset button
+	temp.countdownState = "start";
+	temp.displayChange = remote.displayChange+1;
+	local.displayChange = local.displayChange+1;
+	sendDisplay(temp);
+	temp = { };
+	setCookie('DieUhr', JSON.stringify(local));
+	checkDisplayC();
+});
+
+$('#startStop').click(function(){ // startStop button
+	if (remote.countdownState == undefined ) remote.countdownState = 'stop';
+	if (remote.countdownState == "stop" ) {
+		temp.countdownState = "start";
+		sendDisplay(temp);
+		temp = { };
+	}
+	if (remote.countdownState != 'stop') {
+		temp.countdownState = "stop";
+		sendDisplay(temp);
+		temp = { };
+	}
+	setCookie('DieUhr', JSON.stringify(local));
+	checkDisplayC();
+});
+
+$("#confirm").click(function(){ //confirm button
+	$(this).addClass("grayButton");
+	temp = local;
+	delete temp.displayChange;
+	delete temp.option;
+	delete temp.countdownState;
+	delete temp.countdownEndtime;
+	temp.onOff ='on';
+	temp.displayChange = remote.displayChange+2;
+	local.displayChange = local.displayChange+2;
+	sendDisplay(temp);
+	temp = { };
+	setCookie('DieUhr', JSON.stringify(local));
+	checkDisplayC();
+});
+
+$("#revert").click(function(){ //revert button
+	$(this).addClass("grayButton");
+	$.ajax({
+	url: "data.json",
+	cache: false
+	})
+	.done(function(response) {
+		$("#revert").removeClass("grayButton");
+		$.extend(local,response);
+		checkOption();
+		setCookie('DieUhr', JSON.stringify(local));
+		checkDisplayC();
+	});
+});
+</script>
+</body>
+</html>

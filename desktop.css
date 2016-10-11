@@ -1,0 +1,68 @@
+body {
+	
+	font-size:2vw;
+	
+	margin: 2vw 0;
+}
+
+#wrapC, #wrapD {
+	height:22.5vw;
+	width:40vw;	
+	position:relativ;
+	margin:1vw auto;
+	background-color:black;	
+}
+
+input {
+	font-size: 2vw;
+}
+
+select {
+	font-size: 2vw;
+	height:4vw;
+	width: 10vw;	
+}
+
+textarea {
+	font-size: 2vw;
+	width:94%;
+	padding: 1vw;
+	border: 0.2vw solid #000000;
+	border-radius: 2vw 0 0 0;
+
+}
+
+.boxin {
+	width:45.5%;
+	float:left;
+	margin: 1vw 0vw 0vw 1vw;
+	padding: 1vw;
+	
+	border: solid 0.2vw #A4C351;
+	border-radius: 2vw 0 0 0;
+}
+
+.button {
+  width: 6vw;
+  height: 6vw;
+}
+
+.smallButton {
+  width: 4vw;
+  height: 4vw;
+}
+
+button {
+	border: solid 0.2vw black;
+	border-radius: 15%;
+	padding: 0.5vw;
+}
+
+td {
+	padding: 0 1vw;
+}
+
+.boxin td {
+	border-top: solid 0.2vw #A4C351;
+	padding: 0.5vw;
+}
