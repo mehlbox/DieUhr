@@ -45,7 +45,6 @@ function checkDisplay(object) {
 			
 		if (displayChange < object.displayChange) { // only css
 			displayChange = displayChange + 1;
-			
 			if (object.upperLine == 'Uhr') 		 	$('#printUpperLine').css('font-size', object.clockSize);
 			if (object.upperLine == 'Datum')		$('#printUpperLine').css('font-size', object.dateSize);
 			if (object.upperLine == 'Zeitgeber')   	$('#printUpperLine').css('font-size', object.countdownSize);
@@ -57,7 +56,6 @@ function checkDisplay(object) {
 			if (object.lowerLine == 'Zeitgeber')   	$('#printLowerLine').css('font-size', object.countdownSize);
 			if (object.lowerLine == 'Textblock')   	$('#printLowerLine').css('font-size', object.textblockSize);
 			if (object.lowerLine == 'Laufschrift') 	$('#printLowerLine').css('font-size', object.marqueeSize);
-			
 			var afterSpan = '1';
 		}
 		if (displayChange < object.displayChange) { // write all
@@ -81,7 +79,6 @@ function checkDisplay(object) {
 			$('.textblock, .marquee').html(object.message);
 			$('.marquee').css('animation-duration', object.marqueeSpeed).css('-moz-animation-duration', object.marqueeSpeed).css('-webkit-animation-duration', object.marqueeSpeed);
 		}
-		
 		updateCountdown(object);
 	}
 	

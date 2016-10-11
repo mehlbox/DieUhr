@@ -101,6 +101,7 @@ function timeloop() {
 		}
 		if (remote.onOff == undefined ) { // empty file
 			temp.onOff = "off";
+			temp.displayChange = 0;
 			sendDisplay(temp);
 			temp = { };
 		}
