@@ -1,23 +1,3 @@
-
-.color-primary-0 { color: #FFECA8 }	/* Main Primary color */
-.color-primary-1 { color: #FFF8DD }
-.color-primary-2 { color: #FFF2C4 }
-.color-primary-3 { color: #ECD580 }
-.color-primary-4 { color: #CFB556 }
-
-.color-secondary-1-0 { color: #DBF2A0 }	/* Main Secondary color (1) */
-.color-secondary-1-1 { color: #F0FAD8 }
-.color-secondary-1-2 { color: #E6F6BD }
-.color-secondary-1-3 { color: #C3DF79 }
-.color-secondary-1-4 { color: #A4C351 }
-
-.color-secondary-2-0 { color: #FFC5A8 }	/* Main Secondary color (2) */
-.color-secondary-2-1 { color: #FFE8DD }
-.color-secondary-2-2 { color: #FFD8C4 }
-.color-secondary-2-3 { color: #ECA480 }
-.color-secondary-2-4 { color: #CF7F56 }
-
-
 body {
 	background-color: #DDDDDD;
 	font-size:5vw;
@@ -25,12 +5,12 @@ body {
 	margin: 4vw 0.5vw;
 }
 
-#wrap {
-	height:45vw;
-	width:80vw;	
+#wrapC {
+	height:49.5vw;
+	width:88vw;	
 	position:relativ;
-	margin: auto;
-	font-size: 22.4vw;
+	margin: 1vw auto; 
+	background-color:black;
 }
 
 input {
@@ -46,6 +26,7 @@ select {
 	margin: 0vw;
 	padding-left: 2vw;
 	height:10vw;
+	width: 20vw;
 	border:0;
 	-webkit-appearance: none;
 	-moz-appearance: none;
@@ -64,7 +45,6 @@ textarea {
 	background-color:#FFFF66; 
 	border: 0.3vw solid #000000;
 	border-radius: 4vw 0 0 0;
-
 	-webkit-box-shadow: 0 0 2vw 0 #999999;
        -moz-box-shadow: 0 0 2vw 0 #999999;
             box-shadow: 0 0 2vw 0 #999999;
@@ -94,8 +74,8 @@ textarea {
   background: #AAAAAA;
   display: inline-block;
   -webkit-box-shadow: 1vw 1vw 1vw 0 #999999;
-  -moz-box-shadow: 1vw 1vw 1vw 0 #999999;
-  box-shadow: 1vw 1vw 1vw 0 #999999;
+     -moz-box-shadow: 1vw 1vw 1vw 0 #999999;
+          box-shadow: 1vw 1vw 1vw 0 #999999;
   
 }
 
@@ -143,11 +123,6 @@ textarea {
 .onOff button {
   width: 12vw;
   height: 12vw;
-  border: solid 0.5vw black;
-  border-radius: 25%;
-  -webkit-box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
-  -moz-box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
-  box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
   margin: -2vw 2vw 0 0;
 }
 
@@ -166,18 +141,18 @@ textarea {
 button {
 	width:  100%;
 	height: 100%;
+	padding: 0.5vw;
 	border: solid 0.5vw black;
 	border-radius: 25%;
 	-webkit-box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
-	-moz-box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
-	box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
-	padding: 0.5vw;
+	   -moz-box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
+	        box-shadow: 0.5vw 0.5vw 0.5vw 0 #999999;
 }
 
 .grayButton, button:active {
 	background-color: #BBBBBB !important;
-	border-radius: 50% !important;
-	border: solid 1vw gray !important;
+	border-radius: 40% !important;
+	border: solid 1vw #BBBBBB !important;
 }
 
 button img {

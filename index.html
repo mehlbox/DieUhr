@@ -1,35 +1,28 @@
 <!DOCTYPE html>
 <html>
-<meta charset="UTF-8">
-<title>DieUhr</title>
-<link href="index.css" rel="stylesheet"/>
-<link href="display.css" rel="stylesheet"/>
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/clock.js"></script>
-<script type="text/javascript" src="js/countdown.js"></script>
-<script type="text/javascript" src="js/function.js"></script>
+	<meta charset="UTF-8">
+	<title>DieUhr</title>
+	<link href="index.css" rel="stylesheet"/>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/function.js"></script>
 </head>
 <body>
 	<div class="onOff" style="float: right;">
-		<button id="switch" type="button" ><img src="svg/OnOff.svg" alt="On/Off" /></button>
+		<button id="switch" type="button" ><img src="svg/OnOff.svg" alt="On/Off" width="90%" /></button>
 	</div>
-<ul id="tab" class="tabrow">
-  <li id="Vorschau"><input type="button" name="Vorschau" value="Vorschau"/></li>
-  <li id="Live">    <input type="button" name="Live"     value="Live"/></li>
-</ul>
+	<ul id="tab" class="tabrow">
+	  <li id="Vorschau"><input type="button" name="Vorschau" value="Vorschau"/></li>
+	  <li id="Live">    <input type="button" name="Live"     value="Live"/></li>
+	</ul>
 	<div class="boxw">
-		<div id="wrap">
-			<div id="center">
-				<div id="printUpperLine"></div>
-				<div id="printLowerLine"></div>
-			</div>	
+		<div id="wrapC">	
 		</div>
 	</div>
 	<div id="error">Keine Verbindung</div>
 	<div class="boxw">
 		<div style="margin-top:-2vw;">
 			<table>
-				<tr><td>Oben:</td><td>Unten:</td><td><button id="moreOption" class="smallButton type="button" style="background-color:#C3DF79; float:right;"><img src="svg/plus.svg" alt="mehr"/></button></td></tr>
+				<tr><td>Oben:</td><td>Unten:</td><td><button id="moreOption" class="smallButton type="button" style="background-color:#C3DF79; float:right;"><img src="svg/plus.svg" alt="mehr" width="85%" /></button></td></tr>
 				<tr>
 					<td>
 						<select id="upperLine" style="width: 38vw;">
@@ -83,7 +76,7 @@
 				<table>
 					<tr>
 						<td>Schriftgröße Uhrzeit: </td>
-						<td><select id="clockSize" style="width: 20vw;">
+						<td><select id="clockSize">
 								<option value="10%" >10%</option>
 								<option value="20%" >20%</option>
 								<option value="30%" >30%</option>
@@ -99,7 +92,7 @@
 					</tr>
 					<tr>
 						<td>Schriftgröße Datum: </td>
-						<td><select id="dateSize" style="width: 20vw;">
+						<td><select id="dateSize">
 								<option value="10%" >10%</option>
 								<option value="20%" >20%</option>
 								<option value="30%" >30%</option>
@@ -110,7 +103,7 @@
 					</tr>
 					<tr>
 						<td>zurücksetzen nach: </td>
-						<td><select id="timeout" style="width: 20vw;">
+						<td><select id="timeout">
 								<option value="60"  >1 Min</option>
 								<option value="180" >3 Min</option>
 								<option value="300" >5 Min</option>
@@ -131,7 +124,7 @@
 					<tr>
 						<td>Vorgabe Zeit:</td>
 						<td>
-							<select id="countdownMin" style="width: 20vw;">
+							<select id="countdownMin">
 								<option value="0"   >0 Min</option>
 								<option value="60"  >1 Min</option>
 								<option value="180" >3 Min</option>
@@ -145,7 +138,7 @@
 							</select>
 						</td>
 						<td>
-							<select id="countdownSec" style="width: 20vw;">
+							<select id="countdownSec">
 								<option value="0"  >0 Sec</option>
 								<option value="10" >10Sec</option>
 								<option value="20" >20Sec</option>
@@ -157,7 +150,7 @@
 					</tr>
 					<tr>
 						<td>Schriftgröße: </td>
-						<td><select id="countdownSize" style="width: 20vw;">
+						<td><select id="countdownSize">
 								<option value="10%" >10%</option>
 								<option value="20%" >20%</option>
 								<option value="30%" >30%</option>
@@ -175,7 +168,7 @@
 					<tr>
 						<td>überziehen: </td>
 						<td>
-							<select id="countdownTimeout" style="width: 20vw;">
+							<select id="countdownTimeout">
 								<option value="0"   >0 Min</option>
 								<option value="60"  >1 Min</option>
 								<option value="180" >3 Min</option>
@@ -197,7 +190,7 @@
 				<table>
 					<tr>
 						<td>Schriftgröße: </td>
-						<td><select id="textblockSize" style="width: 20vw;">
+						<td><select id="textblockSize">
 								<option value="10%" >10%</option>
 								<option value="20%" >20%</option>
 								<option value="30%" >30%</option>
@@ -217,7 +210,7 @@
 				<table>
 					<tr>
 						<td>Schriftgröße: </td>
-						<td><select id="marqueeSize" style="width: 20vw;">
+						<td><select id="marqueeSize">
 								<option value="10%" >10%</option>
 								<option value="20%" >20%</option>
 								<option value="30%" >30%</option>
@@ -233,7 +226,7 @@
 					</tr>
 					<tr>
 						<td>Geschwindigkeit: </td>
-						<td><select id="marqueeSpeed" style="width: 20vw;">
+						<td><select id="marqueeSpeed">
 								<option value="50s" >10%</option>
 								<option value="45s" >20%</option>
 								<option value="40s" >30%</option>
@@ -254,28 +247,28 @@
 		<textarea id="message" name="message" rows="4" ></textarea>
 
 		<div class="button" style="float: left;">
-			<button id="new" type="button" style="background-color:#FFFF66;"><img src="svg/doc.svg" alt="Vorlage"/></button>
+			<button id="new" type="button" style="background-color:#FFFF66;"><img src="svg/doc.svg" alt="Vorlage" width="85%"/></button>
 		</div>
 		<div id="del" class="button" style="float: left;">
-			<button type="button" style="background-color:#FFFF66;"><img src="svg/delete.svg" alt="löschen"/></button>
+			<button type="button" style="background-color:#FFFF66;"><img src="svg/delete.svg" alt="löschen" width="85%"/></button>
 		</div>
 
 		<div id="bth">
 			<div class="button" style="float: right;">
-				<button id="confirm" type="button" style="background-color:#99DD55;"><img src="svg/done.svg" alt="senden"/></button>
+				<button id="confirm" type="button" style="background-color:#99DD55;"><img src="svg/done.svg" alt="senden" width="85%"/></button>
 			</div>
 			<div class="button" style="float: right;">
-				<button id="revert" type="button" style="background-color:#FF7755;"><img src="svg/back.svg" alt="holen"/></button>
+				<button id="revert" type="button" style="background-color:#FF7755;"><img src="svg/back.svg" alt="holen" width="85%"/></button>
 			</div>
 		</div>
 	</div>
 	<div id="countdownControl" class="box">Zeitgeber:
 		<div>
 			<div class="button" style="float: left;">
-				<button id="reset" type="button" style="background-color:#ECD580;"><img src="svg/reset.svg" alt="senden"/></button>
+				<button id="reset" type="button" style="background-color:#ECD580;"><img src="svg/reset.svg" alt="senden" width="85%"/></button>
 			</div>
 			<div class="button" style="float: left;">
-				<button id="startStop" type="button" style="background-color:#ECD580;"><img src="svg/playpause.svg" alt="holen"/></button>
+				<button id="startStop" type="button" style="background-color:#ECD580;"><img src="svg/playpause.svg" alt="holen" width="85%"/></button>
 			</div>
 		</div>
 	</div>
@@ -290,6 +283,10 @@ var remote = { }
 
 try { 
 	local = JSON.parse(getCookie('DieUhr'));
+	if (local.mode != undefined) {
+		setCookie('DieUhr', '');
+		throw "Old cookie...";
+	}
 }
 
 catch(err) {
@@ -309,9 +306,10 @@ catch(err) {
 		message:	"Das Lied Nr.: "
 	}
 }
-local.preUpperLine = "";
-local.preLowerLine = "";
+displayChange = 0;
+local.displayChange = 2;
 checkOption();
+changeDisplay(local.tab);
 
 function timeloop() {
 	$.ajax({
@@ -321,15 +319,8 @@ function timeloop() {
 	.done(function(response) {
 		$("#error").hide();
 		remote = response;
-		if (remote.checkOption == '2') { // handel option change
-			local.preUpperLine = '';
-			local.preLowerLine = '';
-			temp.checkOption  = '0';
-			sendDisplay(temp);
-			temp = { };
-		}
 		chkOnOff();
-		checkDisplayS(local.tab);
+		checkDisplayC(local.tab);
 		chkButton();
 	})
 	.fail(function() {
@@ -343,13 +334,12 @@ timeloop();
 
 $("#tab input").click(function(){ // tab buttons
 	local.tab = $(this).val();
-	local.preUpperLine = "";
-	local.preLowerLine = "";
+	changeDisplay(local.tab)
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplayS(local.tab);
+	checkDisplayC(local.tab);
 });
 
-$('#switch').click(function(){ // toggel on off switch
+$('#switch').click(function(){ // on off switch
 	$(this).addClass("grayButton");
 	if (remote.onOff == 'on') {
 		temp.onOff ='off';
@@ -363,16 +353,20 @@ $('#switch').click(function(){ // toggel on off switch
 
 $("#upperLine").change(function(){ // dropdown menu upperLine
 	local.upperLine = $("#upperLine option:selected").val();
+	local.displayChange = local.displayChange+2;
 	local.tab = 'Vorschau';
+	changeDisplay(local.tab);
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplayS(local.tab);
+	checkDisplayC(local.tab);
 });
 
 $("#lowerLine").change(function(){ // dropdown menu lowerLine
 	local.lowerLine = $("#lowerLine option:selected").val();
+	local.displayChange = local.displayChange+2;
 	local.tab = 'Vorschau';
+	changeDisplay(local.tab);
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplayS(local.tab);
+	checkDisplayC(local.tab);
 });
 
 $("#symbol").change(function(){ // dropdown menu symbol
@@ -381,7 +375,7 @@ $("#symbol").change(function(){ // dropdown menu symbol
 	$("#symbol option[value='']").prop("selected", true)
 	$("#message").val(local.message);
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplayS(local.tab);
+	checkDisplayC(local.tab);
 });
 
 $("#moreOption").click(function(){ // button option
@@ -391,93 +385,117 @@ $("#moreOption").click(function(){ // button option
 		local.option = 'on';
 	}
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplayS(local.tab);
+	checkDisplayC(local.tab);
 });
 
 $("#clockSize").change(function(){ // dropdown menu clockSize
 	local.clockSize = $( "#clockSize option:selected" ).val();
-	local.tab = 'Vorschau';
-	local.preUpperLine = "";
-	local.preLowerLine = "";
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplayS(local.tab);
+		temp.clockSize = local.clockSize;
+		temp.displayChange = remote.displayChange+1;
+		local.displayChange = local.displayChange+1;
+		sendDisplay(temp);
+		temp = { };
+	checkDisplayC(local.tab);
 });
 
 $("#dateSize").change(function(){ // dropdown menu dateSize
 	local.dateSize = $( "#dateSize option:selected" ).val();
-	local.tab = 'Vorschau';
-	local.preUpperLine = "";
-	local.preLowerLine = "";
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplayS(local.tab);
+		temp.dateSize = local.dateSize;
+		temp.displayChange = remote.displayChange+1;
+		local.displayChange = local.displayChange+1;
+		sendDisplay(temp);
+		temp = { };
+	checkDisplayC(local.tab);
 });
 
 $("#timeout").change(function(){ // dropdown menu timeout
 	local.timeout = $( "#timeout option:selected" ).val();
-	local.tab = 'Vorschau';
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplayS(local.tab);
+		temp.timeout = local.timeout;
+		sendDisplay(temp);
+		temp = { };
+	checkDisplayC(local.tab);
 });
 
 $("#countdownMin").change(function(){ // dropdown menu countdown minute
 	local.countdown = parseInt($( "#countdownMin option:selected" ).val()) + parseInt($( "#countdownSec option:selected" ).val());
-	local.tab = 'Vorschau';
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplayS(local.tab);
+		temp.countdown = local.countdown;
+		sendDisplay(temp);
+		temp = { };
+	checkDisplayC(local.tab);
 });
 
 $("#countdownSec").change(function(){ // dropdown menu countdown second
 	local.countdown = parseInt($( "#countdownMin option:selected" ).val()) + parseInt($( "#countdownSec option:selected" ).val());
-	local.tab = 'Vorschau';
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplayS(local.tab);
+		temp.countdown = local.countdown;
+		sendDisplay(temp);
+		temp = { };
+	checkDisplayC(local.tab);
 });
 
 $("#countdownSize").change(function(){ // dropdown menu countdownSize
 	local.countdownSize = $( "#countdownSize option:selected" ).val();
-	local.tab = 'Vorschau';
-	local.preUpperLine = "";
-	local.preLowerLine = "";
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplayS(local.tab);
+		temp.countdownSize = local.countdownSize;
+		temp.displayChange = remote.displayChange+2;
+		local.displayChange = local.displayChange+2;
+		sendDisplay(temp);
+		temp = { };
+	checkDisplayC(local.tab);
 });
 
 $("#countdownTimeout").change(function(){ // dropdown menu countdownTimeout
 	local.countdownTimeout = $( "#countdownTimeout option:selected" ).val();
-	local.tab = 'Vorschau';
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplayS(local.tab);
+		temp.countdownTimeout = local.countdownTimeout;
+		sendDisplay(temp);
+		temp = { };
+	checkDisplayC(local.tab);
 });
 
 $("#textblockSize").change(function(){ // dropdown menu textblockSize
 	local.textblockSize = $( "#textblockSize option:selected" ).val();
-	local.tab = 'Vorschau';
-	local.preUpperLine = "";
-	local.preLowerLine = "";
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplayS(local.tab);
+		temp.textblockSize = local.textblockSize;
+		temp.displayChange = remote.displayChange+1;
+		local.displayChange = local.displayChange+1;
+		sendDisplay(temp);
+		temp = { };
+	checkDisplayC(local.tab);
 });
 
 $("#marqueeSize").change(function(){ // dropdown menu marqueeSize
 	local.marqueeSize = $( "#marqueeSize option:selected" ).val();
-	local.tab = 'Vorschau';
-	local.preUpperLine = "";
-	local.preLowerLine = "";
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplayS(local.tab);
+		temp.marqueeSize = local.marqueeSize;
+		temp.displayChange = remote.displayChange+1;
+		local.displayChange = local.displayChange+1;
+		sendDisplay(temp);
+		temp = { };
+	checkDisplayC(local.tab);
 });
 
 $("#marqueeSpeed").change(function(){ // dropdown menu marqueeSpeed
 	local.marqueeSpeed = $( "#marqueeSpeed option:selected" ).val();
-	local.tab = 'Vorschau';
-	local.preUpperLine = "";
-	local.preLowerLine = "";
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplayS(local.tab);
+		temp.marqueeSpeed = local.marqueeSpeed;
+		temp.displayChange = remote.displayChange+1;
+		local.displayChange = local.displayChange+1;
+		sendDisplay(temp);
+		temp = { };
+	checkDisplayC(local.tab);
 });
 
 $('#message').bind('keyup',function(){ // textarea
 	local.message = $("#message").val();
+	if(local.upperLine == 'Laufschrift' || local.upperLine == 'Textblock' || local.lowerLine == 'Laufschrift' || local.lowerLine == 'Textblock') {
+		if (local.tab == 'Live') { local.tab = 'Vorschau'; checkDisplayC(local.tab); }
+		$('#display').contents().find('.textblock, .marquee').html(local.message);
+	}
 	setCookie('DieUhr', JSON.stringify(local));
 });
 
@@ -486,31 +504,35 @@ $('#new').click(function(){ // template button
 	$("#message").val(local.message);
 	local.tab = 'Vorschau';
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplayS(local.tab);
+	checkDisplayC(local.tab);
 });
 
 $('#del').click(function(){ // trash button
 	local.message = "";
 	$("#message").val(local.message);
 	local.tab = 'Vorschau';
+	if(local.upperLine == 'Laufschrift' || local.upperLine == 'Textblock' || local.lowerLine == 'Laufschrift' || local.lowerLine == 'Textblock') {
+		if (local.tab == 'Live') { local.tab = 'Vorschau'; checkDisplayC(local.tab); }
+		$('#display').contents().find('.textblock, .marquee').html(local.message);
+	}
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplayS(local.tab);
+	checkDisplayC(local.tab);
 });
 
 $('#reset').click(function(){ // reset button
 	temp.countdownState = "start";
-	temp.checkOption = '1';
+	temp.displayChange = remote.displayChange+1;
+	local.displayChange = local.displayChange+1;
 	sendDisplay(temp);
 	temp = { };
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplayS(local.tab);
+	checkDisplayC(local.tab);
 });
 
 $('#startStop').click(function(){ // startStop button
 	if (remote.countdownState == undefined ) remote.countdownState = 'stop';
 	if (remote.countdownState == "stop" ) {
 		temp.countdownState = "start";
-		temp.checkOption = '1';
 		sendDisplay(temp);
 		temp = { };
 	}
@@ -520,25 +542,26 @@ $('#startStop').click(function(){ // startStop button
 		temp = { };
 	}
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplayS(local.tab);
+	checkDisplayC(local.tab);
 });
 
 $("#confirm").click(function(){ //confirm button
 	$(this).addClass("grayButton");
 	temp = local;
-	temp.onOff ='on';
-	temp.checkOption = '1';
+	delete temp.displayChange;
 	delete temp.tab;
-	delete temp.preUpperLine;
-	delete temp.preLowerLine;
 	delete temp.option;
 	delete temp.countdownState;
-	if (remote.countdownState != 'stop') delete temp.countdown;
+	delete temp.countdownEndtime;
+	temp.onOff ='on';
+	temp.displayChange = remote.displayChange+2;
+	local.displayChange = local.displayChange+2;
 	sendDisplay(temp);
 	temp = { };
 	local.tab = 'Live';
+	changeDisplay(local.tab);
 	setCookie('DieUhr', JSON.stringify(local));
-	checkDisplayS(local.tab);
+	checkDisplayC(local.tab);
 });
 
 $("#revert").click(function(){ //revert button
@@ -551,9 +574,10 @@ $("#revert").click(function(){ //revert button
 		$("#revert").removeClass("grayButton");
 		$.extend(local,response);
 		local.tab = 'Vorschau';
+		changeDisplay(local.tab);
 		checkOption();
 		setCookie('DieUhr', JSON.stringify(local));
-		checkDisplayS(local.tab);
+		checkDisplayC(local.tab);
 	});
 });
 </script>

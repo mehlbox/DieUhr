@@ -1,3 +1,13 @@
+function urlParam(name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results==null){
+       return '';
+    }
+    else{
+       return results[1] || 0;
+    }
+}
+
 function sendDisplay(stream) {
 	$.ajax({
 	method: "POST",
@@ -6,58 +16,81 @@ function sendDisplay(stream) {
 	})
 }
 
-function checkDisplayS(string) {
-	if (string == 'Live')		checkDisplay(remote);
-	if (string == 'Vorschau') 	checkDisplay(local);
+function changeDisplay(display) {
+	displayChange = 0;
+	$('#wrapC').html('<iframe id="display" src="display.html?display='+display+'" width="100%" height="100%" scrolling="no" frameborder="0"></iframe>');
+}
+
+function checkDisplayC() {
+	$("#"+local.tab).siblings().removeClass();
+	$("#"+local.tab).addClass("selected");
+	
+	if (local.upperLine == 'Zeitgeber' || local.lowerLine == 'Zeitgeber' || remote.upperLine == 'Zeitgeber' || remote.lowerLine == 'Zeitgeber') {
+		$('#countdownControl').show();
+	} else {
+		$('#countdownControl').hide();
+	}
+	
+	if (local.option == 'on') {
+		$("#option").show();
+	} else {
+		$("#option").hide();
+	}
 }
 
 function checkDisplay(object) {
-	$("#"+local.tab).siblings().removeClass();
-	$("#"+local.tab).addClass("selected");
-
+	//console.log('Var: '+displayChange+'  Object: '+object.displayChange);
 	if ( local.tab == 'Vorschau' || (local.tab == 'Live' && remote.onOff == 'on')) {
-		if (object.preUpperLine != object.upperLine) { // stop from keep writing text
-			if (object.upperLine == 'Uhr') 		 	$('#printUpperLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>').css('font-size', object.clockSize);
-			if (object.upperLine == 'Datum')		$('#printUpperLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>').css('font-size', object.dateSize);
-			if (object.upperLine == 'Zeitgeber')   	$('#printUpperLine').html('<span style="height:30vw; width:30vw; margin-left:-35vw; position:absolute;"><img src="svg/stopwatch.svg" height="'+object.countdownSize+'" width="'+object.countdownSize+'"/></span><span class="cd_minutes"></span><span class="cd_seconds"></span>').css('font-size', object.countdownSize);
-			if (object.upperLine == 'Textblock')   	$('#printUpperLine').html('<div class="textblock"></div>').css('font-size', object.textblockSize);
-			if (object.upperLine == 'Laufschrift') 	$('#printUpperLine').html('<div class="marquee"></div>').css('font-size', object.marqueeSize);
+		//if (displayChange > object.displayChange) { displayChange = object.displayChange -2;}
+			
+		if (displayChange < object.displayChange) { // only css
+			displayChange = displayChange + 1;
+			
+			if (object.upperLine == 'Uhr') 		 	$('#printUpperLine').css('font-size', object.clockSize);
+			if (object.upperLine == 'Datum')		$('#printUpperLine').css('font-size', object.dateSize);
+			if (object.upperLine == 'Zeitgeber')   	$('#printUpperLine').css('font-size', object.countdownSize);
+			if (object.upperLine == 'Textblock')   	$('#printUpperLine').css('font-size', object.textblockSize);
+			if (object.upperLine == 'Laufschrift') 	$('#printUpperLine').css('font-size', object.marqueeSize);
+
+			if (object.lowerLine == 'Uhr') 		 	$('#printLowerLine').css('font-size', object.clockSize);
+			if (object.lowerLine == 'Datum')		$('#printLowerLine').css('font-size', object.dateSize);
+			if (object.lowerLine == 'Zeitgeber')   	$('#printLowerLine').css('font-size', object.countdownSize);
+			if (object.lowerLine == 'Textblock')   	$('#printLowerLine').css('font-size', object.textblockSize);
+			if (object.lowerLine == 'Laufschrift') 	$('#printLowerLine').css('font-size', object.marqueeSize);
+			
+			var afterSpan = '1';
+		}
+		if (displayChange < object.displayChange) { // write all
+			displayChange = object.displayChange;
+			if (object.upperLine == 'Uhr') 		 	$('#printUpperLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>');
+			if (object.upperLine == 'Datum')		$('#printUpperLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>');
+			if (object.upperLine == 'Zeitgeber')   	$('#printUpperLine').html('<span id="stopwatch" style="height:'+object.countdownSize+'; left:0; right:'+object.countdownSize+'; position:absolute;"><img src="svg/stopwatch.svg" height="100%" /></span><span class="cd_minutes"></span><span class="cd_seconds"></span>');
+			if (object.upperLine == 'Textblock')   	$('#printUpperLine').html('<div class="textblock"></div>');
+			if (object.upperLine == 'Laufschrift') 	$('#printUpperLine').html('<div class="marquee"></div>');
 			if (object.upperLine == 'Aus')		  	$('#printUpperLine').html('');
-		object.preUpperLine = object.upperLine;
-		}
-		if (object.preLowerLine != object.lowerLine) { // stop from keep writing text
-			if (object.lowerLine == 'Uhr') 		 	$('#printLowerLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>').css('font-size', object.clockSize);
-			if (object.lowerLine == 'Datum')		$('#printLowerLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>').css('font-size', object.dateSize);
-			if (object.lowerLine == 'Zeitgeber')   	$('#printLowerLine').html('<span style="height:30vw; width:30vw; margin-left:-35vw; position:absolute;"><img src="svg/stopwatch.svg" height="'+object.countdownSize+'" width="'+object.countdownSize+'"/></span><span class="cd_minutes"></span><span class="cd_seconds"></span>').css('font-size', object.countdownSize);
-			if (object.lowerLine == 'Textblock')   	$('#printLowerLine').html('<div class="textblock"></div>').css('font-size', object.textblockSize);
-			if (object.lowerLine == 'Laufschrift') 	$('#printLowerLine').html('<div class="marquee"></div>').css('font-size', object.marqueeSize).css('animation-duration', object.marqueeSpeed).css('-webkit-animation-duration', object.marqueeSpeed);
+
+			if (object.lowerLine == 'Uhr') 		 	$('#printLowerLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>');
+			if (object.lowerLine == 'Datum')		$('#printLowerLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>');
+			if (object.lowerLine == 'Zeitgeber')   	$('#printLowerLine').html('<span id="stopwatch" style="height:'+object.countdownSize+'; left:0; right:'+object.countdownSize+'; position:absolute;"><img src="svg/stopwatch.svg" height="100%" /></span><span class="cd_minutes"></span><span class="cd_seconds"></span>');
+			if (object.lowerLine == 'Textblock')   	$('#printLowerLine').html('<div class="textblock"></div>');
+			if (object.lowerLine == 'Laufschrift') 	$('#printLowerLine').html('<div class="marquee"></div>');
 			if (object.lowerLine == 'Aus') 		  	$('#printLowerLine').html('');
-		object.preLowerLine = object.lowerLine;
 		}
-		$('.textblock, .marquee').html(object.message);
-		$('.marquee').css('animation-duration', object.marqueeSpeed).css('-moz-animation-duration', object.marqueeSpeed).css('-webkit-animation-duration', object.marqueeSpeed);
+		
+		if (afterSpan == '1') {
+			$('.textblock, .marquee').html(object.message);
+			$('.marquee').css('animation-duration', object.marqueeSpeed).css('-moz-animation-duration', object.marqueeSpeed).css('-webkit-animation-duration', object.marqueeSpeed);
+		}
+		
 		updateCountdown(object);
 	}
 	
 	if (local.tab == 'Live' && remote.onOff == 'off') {
 		$('#printUpperLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>').css('font-size', '100%');
 		$('#printLowerLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>').css('font-size', '50%');
-		object.preUpperLine = "";
-		object.preLowerLine = "";
-	}
-	
-	if (object.upperLine == 'Zeitgeber' || object.lowerLine == 'Zeitgeber') {
-		$('#countdownControl').show();
-	} else {
-		$('#countdownControl').hide();
 	}
 	updateClock();
 	
-	if (local.option == 'on') { // this just exists local
-		$("#option").show();
-	} else {
-		$("#option").hide();
-	}
 }
 
 function checkOption() {

@@ -1,7 +1,13 @@
+body {
+	font-size: 28vw;
+	background: gray;
+}
+
 #wrap {
+	height:56.25vw;
+    width: 100vw;
     background-color: black;
 	font-family:Verdana,sans-serif;
-	color:#FFFFFF;
 	text-align:center;
 	overflow: hidden;
 }
@@ -10,30 +16,33 @@
   position: relative;
   top: 50%;
   -webkit-transform: perspective(1px) translateY(-50%);
-  -moz-transform: perspective(1px) translateY(-50%);
-  transform: perspective(1px) translateY(-50%);
+     -moz-transform: perspective(1px) translateY(-50%);
+          transform: perspective(1px) translateY(-50%);
 }
 
 #printUpperLine {
 	font-size:30%;
-	margin-top: -4%;
+	margin-top: -2%;
+	color:#FFFFFF;
 }
 
 #printLowerLine {
 	font-size:30%;
+	margin-top: -2%;
+	color:#FFFFFF;
 }
 
 @-webkit-keyframes marquee {
-	0%   { text-indent:  100vw }
-	100% { text-indent: -300vw }
+	0%   { text-indent:  100% }
+	100% { text-indent: -300% }
 }
 @-moz-keyframes marquee {
-	0%   { text-indent:  100vw }
-	100% { text-indent: -300vw }
+	0%   { text-indent:  100% }
+	100% { text-indent: -300% }
 }
 @keyframes marquee {
-	0%   { text-indent:  100vw }
-	100% { text-indent: -300vw }
+	0%   { text-indent:  100% }
+	100% { text-indent: -300% }
 }
 
 .marquee {
