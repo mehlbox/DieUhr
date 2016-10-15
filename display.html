@@ -1,122 +1,19 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="UTF-8">
-	<title>DieUhr</title>
-	<link href="display.css" rel="stylesheet"/>
-	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="js/clock.js"></script>
-	<script type="text/javascript" src="js/countdown.js"></script>
-	<script type="text/javascript" src="js/function.js"></script>
-	<style type="text/css">
-		#wrap {
-			position:absolute;
-			left:0; right:0; top:0; bottom:0;
-		}
-	</style>
-</head>
-<body>
-	<div id="wrap">
-		<div id="center">
-			<div id="printUpperLine"></div>
-			<div id="printLowerLine"></div>
-		</div>	
-	</div>
-<script>
-var local  = { };
-var temp   = { };
-var remote = { };
-
-var timeoutState = "stop";
-var timerID;
-var countdownID;
-var displayChange  = 0;
-
-var display = decodeURIComponent(urlParam('display'));
-if (display != '') {
-	local.tab = display;
-} else {
-	local.tab = 'Live';
-}
-
-function checkTimer() {
-	if (timeoutState == "stop" && remote.onOff == "on" && remote.timeout != "inf" && remote.countdownState == "stop") {
-		timeoutState = "run";
-		clearTimeout(timerID);
-		clearTimeout(countdownID);
-		timerID = setTimeout(function() {
-			temp.onOff = "off";
-			timeoutState = "stop";
-			sendDisplay(temp);
-			temp = { };
-		}, remote.timeout * 1000);
-	}
-}
-
-function checkCountdown() {
-	if (remote.countdownState == "start" && remote.onOff == "on") {
-		temp.countdownState = "runing";
-		timeoutState = "stop";
-		clearTimeout(timerID);
-		clearTimeout(countdownID);
-		temp.countdownEndtime = setCountdown(remote.countdown);
-		sendDisplay(temp);
-		temp = { };
-	}
-	
-	if (remote.countdownState == "runing" ) {
-		var t = getTimeRemaining(remote.countdownEndtime);
-		if (t.total == 0) { 	//set countdown timeout
-			countdownID = setTimeout(function() {
-				temp.onOff = "off";
-				temp.countdownState = "stop";
-				sendDisplay(temp);
-				temp = { };
-			}, remote.countdownTimeout * 1000);
-		}
-	}
-	
-	if (remote.countdownState == "stop" ) {
-		if (remote.countdownEndtime != '') {
-			temp.countdownEndtime = '';
-			sendDisplay(temp);
-			temp = { };
-			clearTimeout(timerID);
-			clearTimeout(countdownID);
-		}
-	}
-
-}
-
-function timeloop() {
-	$.ajax({
-	url: "data.json",
-	cache: false
-	})
-	.done(function(response) {
-		remote = response;
-		if (remote.onOff == "off") {
-			clearTimeout(timerID);
-			clearTimeout(countdownID);
-		}
-		if (remote.onOff == undefined ) { // empty file
-			temp.onOff = "off";
-			temp.displayChange = 0;
-			sendDisplay(temp);
-			temp = { };
-		}
-		checkCountdown();
-		checkTimer();
-		if (display == 'Vorschau') {
-			checkDisplay(window.parent.local);
-		} else {
-			checkDisplay(remote);
-		}
-	})
-	setTimeout("timeloop()",1000);
-};
-
-timeloop();
-</script>
-</body>
+	<head>
+		<meta charset="UTF-8">
+		<title>DieUhr</title>
+		<link href="display.css" rel="stylesheet"/>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/displayFunction.js"></script>
+	</head>
+	<body>
+		<div id="wrap">
+			<div id="center">
+				<div id="printUpperLine"></div>
+				<div id="printLowerLine"></div>
+			</div>	
+		</div>
+		<script type="text/javascript" src="js/display.js"></script>
+	</body>
 </html>

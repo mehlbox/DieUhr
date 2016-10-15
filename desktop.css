@@ -1,7 +1,5 @@
 body {
-	
 	font-size:2vw;
-	
 	margin: 2vw 0;
 }
 
@@ -21,6 +19,10 @@ select {
 	font-size: 2vw;
 	height:4vw;
 	width: 10vw;	
+}
+
+#upperLine, #lowerLine {
+	width: 36vw;
 }
 
 textarea {

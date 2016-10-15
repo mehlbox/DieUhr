@@ -4,6 +4,8 @@ body {
 }
 
 #wrap {
+	position:absolute;
+	left:0; right:0; top:0; bottom:0;
 	height:56.25vw;
     width: 100vw;
     background-color: black;
@@ -54,7 +56,7 @@ body {
 	        animation: marquee 15s linear infinite;
 }
 
-.textblock {
+#textblock {
 	position: relative;
 	white-space: pre-wrap;
 }

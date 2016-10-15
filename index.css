@@ -37,6 +37,14 @@ select {
             box-shadow: 0 0 2vw 0 #999999;
 }
 
+#upperLine, #lowerLine {
+	width: 38vw;
+}
+
+#symbol {
+	width: 10vw;
+}
+
 textarea {
 	font-size: 5vw;
 	width:92%;
@@ -48,6 +56,10 @@ textarea {
 	-webkit-box-shadow: 0 0 2vw 0 #999999;
        -moz-box-shadow: 0 0 2vw 0 #999999;
             box-shadow: 0 0 2vw 0 #999999;
+}
+
+#textblockBorder {
+	width: 120%
 }
 
 .boxin {
@@ -135,7 +147,7 @@ textarea {
 .smallButton {
   width: 8vw;
   height: 8vw;
-  margin-bottom: 1vw;
+  margin: 1vw 0 3vw 0;
 }
 
 button {
@@ -167,4 +179,9 @@ table {
 .boxin td {
 	border-top: solid 0.5vw #A4C351;
 	padding: 1vw;
+}
+
+#autoOff {
+	padding: 1vw;
+	margin: 1vw;
 }
