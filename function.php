@@ -12,18 +12,18 @@ if (!empty($_POST["data"])) {
 	}
 }
 
-if (!empty($_GET["time"])) {
+if (!empty($_POST["time"])) {
 	echo $_SERVER['REQUEST_TIME'];
 }
 
-if (!empty($_GET["command"])) { // not tested in real life
-	if ($_GET["command"] == 'refresh') 	echo shell_exec('bash export DISPLAY=":0" && xdotool key F5 2>&1');
-	if ($_GET["command"] == 'stop') 	echo shell_exec('killall midori 2>&1');
-	if ($_GET["command"] == 'start') 	echo shell_exec('xinit /var/www/startMidori.sh 2>&1');
-	if ($_GET["command"] == 'reboot') 	echo shell_exec('reboot 2>&1');
-	if ($_GET["command"] == 'delete') 	echo shell_exec('echo "{}" >'.$file);
-	if ($_GET["command"] == 'linux') 	echo shell_exec('uname -a 2>&1');
-	if ($_GET["command"] == 'user') 	echo shell_exec('whoami 2>&1');
+if (!empty($_POST["command"])) { // not tested in real life
+	if ($_POST["command"] == 'refresh') 	echo shell_exec('bash export DISPLAY=":0" && xdotool key F5 2>&1');
+	if ($_POST["command"] == 'stop') 	echo shell_exec('killall midori 2>&1');
+	if ($_POST["command"] == 'start') 	echo shell_exec('xinit /var/www/startMidori.sh 2>&1');
+	if ($_POST["command"] == 'reboot') 	echo shell_exec('reboot 2>&1');
+	if ($_POST["command"] == 'delete') 	echo shell_exec('echo "{}" >'.$file);
+	if ($_POST["command"] == 'linux') 	echo shell_exec('uname -a 2>&1');
+	if ($_POST["command"] == 'user') 	echo shell_exec('whoami 2>&1');
 }
 
 ?>

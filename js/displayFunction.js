@@ -52,7 +52,7 @@ function timerAction(){
 			temp.timeoutEndtime = '';
 			sendDisplay();
 		}
-		///////////// Countdown
+		///////////// Countdown			
 		if (remote.countdownState == 'start') { // command to turn on
 			temp.timeoutState = "stop";
 			temp.timeoutEndtime = '';
@@ -167,7 +167,7 @@ function checkDisplay(object) {
 			displayChange = object.displayChange;
 			if (object.upperLine == 'Uhr') 		 	$('#printUpperLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>');
 			if (object.upperLine == 'Datum')		$('#printUpperLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>');
-			if (object.upperLine == 'Zeitgeber')   	$('#printUpperLine').html('<span id="stopwatch" style="height:'+object.countdownSize+'; left:0; right:'+object.countdownSize+'; position:absolute;"><img src="svg/stopwatch.svg" height="100%" /></span><span class="cd_minutes"></span><span class="cd_seconds"></span>');
+			if (object.upperLine == 'Zeitgeber')   	$('#printUpperLine').html('<span id="stopwatch" style="height:'+object.countdownSize+'; left:0; right:'+object.countdownSize+'; position:absolute;"><img src="svg/stopwatch.svg" height="60%" /></span><span class="cd_minutes"></span><span class="cd_seconds"></span>');
 			if (object.upperLine == 'Textblock' && object.textblockBorder == 'none') 		$('#printUpperLine').html('<span id="textblock"></span>');
 			if (object.upperLine == 'Textblock' && object.textblockBorder == 'wedding1') 	$('#printUpperLine').html('<span style="font-weight: bold; border:solid 0.5vw red; border-radius: 10vw; padding:2vw 4vw; background: #FFDDDD; color:black; text-shadow: 0vw 0vw 1vw red; box-shadow: 0 0 5vw #FF9999;"><span style="color:red;">❤</span> <span id="textblock"></span> <span style="color:red;">❤</span></span>');
 			if (object.upperLine == 'Textblock' && object.textblockBorder == 'wedding2') 	$('#printUpperLine').html('<span style="font-weight: bold; border:solid 0.5vw red;                      padding:2vw 4vw; background: #FFDDDD; color:black; text-shadow: 0vw 0vw 1vw red; box-shadow: 0 0 5vw #FF9999;"><span style="color:red;">❤</span> <span id="textblock"></span> <span style="color:red;">❤</span></span>');
@@ -177,7 +177,7 @@ function checkDisplay(object) {
 
 			if (object.lowerLine == 'Uhr') 		 	$('#printLowerLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>');
 			if (object.lowerLine == 'Datum')		$('#printLowerLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>');
-			if (object.lowerLine == 'Zeitgeber')   	$('#printLowerLine').html('<span id="stopwatch" style="height:'+object.countdownSize+'; left:0; right:'+object.countdownSize+'; position:absolute;"><img src="svg/stopwatch.svg" height="100%" /></span><span class="cd_minutes"></span><span class="cd_seconds"></span>');
+			if (object.lowerLine == 'Zeitgeber')   	$('#printLowerLine').html('<span id="stopwatch" style="height:'+object.countdownSize+'; left:0; right:'+object.countdownSize+'; position:absolute;"><img src="svg/stopwatch.svg" height="60%" /></span><span class="cd_minutes"></span><span class="cd_seconds"></span>');
 			if (object.lowerLine == 'Textblock' && object.textblockBorder == 'none') 		$('#printLowerLine').html('<span id="textblock"></span>');
 			if (object.lowerLine == 'Textblock' && object.textblockBorder == 'wedding1') 	$('#printLowerLine').html('<span style="font-weight: bold; border:solid 0.5vw red; border-radius: 10vw; padding:2vw 4vw; background: #FFDDDD; color:black; text-shadow: 0vw 0vw 1vw red; box-shadow: 0 0 5vw #FF9999;"><span style="color:red;">❤</span> <span id="textblock"></span> <span style="color:red;">❤</span></span>');
 			if (object.lowerLine == 'Textblock' && object.textblockBorder == 'wedding2') 	$('#printLowerLine').html('<span style="font-weight: bold; border:solid 0.5vw red;                      padding:2vw 4vw; background: #FFDDDD; color:black; text-shadow: 0vw 0vw 1vw red; box-shadow: 0 0 5vw #FF9999;"><span style="color:red;">❤</span> <span id="textblock"></span> <span style="color:red;">❤</span></span>');
@@ -288,9 +288,9 @@ function updateCountdown(object) {
 			$('.cd_seconds').html(t.seconds);
 		}
 	} else {
-		var tempSec = object.countdown%60;
+		var tempSec = remote.countdown%60;
 			$('.cd_minutes, .cd_seconds').css("color", "#FFFFFF");
-			$('.cd_minutes').html(parseInt(object.countdown/60) + ':');
+			$('.cd_minutes').html(parseInt(remote.countdown/60) + ':');
 			if (tempSec<10) tempSec = '0'+tempSec
 			$('.cd_seconds').html(tempSec);
 	}

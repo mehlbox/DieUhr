@@ -136,73 +136,6 @@
 					</tr>
 				</table>
 			</div>
-			<div class="boxin">Zeitgeber:
-				<table>
-					<tr>
-						<td>Vorgabe Zeit:</td>
-						<td>
-							<select id="countdownMin">
-								<option value="0"   >0 Min</option>
-								<option value="60"  >1 Min</option>
-								<option value="180" >3 Min</option>
-								<option value="300" >5 Min</option>
-								<option value="420" >7 Min</option>
-								<option value="600" >10Min</option>
-								<option value="900" >15Min</option>
-								<option value="1200">20Min</option>
-								<option value="1500">25Min</option>
-								<option value="1800">30Min</option>
-							</select>
-						</td>
-						<td>
-							<select id="countdownSec">
-								<option value="0"  >0 Sec</option>
-								<option value="10" >10Sec</option>
-								<option value="20" >20Sec</option>
-								<option value="30" >30Sec</option>
-								<option value="40" >40Sec</option>
-								<option value="50" >50Sec</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>Schriftgröße: </td>
-						<td><select id="countdownSize">
-								<option value="10%" >10%</option>
-								<option value="20%" >20%</option>
-								<option value="30%" >30%</option>
-								<option value="40%" >40%</option>
-								<option value="50%" >50%</option>
-								<option value="60%" >60%</option>
-								<option value="70%" >70%</option>
-								<option value="80%" >80%</option>
-								<option value="90%" >90%</option>
-								<option value="100%">100%</option>
-							</select>
-						</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>überziehen: </td>
-						<td>
-							<select id="countdownTimeout">
-								<option value="0"   >0 Min</option>
-								<option value="60"  >1 Min</option>
-								<option value="180" >3 Min</option>
-								<option value="300" >5 Min</option>
-								<option value="420" >7 Min</option>
-								<option value="600" >10Min</option>
-								<option value="900" >15Min</option>
-								<option value="1200">20Min</option>
-								<option value="1500">25Min</option>
-								<option value="1800">30Min</option>
-								<option value="inf" >&#8734;</option>
-							</select>
-						</td>
-						<td></td>
-					</tr>
-				</table>
-			</div>
 			<div class="boxin">Textblock:
 				<table>
 					<tr>
@@ -270,8 +203,87 @@
 					</tr>
 				</table>
 			</div>
-		</div>
+			<div class="boxin">Zeitgeber:
+				<table>
+					<tr>
+						<td>Vorgabe Zeit:</td>
+						<td>
+							<select id="countdownMin">
+								<option value="0"   >0 Min</option>
+								<option value="60"  >1 Min</option>
+								<option value="180" >3 Min</option>
+								<option value="300" >5 Min</option>
+								<option value="420" >7 Min</option>
+								<option value="600" >10Min</option>
+								<option value="900" >15Min</option>
+								<option value="1200">20Min</option>
+								<option value="1500">25Min</option>
+								<option value="1800">30Min</option>
+							</select>
+						</td>
+						<td>
+							<select id="countdownSec">
+								<option value="0"  >0 Sec</option>
+								<option value="10" >10Sec</option>
+								<option value="20" >20Sec</option>
+								<option value="30" >30Sec</option>
+								<option value="40" >40Sec</option>
+								<option value="50" >50Sec</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>Schriftgröße: </td>
+						<td><select id="countdownSize">
+								<option value="10%" >10%</option>
+								<option value="20%" >20%</option>
+								<option value="30%" >30%</option>
+								<option value="40%" >40%</option>
+								<option value="50%" >50%</option>
+								<option value="60%" >60%</option>
+								<option value="70%" >70%</option>
+								<option value="80%" >80%</option>
+								<option value="90%" >90%</option>
+								<option value="100%">100%</option>
+							</select>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>überziehen: </td>
+						<td>
+							<select id="countdownTimeout">
+								<option value="0"   >0 Min</option>
+								<option value="60"  >1 Min</option>
+								<option value="180" >3 Min</option>
+								<option value="300" >5 Min</option>
+								<option value="420" >7 Min</option>
+								<option value="600" >10Min</option>
+								<option value="900" >15Min</option>
+								<option value="1200">20Min</option>
+								<option value="1500">25Min</option>
+								<option value="1800">30Min</option>
+								<option value="inf" >&#8734;</option>
+							</select>
+						</td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+			<div class="boxin">Einstellung zurücksetzen:
+				<table>
+					<tr>
+						<td>Handy:</td>
+						<td><input id="resetUnit" type="button" value="zurücksetzen" /></td>
+					</tr>
+					<tr>
+						<td>Anzeige: </td>
+						<td><input id="resetDisplay" type="button" value="zurücksetzen" /></td>
 
+					</tr>
+				</table>
+			</div>
+		</div>
 		<textarea id="message" name="message" rows="4" ></textarea>
 
 		<div class="button" style="float: left;">

@@ -92,7 +92,6 @@ function checkButton() { // check if a change exist
     } else {
 		$('#bth').show();
 	}
-	temp = { };
 }
 
 function checkOnOff(){

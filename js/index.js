@@ -5,17 +5,20 @@ $("#countdownControl").hide();
 var local  = { }
 var temp   = { }
 var remote = { }
-var version = "1.0.2";
+var version = "1.0.3";
 
 try {
 	local = JSON.parse(getCookie('DieUhr'));
+	console.log('Version '+local.version)
 	if (local.version != version) { // empty old cookie
+		console.log('empty cookie')
 		setCookie('DieUhr', '');
 		location.reload(true);
 	}
 }
 
 catch(err) {
+	console.log('reset settings');
 	local = {
 		version:	version,
 		upperLine:	"Uhr",
@@ -202,14 +205,21 @@ $('#startStop').click(function(){ // startStop button
 
 $("#confirm").click(function(){ //confirm button
 	$(this).addClass("grayButton");
-	temp = local;
-	delete temp.version;
-	delete temp.tab;
-	delete temp.option;
-	delete temp.countdownState;
-	delete temp.countdownEndtime;
-	temp.onOff ='turnOn';
-	temp.displayChange = remote.displayChange+2;
+	temp.upperLine 			= local.upperLine;
+	temp.lowerLine 			= local.lowerLine;
+	temp.clockSize 			= local.clockSize;
+	temp.dateSize 			= local.dateSize;
+	temp.timeout 			= local.timeout;
+	temp.countdown 			= local.countdown;
+	temp.countdownSize 		= local.countdownSize;
+	temp.countdownTimeout 	= local.countdownTimeout;
+	temp.textblockSize		= local.textblockSize;
+	temp.textblockBorder	= local.textblockBorder;
+	temp.marqueeSize		= local.marqueeSize;
+	temp.marqueeSpeed		= local.marqueeSpeed;	
+	temp.message 			= local.message;
+	temp.onOff 				= 'turnOn';
+	temp.displayChange 		= remote.displayChange+2;
 	sendDisplay();
 	local.displayChange = local.displayChange+2;
 	targetDisplay('Live');
@@ -223,7 +233,7 @@ $("#revert").click(function(){ //revert button
 	})
 	.done(function(response) {
 		$("#revert").removeClass("grayButton");
-		delete response.displayChange;
+		response.displayChange = undefined;
 		$.extend(local,response); //merge object
 		local.displayChange = local.displayChange+2;
 		targetDisplay('Vorschau');
@@ -231,9 +241,23 @@ $("#revert").click(function(){ //revert button
 	});
 });
 
-$("*").click(function(){ // all
+$("*").change(function(){ // all
+	event.stopPropagation();
 	setCookie('DieUhr', JSON.stringify(local));
 	checkPage();
+});
+
+$('#resetUnit').click(function(){ // resetUnit button
+	setCookie('DieUhr', '');
+	location.reload(true);
+});
+
+$('#resetDisplay').click(function(){ // resetDisplay button
+	$.ajax({
+	method: "POST",
+	url: "function.php",
+	data: { command: 'delete' }
+	})
 });
 
 timeloop();
