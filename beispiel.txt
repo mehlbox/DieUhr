@@ -1,1 +1,0 @@
-﻿<span style="font-family:vivaldi; font-weight: bold; border:solid 0.5vw red; border-radius: 18vw 0; padding:2vw 6vw; background: #FFDDDD; color:black; text-shadow: 0vw 0vw 2vw red; box-shadow: 0 0 5vw #FF9999;"><span style="color:red; vertical-align:-1vw; ">❤</span>Hochzeitspaar <span style="color:red; vertical-align:-1vw; ">❤</span></span>

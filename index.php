@@ -1,13 +1,15 @@
+<?php if (!empty($_GET["d"])) $desktop = TRUE; ?>
 <!DOCTYPE html>
 <html>
 	<meta charset="UTF-8">
 	<title>DieUhr</title>
 	<link href="index.css" rel="stylesheet"/>
-	<link href="desktop.css" rel="stylesheet"/>
+	<?php if ($desktop) echo '<link href="desktop.css" rel="stylesheet"/>'; ?>
 	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="js/function.js"></script>
+	<script type="text/javascript" src="js/indexFunction.js"></script>
 </head>
 <body>
+<?php if ($desktop) { echo '
 	<div class="box">Vorschau:
 		<div id="wrapD">
 			<iframe id="display" src="display.html?display=Vorschau" width="100%" height="100%" scrolling="no" frameborder="0"></iframe>
@@ -15,17 +17,32 @@
 	</div>
 	<div class="box">Live:
 		<div id="wrapD">
-			<iframe id="display" src="display.html?display=Live"     width="100%" height="100%" scrolling="no" frameborder="0"></iframe>
+			<iframe id="display2" src="display.html?display=Live"    width="100%" height="100%" scrolling="no" frameborder="0"></iframe>
 		</div>
 	</div>
+'; } else { echo '
+	<div class="onOff" style="float: right;">
+		<button id="switch" type="button" ><img src="svg/OnOff.svg" alt="On/Off" width="90%" /></button>
+	</div>
+	<div style="float: right;">
+		<span id="autoOff"></span>
+	</div>
+	<ul id="tab" class="tabrow">
+	  <li id="Vorschau"><input type="button" name="Vorschau" value="Vorschau"/></li>
+	  <li id="Live">    <input type="button" name="Live"     value="Live"/></li>
+	</ul>
+	<div class="boxw">
+		<div id="wrapC"></div>
+	</div>
+';} ?>
 	<div id="error">Keine Verbindung</div>
 	<div class="boxw">
 		<div style="margin-top:-2vw;">
 			<table>
-				<tr><td>Zeile oben:</td><td>Zeile unten:</td><td><button id="moreOption" class="smallButton type="button" style="background-color:#C3DF79; float:right;"><img src="svg/plus.svg" alt="mehr"/></button></td></tr>
+				<tr><td>Oben:</td><td>Unten:</td><td><button id="moreOption" class="smallButton type="button" style="background-color:#C3DF79; float:right;"><img src="svg/plus.svg" alt="mehr" width="85%" /></button></td></tr>
 				<tr>
 					<td>
-						<select id="upperLine" style="width: 36vw;">
+						<select id="upperLine">
 							<option value="Uhr"        >Uhrzeit</option>
 							<option value="Datum"      >Datum</option>
 							<option value="Zeitgeber"  >Zeitgeber</option>
@@ -35,7 +52,7 @@
 						</select>
 					</td>
 					<td>
-						<select id="lowerLine" style="width: 36vw;">
+						<select id="lowerLine">
 							<option value="Uhr"        >Uhrzeit</option>
 							<option value="Datum"      >Datum</option>
 							<option value="Zeitgeber"  >Zeitgeber</option>
@@ -192,7 +209,9 @@
 						<td>Schriftgröße: </td>
 						<td><select id="textblockSize">
 								<option value="10%" >10%</option>
+								<option value="15%" >15%</option>
 								<option value="20%" >20%</option>
+								<option value="25%" >25%</option>
 								<option value="30%" >30%</option>
 								<option value="40%" >40%</option>
 								<option value="50%" >50%</option>
@@ -201,6 +220,15 @@
 								<option value="80%" >80%</option>
 								<option value="90%" >90%</option>
 								<option value="100%">100%</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>Rahmen: </td>
+						<td><select id="textblockBorder">
+								<option value="none" >kein</option>
+								<option value="wedding1" >Hochzeit 1</option>
+								<option value="wedding2" >Hochzeit 2</option>
 							</select>
 						</td>
 					</tr>
@@ -247,33 +275,40 @@
 		<textarea id="message" name="message" rows="4" ></textarea>
 
 		<div class="button" style="float: left;">
-			<button id="new" type="button" style="background-color:#FFFF66;"><img src="svg/doc.svg" alt="Vorlage"/></button>
+			<button id="new" type="button" style="background-color:#FFFF66;"><img src="svg/doc.svg" alt="Vorlage" width="85%"/></button>
 		</div>
 		<div id="del" class="button" style="float: left;">
-			<button type="button" style="background-color:#FFFF66;"><img src="svg/delete.svg" alt="löschen"/></button>
+			<button type="button" style="background-color:#FFFF66;"><img src="svg/delete.svg" alt="löschen" width="85%"/></button>
 		</div>
+<?php if ($desktop) { echo '
 		<div class="button" style="float: right;">
-			<button id="switch" type="button" ><img src="svg/OnOff.svg" alt="On/Off"/></button>
-		</div>
-		<div id="bth">
+			<button id="switch" type="button" ><img src="svg/OnOff.svg" alt="On/Off" width="90%" /></button>
+		</div> 
+';} ?>
+	<div id="bth">
 			<div class="button" style="float: right;">
-				<button id="confirm" type="button" style="background-color:#99DD55;"><img src="svg/done.svg" alt="senden"/></button>
+				<button id="confirm" type="button" style="background-color:#99DD55;"><img src="svg/done.svg" alt="senden" width="85%"/></button>
 			</div>
 			<div class="button" style="float: right;">
-				<button id="revert" type="button" style="background-color:#FF7755;"><img src="svg/back.svg" alt="holen"/></button>
+				<button id="revert" type="button" style="background-color:#FF7755;"><img src="svg/back.svg" alt="holen" width="85%"/></button>
 			</div>
 		</div>
 	</div>
 	<div id="countdownControl" class="box">Zeitgeber:
 		<div>
 			<div class="button" style="float: left;">
-				<button id="reset" type="button" style="background-color:#ECD580;"><img src="svg/reset.svg" alt="senden"/></button>
+				<button id="reset" type="button" style="background-color:#ECD580;"><img src="svg/reset.svg" alt="senden" width="85%"/></button>
 			</div>
 			<div class="button" style="float: left;">
-				<button id="startStop" type="button" style="background-color:#ECD580;"><img src="svg/playpause.svg" alt="holen"/></button>
+				<button id="startStop" type="button" style="background-color:#ECD580;"><img src="svg/start.svg" alt="holen" width="85%"/></button>
 			</div>
 		</div>
 	</div>
-<script type="text/javascript" src="js/client.js"></script>
+	<?php if ($desktop) { echo '
+		<a href="/">mobile Version</a>
+';} else { echo '
+		<a href="/?d=1">Desktop Version</a>
+'; } ?>
+<script type="text/javascript" src="js/index.js"></script>
 </body>
 </html>
