@@ -1,6 +1,6 @@
 function timeloop() {
 	$.ajax({
-	url: "data.json",
+	url: "function.php",
 	cache: false
 	})
 	.done(function(response) {
@@ -9,6 +9,8 @@ function timeloop() {
 		checkOnOff();
 		checkPage();
 		checkButton();
+		window.frames[0].local 	= local;
+		window.frames[0].remote = remote;
 	})
 	.fail(function() {
 		$("#error").show();
@@ -28,8 +30,7 @@ function sendDisplay() {
 function targetDisplay(display) {
 	if (local.tab != display) {
 		local.tab = display;
-		displayChange = 0;
-		$('#wrapC').html('<iframe id="display" src="display.html?display='+display+'" width="100%" height="100%" scrolling="no" frameborder="0"></iframe>');
+		displayChange = displayChange+1;
 	}
 }
 
@@ -37,7 +38,7 @@ function checkPage() {
 	$("#"+local.tab).siblings().removeClass();
 	$("#"+local.tab).addClass("selected");
 	
-	if (local.upperLine == 'Zeitgeber' || local.lowerLine == 'Zeitgeber' || remote.upperLine == 'Zeitgeber' || remote.lowerLine == 'Zeitgeber') {
+	if (remote.upperLine == 'countdown' || remote.lowerLine == 'countdown') {
 		$('#countdownControl').show();
 	} else {
 		$('#countdownControl').hide();
@@ -95,11 +96,9 @@ function checkButton() { // check if a change exist
 }
 
 function checkOnOff(){
-	if (local.onOff == 'on') {
-		var t = getTimeRemaining(local.timeoutEndtime);
-		if (t.seconds<10) t.seconds = '0'+t.seconds;
-		if (t.total>0) $('#autoOff').show().html(t.minutes+':'+t.seconds);
-	}
+	var remaining = remote.timeoutTimestamp - remote.timestamp;
+	if (remaining>=0) $('#autoOff').show().html(showTimer(remaining));
+	
 	if (remote.onOff == 'on') {
 		$('#switch').removeClass("grayButton");
 		$('#switch').css("background-color", "#99DD55");
@@ -111,15 +110,14 @@ function checkOnOff(){
 	}
 }
 
-function getTimeRemaining(endtime) {
-	var t = Date.parse(endtime) - Date.parse(new Date());
-	var seconds = Math.floor((t / 1000) % 60);
-	var minutes = Math.floor((t / 1000 / 60) % 60);
-	return {
-		'total': t,
-		'minutes': minutes,
-		'seconds': seconds
-	};
+function showTimer(total){
+	var seconds = Math.floor(total % 60);
+	var minutes = Math.floor((total / 60) % 60);
+	seconds = Math.abs(seconds);
+	minutes = Math.abs(minutes);
+	if (total<0) { minutes--; minutes = '-'+minutes }
+	if (seconds<10) seconds = '0'+seconds
+	return minutes+':'+seconds
 }
 
 function setCookie(cname, cvalue) {

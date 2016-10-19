@@ -32,7 +32,7 @@
 	  <li id="Live">    <input type="button" name="Live"     value="Live"/></li>
 	</ul>
 	<div class="boxw">
-		<div id="wrapC"></div>
+		<div id="wrapC"><iframe id="display" src="display.html" width="100%" height="100%" scrolling="no" frameborder="0"></iframe></div>
 	</div>
 ';} ?>
 	<div id="error">Keine Verbindung</div>
@@ -43,22 +43,22 @@
 				<tr>
 					<td>
 						<select id="upperLine">
-							<option value="Uhr"        >Uhrzeit</option>
-							<option value="Datum"      >Datum</option>
-							<option value="Zeitgeber"  >Zeitgeber</option>
-							<option value="Textblock"  >Textblock</option>
-							<option value="Laufschrift">Laufschrift</option>
-							<option value="Aus"        >Aus</option>
+							<option value="clock"     >Uhrzeit</option>
+							<option value="date"      >Datum</option>
+							<option value="countdown" >Zeitgeber</option>
+							<option value="textarea"  >Textblock</option>
+							<option value="marquee"	  >Laufschrift</option>
+							<option value="off"       >Aus</option>
 						</select>
 					</td>
 					<td>
 						<select id="lowerLine">
-							<option value="Uhr"        >Uhrzeit</option>
-							<option value="Datum"      >Datum</option>
-							<option value="Zeitgeber"  >Zeitgeber</option>
-							<option value="Textblock"  >Textblock</option>
-							<option value="Laufschrift">Laufschrift</option>
-							<option value="Aus"        >Aus</option>
+							<option value="clock"     >Uhrzeit</option>
+							<option value="date"      >Datum</option>
+							<option value="countdown" >Zeitgeber</option>
+							<option value="textarea"  >Textblock</option>
+							<option value="marquee"	  >Laufschrift</option>
+							<option value="off"       >Aus</option>
 						</select>
 					</td>
 					<td>
@@ -302,17 +302,17 @@
 				<button id="confirm" type="button" style="background-color:#99DD55;"><img src="svg/done.svg" alt="senden" width="85%"/></button>
 			</div>
 			<div class="button" style="float: right;">
-				<button id="revert" type="button" style="background-color:#FF7755;"><img src="svg/back.svg" alt="holen" width="85%"/></button>
+				<button id="revert" type="button" style="background-color:#FF7755;"><img src="svg/back.svg"  alt="holen"  width="85%"/></button>
 			</div>
 		</div>
 	</div>
 	<div id="countdownControl" class="box">Zeitgeber:
 		<div>
 			<div class="button" style="float: left;">
-				<button id="reset" type="button" style="background-color:#ECD580;"><img src="svg/reset.svg" alt="senden" width="85%"/></button>
+				<button id="stop" type="button" style="background-color:#ECD580;"><img src="svg/stop.svg"   alt="stop"  width="85%"/></button>
 			</div>
 			<div class="button" style="float: left;">
-				<button id="startStop" type="button" style="background-color:#ECD580;"><img src="svg/start.svg" alt="holen" width="85%"/></button>
+				<button id="start" type="button" style="background-color:#ECD580;"><img src="svg/start.svg" alt="start" width="85%"/></button>
 			</div>
 		</div>
 	</div>
