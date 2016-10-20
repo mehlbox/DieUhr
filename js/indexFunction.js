@@ -27,10 +27,10 @@ function sendDisplay() {
 	temp = { };
 }
 
-function targetDisplay(display) {
-	if (local.tab != display) {
-		local.tab = display;
-		displayChange = displayChange+1;
+function targetDisplay(displaySelect) {
+	if (local.tab != displaySelect) {
+		local.tab = displaySelect;
+		displayChange = local.displayChange+1;
 	}
 }
 
@@ -76,16 +76,20 @@ function checkOption() {
 function checkButton() { // check if a change exist
 	if (local.upperLine 		== remote.upperLine &&
 		local.lowerLine 		== remote.lowerLine &&
+		
 		local.clockSize 		== remote.clockSize &&
 		local.dateSize 			== remote.dateSize &&
-		local.timeout 			== remote.timeout &&
+		
+		local.textblockSize		== remote.textblockSize &&
+		local.textblockBorder	== remote.textblockBorder &&
+		
+		local.marqueeSize		== remote.marqueeSize &&
+		local.marqueeSpeed		== remote.marqueeSpeed &&
+		
 		local.countdown 		== remote.countdown &&
 		local.countdownSize 	== remote.countdownSize &&
 		local.countdownTimeout 	== remote.countdownTimeout &&
-		local.textblockSize		== remote.textblockSize &&
-		local.textblockBorder	== remote.textblockBorder &&
-		local.marqueeSize		== remote.marqueeSize &&
-		local.marqueeSpeed		== remote.marqueeSpeed &&
+
 		local.message 			== remote.message)
 	{
 		$('#bth').hide();

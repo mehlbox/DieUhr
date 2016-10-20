@@ -1,10 +1,10 @@
 function timeloop() {
-	if (window.frameElement) {
+	if (window.frameElement && selectDisplay == '') {
 	  // in frame
-		if (local.tab == 'Vorschau') {
-			checkDisplay(local);
-		} else {
+		if (local.tab == 'Live') {
 			checkDisplay(remote);
+		} else {
+			checkDisplay(local);
 		}
 	setTimeout("timeloop()",1000);
 	} else {
@@ -14,7 +14,6 @@ function timeloop() {
 		cache: false
 		})
 		.done(function(response) {
-			local.tab = 'Live';
 			remote = response;
 			if (remote.onOff == undefined ) { // empty file
 				temp.onOff = "off";
@@ -69,10 +68,9 @@ function urlParam(name){
 
 function checkDisplay(object) {
 	if (object.displayChange == undefined) object.displayChange = 0;
-	//console.log('Var: '+displayChange+'  Object: '+object.displayChange);
 	if ( local.tab == 'Vorschau' || (local.tab == 'Live' && remote.onOff == 'on')) {
-				
 		if (displayChange != object.displayChange) { // keep refresh action low
+			//console.log('Var: '+displayChange+'  Object: '+object.displayChange+' '+local.tab);
 			displayChange = object.displayChange;
 
 			if (object.upperLine == 'clock') 	$('#printUpperLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>');
@@ -123,6 +121,7 @@ function checkDisplay(object) {
 	}
 	
 	if (local.tab == 'Live' && remote.onOff == 'off') {
+		displayChange = 0;
 		$('#printUpperLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>').css('font-size', '100%');
 		$('#printLowerLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>').css('font-size', '50%');
 		updateClock();

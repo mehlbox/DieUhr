@@ -12,12 +12,12 @@
 <?php if ($desktop) { echo '
 	<div class="box">Vorschau:
 		<div id="wrapD">
-			<iframe id="display" src="display.html?display=Vorschau" width="100%" height="100%" scrolling="no" frameborder="0"></iframe>
+			<iframe id="display" src="/display.html?selectDisplay=Vorschau" width="100%" height="100%" scrolling="no" frameborder="0"></iframe>
 		</div>
 	</div>
 	<div class="box">Live:
 		<div id="wrapD">
-			<iframe id="display2" src="display.html?display=Live"    width="100%" height="100%" scrolling="no" frameborder="0"></iframe>
+			<iframe id="display2" src="/display.html?selectDisplay=Live"    width="100%" height="100%" scrolling="no" frameborder="0"></iframe>
 		</div>
 	</div>
 '; } else { echo '
@@ -38,9 +38,12 @@
 	<div id="error">Keine Verbindung</div>
 	<div class="boxw">
 		<div style="margin-top:-2vw;">
+			<button id="moreOption" class="smallButton" type="button" style="background-color:#C3DF79; float:right;">
+				<img src="svg/plus.svg" alt="mehr" width="85%" />
+			</button>
 			<table>
-				<tr><td>Oben:</td><td>Unten:</td><td><button id="moreOption" class="smallButton type="button" style="background-color:#C3DF79; float:right;"><img src="svg/plus.svg" alt="mehr" width="85%" /></button></td></tr>
 				<tr>
+					<td>Oben:</td>
 					<td>
 						<select id="upperLine">
 							<option value="clock"     >Uhrzeit</option>
@@ -51,6 +54,10 @@
 							<option value="off"       >Aus</option>
 						</select>
 					</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Unten:</td>
 					<td>
 						<select id="lowerLine">
 							<option value="clock"     >Uhrzeit</option>

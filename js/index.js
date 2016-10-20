@@ -5,7 +5,7 @@ $("#countdownControl").hide();
 var local  = { }
 var temp   = { }
 var remote = { }
-var version = "1.0.4";
+var version = "1.0.5";
 var displayChange 	= 0;
 
 try {
@@ -52,6 +52,8 @@ $('#switch').click(function(){ // on off switch
 	$(this).addClass("grayButton");
 	if (remote.onOff == 'on') {
 		temp.onOff 	= 'off';
+		temp.countdownState = 'stop';
+		sendDisplay();
 	} else {
 		temp.onOff 	= 'on';
 		targetDisplay('Live');
@@ -203,7 +205,6 @@ $("#confirm").click(function(){ //confirm button
 	
 	temp.clockSize 			= local.clockSize;
 	temp.dateSize 			= local.dateSize;
-	temp.timeout 			= local.timeout;
 	
 	temp.textblockSize		= local.textblockSize;
 	temp.textblockBorder	= local.textblockBorder;
@@ -217,8 +218,14 @@ $("#confirm").click(function(){ //confirm button
 
 	temp.message 			= local.message;
 	temp.displayChange 		= remote.displayChange+1;
-	if (remote.upperLine != 'countdown' || remote.lowerLine != 'countdown') temp.timeoutTimestamp = local.timeout;
 	temp.onOff 				= 'on';
+	
+	if (local.upperLine == 'countdown' || local.lowerLine == 'countdown') { // countdown confirmed
+		if (temp.countdownState == 'stop') temp.timeoutTimestamp = local.timeout; // start normal timeout if countdown is stopped
+	} else { // is not countdown
+		temp.timeoutTimestamp = local.timeout; // start normal timeout
+		temp.countdownState = 'stop'; // stop countdown
+	}
 	sendDisplay();
 	targetDisplay('Live');
 });
