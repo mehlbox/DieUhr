@@ -1,14 +1,15 @@
 function timeloop() {
 	if (window.frameElement && selectDisplay == '') {
-	  // in frame
+	  // mobile
 		if (local.tab == 'Live') {
 			checkDisplay(remote);
 		} else {
 			checkDisplay(local);
 		}
+		$('#error').hide();
 	setTimeout("timeloop()",1000);
 	} else {
-	  // not in frame
+	  // independent
 		$.ajax({
 		url: "function.php",
 		cache: false
@@ -16,11 +17,21 @@ function timeloop() {
 		.done(function(response) {
 			remote = response;
 			if (remote.onOff == undefined ) { // empty file
+				console.log('empty file')
 				temp.onOff = "off";
+				temp.timeout = 300;
 				temp.displayChange = 0;
 				sendDisplay();
 			}
 			checkDisplay(remote);
+			$('#error').hide();
+		})
+		.fail(function() { // fall back if no conection
+			remote.timestamp = Math.round(new Date / 1000);
+			remote.onOff = "off";
+			remote.displayChange = 0;
+			checkDisplay(remote);
+			$('#error').show();
 		})
 	setTimeout("timeloop()",1000);
 	}
@@ -40,7 +51,7 @@ function showTimer(total){
 
 function checkTimeout(){
 	var remaining = remote.timeoutTimestamp - remote.timestamp;
-	if (remote.onOff == 'on' && remaining <= 0) {
+	if (remote.onOff == 'on' && remaining <= 0 && remote.countdownState == 'start') {
 		temp.onOff ='off';
 		temp.countdownState = 'stop';
 		sendDisplay();
@@ -75,20 +86,20 @@ function checkDisplay(object) {
 
 			if (object.upperLine == 'clock') 	$('#printUpperLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>');
 			if (object.upperLine == 'date')		$('#printUpperLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>');
-			if (object.upperLine == 'countdown')$('#printUpperLine').html('<span id="stopwatch" style="height:'+object.countdownSize+'; left:0; right:'+object.countdownSize+'; position:absolute;"><img src="svg/stopwatch.svg" height="60%" /></span><span class="countdown"></span>');
+			if (object.upperLine == 'countdown')$('#printUpperLine').html('<div class="stopwatch" style="background-size:'+object.countdownSize+';"></div><span class="countdown"></span>');
 			if (object.upperLine == 'textarea' && object.textblockBorder == 'none') 		$('#printUpperLine').html('<span id="textblock"></span>');
-			if (object.upperLine == 'textarea' && object.textblockBorder == 'wedding1') 	$('#printUpperLine').html('<span style="font-weight: bold; border:solid 0.5vw red; border-radius: 10vw; padding:2vw 4vw; background: #FFDDDD; color:black; text-shadow: 0vw 0vw 1vw red; box-shadow: 0 0 5vw #FF9999;"><span style="color:red;">❤</span> <span id="textblock"></span> <span style="color:red;">❤</span></span>');
-			if (object.upperLine == 'textarea' && object.textblockBorder == 'wedding2') 	$('#printUpperLine').html('<span style="font-weight: bold; border:solid 0.5vw red;                      padding:2vw 4vw; background: #FFDDDD; color:black; text-shadow: 0vw 0vw 1vw red; box-shadow: 0 0 5vw #FF9999;"><span style="color:red;">❤</span> <span id="textblock"></span> <span style="color:red;">❤</span></span>');
+			if (object.upperLine == 'textarea' && object.textblockBorder == 'wedding1') 	$('#printUpperLine').html('<span class="wedding1"><span style="color:red;">❤</span> <span id="textblock"></span> <span style="color:red;">❤</span></span>');
+			if (object.upperLine == 'textarea' && object.textblockBorder == 'wedding2') 	$('#printUpperLine').html('<span class="wedding2"><span style="color:red;">❤</span> <span id="textblock"></span> <span style="color:red;">❤</span></span>');
 			if (object.upperLine == 'marquee') 	$('#printUpperLine').html('<div class="marquee"></div>');
 			if (object.upperLine == 'off')		$('#printUpperLine').html('');
 			if (object.upperLine == undefined)	$('#printUpperLine').html('#no data');
 
 			if (object.lowerLine == 'clock') 	$('#printLowerLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>');
 			if (object.lowerLine == 'date')		$('#printLowerLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>');
-			if (object.lowerLine == 'countdown')$('#printLowerLine').html('<span id="stopwatch" style="height:'+object.countdownSize+'; left:0; right:'+object.countdownSize+'; position:absolute;"><img src="svg/stopwatch.svg" height="60%" /></span><span class="countdown"></span>');
+			if (object.lowerLine == 'countdown')$('#printLowerLine').html('<div class="stopwatch" style="background-size:'+object.countdownSize+';"></div><span class="countdown"></span>');
 			if (object.lowerLine == 'textarea' && object.textblockBorder == 'none') 		$('#printLowerLine').html('<span id="textblock"></span>');
-			if (object.lowerLine == 'textarea' && object.textblockBorder == 'wedding1') 	$('#printLowerLine').html('<span style="font-weight: bold; border:solid 0.5vw red; border-radius: 10vw; padding:2vw 4vw; background: #FFDDDD; color:black; text-shadow: 0vw 0vw 1vw red; box-shadow: 0 0 5vw #FF9999;"><span style="color:red;">❤</span> <span id="textblock"></span> <span style="color:red;">❤</span></span>');
-			if (object.lowerLine == 'textarea' && object.textblockBorder == 'wedding2') 	$('#printLowerLine').html('<span style="font-weight: bold; border:solid 0.5vw red;                      padding:2vw 4vw; background: #FFDDDD; color:black; text-shadow: 0vw 0vw 1vw red; box-shadow: 0 0 5vw #FF9999;"><span style="color:red;">❤</span> <span id="textblock"></span> <span style="color:red;">❤</span></span>');
+			if (object.lowerLine == 'textarea' && object.textblockBorder == 'wedding1') 	$('#printLowerLine').html('<span class="wedding1"><span style="color:red;">❤</span> <span id="textblock"></span> <span style="color:red;">❤</span></span>');
+			if (object.lowerLine == 'textarea' && object.textblockBorder == 'wedding2') 	$('#printLowerLine').html('<span class="wedding2"><span style="color:red;">❤</span> <span id="textblock"></span> <span style="color:red;">❤</span></span>');
 			if (object.lowerLine == 'marquee') 	$('#printLowerLine').html('<div class="marquee"></div>');
 			if (object.lowerLine == 'off') 		$('#printLowerLine').html('');
 
@@ -98,7 +109,7 @@ function checkDisplay(object) {
 			if (object.upperLine == 'countdown')$('#printUpperLine').css('font-size', object.countdownSize);
 			if (object.upperLine == 'textarea') $('#printUpperLine').css('font-size', object.textblockSize);
 			if (object.upperLine == 'marquee') 	$('#printUpperLine').css('font-size', object.marqueeSize);
-			if (object.upperLine == 'textarea' && object.textblockBorder != 'none') $('#printLowerLine').css('margin', '1vw');
+			if (object.upperLine == 'textarea' && object.textblockBorder != 'none') $('#printUpperLine').css('margin', '1vw');
 
 			if (object.lowerLine == 'clock') 	$('#printLowerLine').css('font-size', object.clockSize);
 			if (object.lowerLine == 'date')		$('#printLowerLine').css('font-size', object.dateSize);
@@ -111,21 +122,24 @@ function checkDisplay(object) {
 			$('.marquee').css('animation-duration', object.marqueeSpeed).css('-moz-animation-duration', object.marqueeSpeed).css('-webkit-animation-duration', object.marqueeSpeed);
 		}
 		if (object.upperLine == 'countdown' || object.lowerLine == 'countdown') {
+		var total = remote.timeoutTimestamp - remote.timestamp - remote.countdownTimeout
 			if (remote.countdownState == 'start') {
-				$('.countdown').html(showTimer(remote.timeoutTimestamp - remote.timestamp - remote.countdownTimeout));
+				$('.countdown').html(showTimer(total));
+				if(total<0) {$('.countdown').css('color', '#EE0000');} else {$('.countdown').css('color', '#FFFFFF');}
 			} else {
-				$('.countdown').html(showTimer(remote.countdown));
+				$('.countdown').html(showTimer(remote.countdown)).css('color', '#FFFFFF');;
 			}
 		}
-		if (object.upperLine == 'clock' || object.lowerLine == 'clock' || object.upperLine == 'date' || object.lowerLine == 'date') updateClock();
 	}
 	
 	if (local.tab == 'Live' && remote.onOff == 'off') {
-		displayChange = 0;
-		$('#printUpperLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>').css('font-size', '100%');
-		$('#printLowerLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>').css('font-size', '50%');
-		updateClock();
+		if (displayChange != object.displayChange) { // keep refresh action low
+			displayChange = object.displayChange;		
+			$('#printUpperLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>').css('font-size', '100%');
+			$('#printLowerLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>').css('font-size', '50%');
+		}
 	}
+	if (object.upperLine == 'clock' || object.lowerLine == 'clock' || object.upperLine == 'date' || object.lowerLine == 'date') updateClock();
 }
 
 
@@ -171,12 +185,12 @@ function getNameMonth(month) {
 }
 
 function updateClock(){
-	var Datum = new Date();
-	var std = Datum.getHours();
-	var min = Datum.getMinutes();
-	var day = Datum.getDate();
-	var month = Datum.getMonth()+1;
-	var year = Datum.getFullYear();
+	var Datum 	= new Date(remote.timestamp * 1000);
+	var std 	= Datum.getHours();
+	var min 	= Datum.getMinutes();
+	var day 	= Datum.getDate();
+	var month 	= Datum.getMonth()+1;
+	var year 	= Datum.getFullYear();
 	printClock(std, min);
 	printDate(day, month, year);
 }

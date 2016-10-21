@@ -60,3 +60,30 @@ body {
 	position: relative;
 	white-space: pre-wrap;
 }
+
+.wedding1, .wedding2 {
+	font-weight: bold;
+	border:solid 0.5vw red;
+	padding:2vw 4vw;
+	background: #FFDDDD;
+	color:black;
+	text-shadow: 0vw 0vw 1vw red;
+	box-shadow: 0 0 5vw #FF9999;
+}
+
+.wedding2 {
+	border-radius: 10vw;
+}
+
+.stopwatch {
+	height:30vw;
+	width:30vw;
+	background: url(svg/stopwatch.svg);
+	background-repeat:no-repeat;
+	position:absolute;"
+}
+
+#error {
+	font-size:1.5vw;
+	color: red;
+}

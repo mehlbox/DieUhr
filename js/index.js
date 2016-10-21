@@ -5,7 +5,7 @@ $("#countdownControl").hide();
 var local  = { }
 var temp   = { }
 var remote = { }
-var version = "1.0.5";
+var version = "1.0.6";
 var displayChange 	= 0;
 
 try {
@@ -53,12 +53,12 @@ $('#switch').click(function(){ // on off switch
 	if (remote.onOff == 'on') {
 		temp.onOff 	= 'off';
 		temp.countdownState = 'stop';
-		sendDisplay();
+		temp.displayChange = remote.displayChange+1;
 	} else {
 		temp.onOff 	= 'on';
 		targetDisplay('Live');
+		temp.countdownState = 'stop';
 		temp.timeoutTimestamp = remote.timeout
-		if (remote.countdownState == 'start') temp.timeoutTimestamp = parseInt(remote.timeoutTimestamp) - parseInt(remote.timestamp);
 		temp.displayChange = remote.displayChange+1;
 	} 
 	sendDisplay();
@@ -188,7 +188,8 @@ $('#del').click(function(){ // trash button
 
 $('#stop').click(function(){ // stop button
 	temp.countdownState = 'stop';
-	temp.timeoutTimestamp = remote.timeout
+	temp.timeoutTimestamp = remote.timeout;
+	console.log(remote.timeout)
 	sendDisplay();
 });
 
