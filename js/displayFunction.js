@@ -1,15 +1,23 @@
 function timeloop() {
-	if (window.frameElement && selectDisplay == '') {
-	  // mobile
-		if (local.tab == 'Live') {
-			checkDisplay(remote);
-		} else {
-			checkDisplay(local);
+	if (window.frameElement) {
+	  // in frame
+		if (selectDisplay == '') { // mobile application
+			if (local.tab == 'Live') { 
+				checkDisplay(remote);
+			} else {
+				checkDisplay(local);
+			}
+		} else { // desktop application
+			if (selectDisplay == 'Live') { 
+				checkDisplay(remote);
+			} else {
+				checkDisplay(local);
+			}
 		}
 		$('#error').hide();
 	setTimeout("timeloop()",1000);
 	} else {
-	  // independent
+	  // independent, not in frame
 		$.ajax({
 		url: "function.php",
 		cache: false

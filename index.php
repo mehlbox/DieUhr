@@ -44,6 +44,10 @@
 			<table>
 				<tr>
 					<td>Oben:</td>
+					<td>Unten:</td>
+					<td></td>
+				</tr>
+				<tr>
 					<td>
 						<select id="upperLine">
 							<option value="clock"     >Uhrzeit</option>
@@ -54,10 +58,6 @@
 							<option value="off"       >Aus</option>
 						</select>
 					</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>Unten:</td>
 					<td>
 						<select id="lowerLine">
 							<option value="clock"     >Uhrzeit</option>
@@ -70,7 +70,7 @@
 					</td>
 					<td>
 						<select id="symbol">
-							<option value="" >$</option>
+							<option value="" >$ym</option>
 							<option value="&#10084;" >&#10084;</option>
 							<option value="&#10047;" >&#10047;</option>
 							<option value="&#10049;" >&#10049;</option>

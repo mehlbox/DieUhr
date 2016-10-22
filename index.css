@@ -38,11 +38,11 @@ select {
 }
 
 #upperLine, #lowerLine {
-	width: 38vw;
+	width: 30vw;
 }
 
 #symbol {
-	width: 10vw;
+	width: 13vw;
 }
 
 textarea {
@@ -178,7 +178,7 @@ table {
 
 td {
 	padding-top: 1vw;
-	padding-right: 5vw;
+	padding-right: 2vw;
 }
 
 .boxin td {

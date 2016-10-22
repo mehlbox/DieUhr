@@ -11,12 +11,23 @@ function timeloop() {
 		checkButton();
 		window.frames[0].local 	= local;
 		window.frames[0].remote = remote;
+		if (decodeURIComponent(urlParam('d')) != '') window.frames[1].remote = remote;
 	})
 	.fail(function() {
 		$("#error").show();
 	})
 	setTimeout("timeloop()",1000);
 };
+
+function urlParam(name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results==null){
+       return '';
+    }
+    else{
+       return results[1] || 0;
+    }
+}
 
 function sendDisplay() {
 	$.ajax({

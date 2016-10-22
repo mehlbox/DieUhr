@@ -5,7 +5,7 @@ $("#countdownControl").hide();
 var local  = { }
 var temp   = { }
 var remote = { }
-var version = "1.0.6";
+var version = "1.0.7";
 var displayChange 	= 0;
 
 try {
