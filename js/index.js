@@ -1,27 +1,16 @@
-$("#error").hide();
-$("#bth").hide();
-$("#countdownControl").hide();
-
 var local  = { }
 var temp   = { }
 var remote = { }
-var version = "1.0.7";
+var version = "1.0.8";
 var displayChange 	= 0;
 
 try {
 	local = JSON.parse(getCookie('DieUhr'));
-	console.log('Version '+local.version)
-	if (local.version != version) { // empty old cookie
-		console.log('empty cookie')
-		setCookie('DieUhr', '');
-		location.reload(true);
-	}
 }
 
 catch(err) {
 	console.log('reset settings');
 	local = {
-		version:	version,
 		upperLine:	"clock",
 		lowerLine:	"textarea",
 		clockSize:	"100%",
@@ -38,6 +27,8 @@ catch(err) {
 		
 	}
 	setCookie('DieUhr', JSON.stringify(local));
+	temp.version = version;
+	sendDisplay();
 }
 
 checkOption();
@@ -66,13 +57,13 @@ $('#switch').click(function(){ // on off switch
 
 $("#upperLine").change(function(){ // dropdown menu upperLine
 	local.upperLine = $("#upperLine option:selected").val();
-	local.displayChange = local.displayChange+1;
+	local.displayChange++;
 	targetDisplay('Vorschau');
 });
 
 $("#lowerLine").change(function(){ // dropdown menu lowerLine
 	local.lowerLine = $("#lowerLine option:selected").val();
-	local.displayChange = local.displayChange+1;
+	local.displayChange++;
 	targetDisplay('Vorschau');
 });
 
@@ -81,29 +72,24 @@ $("#symbol").change(function(){ // dropdown menu symbol
 	$("#message").val(local.message);
 	$("#symbol option:selected").prop("selected", false)
 	$("#symbol option[value='']").prop("selected", true)
+	targetDisplay('Vorschau');
 	if(local.upperLine == 'marquee' || local.upperLine == 'textarea' || local.lowerLine == 'marquee' || local.lowerLine == 'textarea') {
-		if (local.tab == 'Live') { local.tab = 'Vorschau'; checkPage(); }
 		$('#display').contents().find('#textblock, .marquee').html(local.message);
 	}
-	targetDisplay('Vorschau');
 });
 
 $("#moreOption").click(function(){ // button option
-	if (local.option == 'on') {
-		local.option = 'off';
-	} else {
-		local.option = 'on';
-	}
+	$("#option").toggle();
 });
 
 $("#clockSize").change(function(){ // dropdown menu clockSize
 	local.clockSize = $( "#clockSize option:selected" ).val();
-	local.displayChange = local.displayChange+1;
+	local.displayChange++;
 });
 
 $("#dateSize").change(function(){ // dropdown menu dateSize
 	local.dateSize = $( "#dateSize option:selected" ).val();
-	local.displayChange = local.displayChange+1;
+	local.displayChange++;
 });
 
 $("#timeout").change(function(){ // dropdown menu timeout
@@ -126,7 +112,7 @@ $("#countdownSec").change(function(){ // dropdown menu countdown second
 
 $("#countdownSize").change(function(){ // dropdown menu countdownSize
 	local.countdownSize = $( "#countdownSize option:selected" ).val();
-	local.displayChange = local.displayChange+1;
+	local.displayChange++;
 	targetDisplay('Vorschau');
 });
 
@@ -138,7 +124,7 @@ $("#countdownTimeout").change(function(){ // dropdown menu countdownTimeout
 
 $("#textblockSize").change(function(){ // dropdown menu textblockSize
 	local.textblockSize = $( "#textblockSize option:selected" ).val();
-	local.displayChange = local.displayChange+1;
+	local.displayChange++;
 	targetDisplay('Vorschau');
 });
 
@@ -150,29 +136,29 @@ $("#textblockBorder").change(function(){ // dropdown menu textblockBorder
 
 $("#marqueeSize").change(function(){ // dropdown menu marqueeSize
 	local.marqueeSize = $( "#marqueeSize option:selected" ).val();
-	local.displayChange = local.displayChange+1;
+	local.displayChange++;
 	targetDisplay('Vorschau');
 });
 
 $("#marqueeSpeed").change(function(){ // dropdown menu marqueeSpeed
 	local.marqueeSpeed = $( "#marqueeSpeed option:selected" ).val();
-	local.displayChange = local.displayChange+1;
+	local.displayChange++;
 	targetDisplay('Vorschau');
 });
 
 $('#message').bind('keyup',function(){ // textarea
 	local.message = $("#message").val();
+	targetDisplay('Vorschau');
 	if(local.upperLine == 'marquee' || local.upperLine == 'textarea' || local.lowerLine == 'marquee' || local.lowerLine == 'textarea') {
-		if (local.tab == 'Live') targetDisplay('Vorschau');
 		$('#display').contents().find('#textblock, .marquee').html(local.message);
 	}
 });
 
 $('#new').click(function(){ // template button
 	local.message = "Das Lied Nr.: ";
+	targetDisplay('Vorschau');
 	$("#message").val(local.message);
 	if(local.upperLine == 'marquee' || local.upperLine == 'textarea' || local.lowerLine == 'marquee' || local.lowerLine == 'textarea') {
-		if (local.tab == 'Live') { targetDisplay('Vorschau'); }
 		$('#display').contents().find('#textblock, .marquee').html(local.message);
 	}
 });
@@ -180,8 +166,8 @@ $('#new').click(function(){ // template button
 $('#del').click(function(){ // trash button
 	local.message = "";
 	$("#message").val(local.message);
+	targetDisplay('Vorschau');
 	if(local.upperLine == 'marquee' || local.upperLine == 'textarea' || local.lowerLine == 'marquee' || local.lowerLine == 'textarea') {
-		if (local.tab == 'Live') { targetDisplay('Vorschau'); }
 		$('#display').contents().find('#textblock, .marquee').html(local.message);
 	}
 });
@@ -241,7 +227,7 @@ $("#revert").click(function(){ //revert button
 		$("#revert").removeClass("grayButton");
 		response.displayChange = undefined;
 		$.extend(local,response); //merge object
-		local.displayChange = local.displayChange+1;
+		local.displayChange++;
 		targetDisplay('Vorschau');
 		checkOption();
 	});
@@ -259,11 +245,7 @@ $('#resetUnit').click(function(){ // resetUnit button
 });
 
 $('#resetDisplay').click(function(){ // resetDisplay button
-	$.ajax({
-	method: "POST",
-	url: "function.php",
-	data: { command: 'delete' }
-	})
+	command('delete');
 });
 
 timeloop();

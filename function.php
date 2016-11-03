@@ -14,9 +14,9 @@ if (!empty($_POST["data"])) {
 	exit();
 }
 
-if (!empty($_POST["command"])) { // not tested in real life
+if (!empty($_POST["command"])) { // not all commands are tested
 	header("Content-Type: text/plain");
-	if ($_POST["command"] == 'refresh') 	echo shell_exec('bash export DISPLAY=":0" && xdotool key F5 2>&1');
+	if ($_POST["command"] == 'refresh') echo shell_exec('bash export DISPLAY=":0" && xdotool key F5 2>&1');
 	if ($_POST["command"] == 'stop') 	echo shell_exec('killall midori 2>&1');
 	if ($_POST["command"] == 'start') 	echo shell_exec('xinit /var/www/startMidori.sh 2>&1');
 	if ($_POST["command"] == 'reboot') 	echo shell_exec('reboot 2>&1');

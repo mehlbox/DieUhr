@@ -84,6 +84,8 @@ body {
 }
 
 #error {
-	font-size:1.5vw;
+	position:absolute;
+	font-size:2vw;
 	color: red;
+	display: none;
 }

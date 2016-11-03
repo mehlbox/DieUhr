@@ -1,18 +1,10 @@
 function timeloop() {
 	if (window.frameElement) {
 	  // in frame
-		if (selectDisplay == '') { // mobile application
-			if (local.tab == 'Live') { 
-				checkDisplay(remote);
-			} else {
-				checkDisplay(local);
-			}
-		} else { // desktop application
-			if (selectDisplay == 'Live') { 
-				checkDisplay(remote);
-			} else {
-				checkDisplay(local);
-			}
+		if (local.tab == 'Live' || selectDisplay == 'Live') { 
+			checkDisplay(remote);
+		} else {
+			checkDisplay(local);
 		}
 		$('#error').hide();
 	setTimeout("timeloop()",1000);
@@ -39,7 +31,7 @@ function timeloop() {
 			remote.onOff = "off";
 			remote.displayChange = 0;
 			checkDisplay(remote);
-			$('#error').show();
+			$('#error').show().html('Fehler: Keine Verbindung zum Server ! Fernsteuerung nicht möglich.');
 		})
 	setTimeout("timeloop()",1000);
 	}
@@ -170,8 +162,7 @@ function printDate(day, month, year) {
 		case "dd.mm.yy":
 			$(".cl_day").html(day);
 			$(".cl_month").html("."+month);
-			//make it a string
-			year +="";
+			year +=""; //make it a string
 			year = year.substring(2,4);
 			$(".cl_year").html("."+year);	
 			break;

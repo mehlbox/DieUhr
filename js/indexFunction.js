@@ -9,15 +9,31 @@ function timeloop() {
 		checkOnOff();
 		checkPage();
 		checkButton();
+		checkProgVersion();
 		window.frames[0].local 	= local;
 		window.frames[0].remote = remote;
 		if (decodeURIComponent(urlParam('d')) != '') window.frames[1].remote = remote;
 	})
 	.fail(function() {
-		$("#error").show();
+		$("#error").show().html("Keine Verbindung");
 	})
 	setTimeout("timeloop()",1000);
 };
+
+function command(command) {
+	$.ajax({
+	method: "POST",
+	url: "function.php",
+	data: { command: command }
+	})
+}
+
+function checkProgVersion() {
+	if (remote.version != version) {
+		setCookie('DieUhr', '');
+		location.reload(true);
+	}
+}
 
 function urlParam(name){
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -53,12 +69,6 @@ function checkPage() {
 		$('#countdownControl').show();
 	} else {
 		$('#countdownControl').hide();
-	}
-	
-	if (local.option == 'on') {
-		$("#option").show();
-	} else {
-		$("#option").hide();
 	}
 }
 

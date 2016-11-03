@@ -35,7 +35,7 @@
 		<div id="wrapC"><iframe id="display" src="display.html" width="100%" height="100%" scrolling="no" frameborder="0"></iframe></div>
 	</div>
 ';} ?>
-	<div id="error">Keine Verbindung</div>
+	<div id="error"></div>
 	<div class="boxw">
 		<div style="margin-top:-2vw;">
 			<button id="moreOption" class="smallButton" type="button" style="background-color:#C3DF79; float:right;">
@@ -323,11 +323,13 @@
 			</div>
 		</div>
 	</div>
+	<div style="clear: left; margin:2vw;">
 	<?php if ($desktop) { echo '
 		<a href="/">mobile Version</a>
 ';} else { echo '
 		<a href="/?d=1">Desktop Version</a>
 '; } ?>
+	</div>
 <script type="text/javascript" src="js/index.js"></script>
 </body>
 </html>

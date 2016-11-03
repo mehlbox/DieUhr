@@ -123,6 +123,7 @@ textarea {
 	border: solid 1vw red;
 	text-align: center;
 	font-weight: bold;
+	display: none;
 }
 
 .box {
@@ -189,4 +190,16 @@ td {
 #autoOff {
 	padding: 1vw;
 	margin: 1vw;
+}
+
+#option {
+	display: none;
+}
+
+#bth {
+	display: none;
+}
+
+#countdownControl {
+	display: none;
 }
