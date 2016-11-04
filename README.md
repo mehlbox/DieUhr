@@ -6,7 +6,7 @@
 ```bash
 sudo su
 apt-get update && apt-get upgrade -y
-apt-get install midori matchbox xinit xdotool unclutter git apache2 php5 libapache2-mod-php5 -y
+apt-get install midori matchbox xinit xdotool git apache2 php5 libapache2-mod-php5 -y
 rm /var/www/html/index.html
 git clone https://github.com/mehlbox/DieUhr.git /var/www/html/
 cd /var/www/html
