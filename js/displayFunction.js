@@ -139,7 +139,7 @@ function checkDisplay(object) {
 			$('#printLowerLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>').css('font-size', '50%');
 		}
 	}
-	if (object.upperLine == 'clock' || object.lowerLine == 'clock' || object.upperLine == 'date' || object.lowerLine == 'date') updateClock();
+	if (object.upperLine == 'clock' || object.lowerLine == 'clock' || object.upperLine == 'date' || object.lowerLine == 'date' || (local.tab == 'Live' && remote.onOff == 'off') ) updateClock();
 }
 
 
