@@ -51,9 +51,10 @@ function showTimer(total){
 
 function checkTimeout(){
 	var remaining = remote.timeoutTimestamp - remote.timestamp;
-	if (remote.onOff == 'on' && remaining <= 0 && remote.countdownState == 'start') {
+	if (remote.onOff == 'on' && remaining <= 0) {
 		temp.onOff ='off';
 		temp.countdownState = 'stop';
+		temp.displayChange = remote.displayChange+1;
 		sendDisplay();
 	}
 }

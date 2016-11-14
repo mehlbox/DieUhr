@@ -1,7 +1,7 @@
 var local  = { }
 var temp   = { }
 var remote = { }
-var version = "1.0.9";
+var version = "1.0.10";
 var displayChange 	= 0;
 
 try {
@@ -175,7 +175,6 @@ $('#del').click(function(){ // trash button
 $('#stop').click(function(){ // stop button
 	temp.countdownState = 'stop';
 	temp.timeoutTimestamp = remote.timeout;
-	console.log(remote.timeout)
 	sendDisplay();
 });
 
