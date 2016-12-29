@@ -329,6 +329,8 @@
 ';} else { echo '
 		<a href="/?d=1">Desktop Version</a>
 '; } ?>
+	</br>
+	<a href="/display.html">Vollbild</a>
 	</div>
 <script type="text/javascript" src="js/index.js"></script>
 </body>

@@ -31,7 +31,7 @@ function timeloop() {
 			remote.onOff = "off";
 			remote.displayChange = 0;
 			checkDisplay(remote);
-			$('#error').show().html('Fehler: Keine Verbindung zum Server ! Fernsteuerung nicht möglich.');
+			$('#error').show().html('Keine Verbindung zum Server ! Fernsteuerung nicht möglich.');
 		})
 	setTimeout("timeloop()",1000);
 	}
