@@ -51,7 +51,7 @@
 					<td>
 						<select id="upperLine">
 							<option value="clock"     >Uhrzeit</option>
-							<option value="date"      >Datum</option>
+							<!--option value="date"      >Datum</option-->
 							<option value="countdown" >Zeitgeber</option>
 							<option value="textarea"  >Textblock</option>
 							<option value="marquee"	  >Laufschrift</option>
@@ -60,8 +60,8 @@
 					</td>
 					<td>
 						<select id="lowerLine">
-							<option value="clock"     >Uhrzeit</option>
-							<option value="date"      >Datum</option>
+							<!--option value="clock"  >Uhrzeit</option>
+							<option value="date"      >Datum</option-->
 							<option value="countdown" >Zeitgeber</option>
 							<option value="textarea"  >Textblock</option>
 							<option value="marquee"	  >Laufschrift</option>
