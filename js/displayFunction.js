@@ -5,7 +5,6 @@ function timeloop() {
 			checkDisplay(remote);
 		} else {
 			checkDisplay(local);
-			console.log(JSON.stringify(local));
 		}
 		$('#error').hide();
 	setTimeout("timeloop()",1000);
