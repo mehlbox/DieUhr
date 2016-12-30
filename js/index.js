@@ -1,7 +1,7 @@
 var local  = { }
 var temp   = { }
 var remote = { }
-var version = "1.0.12";
+var version = "1.0.13";
 var displayChange 	= 0;
 
 try {
@@ -21,8 +21,8 @@ catch(err) {
 		countdownTimeout:	"300",
 		//textblockSize:		"30%",
 		textblockBorder:	"none",
-		marqueeSize:	"50%",
-		marqueeSpeed:	"15s",
+		//marqueeSize:	"50%",
+		//marqueeSpeed:	"15s",
 		message:	"Das Lied Nr.: "
 		
 	}

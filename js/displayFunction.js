@@ -5,6 +5,7 @@ function timeloop() {
 			checkDisplay(remote);
 		} else {
 			checkDisplay(local);
+			console.log(JSON.stringify(local));
 		}
 		$('#error').hide();
 	setTimeout("timeloop()",1000);
@@ -78,6 +79,7 @@ function urlParam(name){
 }
 
 function checkDisplay(object) {
+if (object.upperLine != undefined) {
 	if (object.displayChange == undefined) object.displayChange = 0;
 	if ( local.tab == 'Vorschau' || (local.tab == 'Live' && remote.onOff == 'on')) {
 		if (displayChange != object.displayChange) { // keep refresh action low
@@ -92,7 +94,7 @@ function checkDisplay(object) {
 			if (object.upperLine == 'textarea' && object.textblockBorder == 'wedding2') 	$('#printUpperLine').html('<span class="wedding2"><span style="color:red;">❤</span> <span id="textblock"></span> <span style="color:red;">❤</span></span>');
 			if (object.upperLine == 'marquee') 	$('#printUpperLine').html('<div class="marquee"></div>');
 			if (object.upperLine == 'off')		$('#printUpperLine').html('');
-			if (object.upperLine == undefined)	$('#printUpperLine').html('#no data');
+			
 
 			if (object.lowerLine == 'clock') 	$('#printLowerLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>');
 			if (object.lowerLine == 'date')		$('#printLowerLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>');
@@ -121,10 +123,6 @@ function checkDisplay(object) {
 			
 			$('#textblock, .marquee').html(object.message);
 			$('.marquee').css('animation-duration', object.marqueeSpeed).css('-moz-animation-duration', object.marqueeSpeed).css('-webkit-animation-duration', object.marqueeSpeed);
-			updateClock();
-			$('#center').bigtext({ maxfontsize: 700 }); //auto font-size
-			if (object.upperLine == 'marquee') 	$('#printUpperLine').css('font-size', object.marqueeSize); //overwrite auto font-size
-			if (object.lowerLine == 'marquee') 	$('#printLowerLine').css('font-size', object.marqueeSize); //overwrite auto font-size
 		}
 		if (object.upperLine == 'countdown' || object.lowerLine == 'countdown') {
 		var total = remote.timeoutTimestamp - remote.timestamp - remote.countdownTimeout
@@ -138,7 +136,6 @@ function checkDisplay(object) {
 			} else {
 				$('.countdown').html(showTimer(remote.countdown)).css('color', '#FFFFFF');
 			}
-			$('#center').bigtext({ maxfontsize: 700 }); //auto font-size
 		}
 	}
 	
@@ -147,11 +144,13 @@ function checkDisplay(object) {
 			displayChange = object.displayChange;		
 			$('#printUpperLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>');//.css('font-size', '100%');
 			$('#printLowerLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>');//.css('font-size', '50%');
-			updateClock();
-			$('#center').bigtext({ maxfontsize: 700 }); //auto font-size
 		}
 	}
 	updateClock();
+	$('#center').bigtext({ maxfontsize: 700 }); //auto font-size
+	//if (object.upperLine == 'marquee') 	$('#printUpperLine').css('font-size', object.marqueeSize); //overwrite auto font-size
+	//if (object.lowerLine == 'marquee') 	$('#printLowerLine').css('font-size', object.marqueeSize); //overwrite auto font-size
+}
 }
 
 
