@@ -116,21 +116,29 @@ function checkDisplay(object) {
 			if (object.lowerLine == 'countdown')$('#printLowerLine').css('font-size', object.countdownSize);
 			if (object.lowerLine == 'textarea') $('#printLowerLine').css('font-size', object.textblockSize);
 			if (object.lowerLine == 'marquee') 	$('#printLowerLine').css('font-size', object.marqueeSize);
-			*/
-
 			if (object.lowerLine == 'textarea' && object.textblockBorder != 'none') $('#printLowerLine').css('margin', '1vw');
+			*/
 			
 			$('#textblock, .marquee').html(object.message);
 			$('.marquee').css('animation-duration', object.marqueeSpeed).css('-moz-animation-duration', object.marqueeSpeed).css('-webkit-animation-duration', object.marqueeSpeed);
+			updateClock();
+			$('#center').bigtext({ maxfontsize: 700 }); //auto font-size
+			if (object.upperLine == 'marquee') 	$('#printUpperLine').css('font-size', object.marqueeSize); //overwrite auto font-size
+			if (object.lowerLine == 'marquee') 	$('#printLowerLine').css('font-size', object.marqueeSize); //overwrite auto font-size
 		}
 		if (object.upperLine == 'countdown' || object.lowerLine == 'countdown') {
 		var total = remote.timeoutTimestamp - remote.timestamp - remote.countdownTimeout
 			if (remote.countdownState == 'start') {
 				$('.countdown').html(showTimer(total));
-				if(total<0) {$('.countdown').css('color', '#EE0000');} else {$('.countdown').css('color', '#FFFFFF');}
+				if(total<0) {
+					$('.countdown').css('color', '#EE0000');
+				} else {
+					$('.countdown').css('color', '#FFFFFF');
+				}
 			} else {
-				$('.countdown').html(showTimer(remote.countdown)).css('color', '#FFFFFF');;
+				$('.countdown').html(showTimer(remote.countdown)).css('color', '#FFFFFF');
 			}
+			$('#center').bigtext({ maxfontsize: 700 }); //auto font-size
 		}
 	}
 	
@@ -139,14 +147,11 @@ function checkDisplay(object) {
 			displayChange = object.displayChange;		
 			$('#printUpperLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>');//.css('font-size', '100%');
 			$('#printLowerLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>');//.css('font-size', '50%');
+			updateClock();
+			$('#center').bigtext({ maxfontsize: 700 }); //auto font-size
 		}
 	}
-	if (object.upperLine == 'clock' || object.lowerLine == 'clock' || object.upperLine == 'date' || object.lowerLine == 'date' || (local.tab == 'Live' && remote.onOff == 'off') ) updateClock();
-	$('#center').bigtext({ maxfontsize: 700 }); //auto font-size
-	if ( local.tab == 'Vorschau' || (local.tab == 'Live' && remote.onOff == 'on')) { //no auto font-size for marguee
-		if (object.upperLine == 'marquee') 	$('#printUpperLine').css('font-size', object.marqueeSize); 
-		if (object.lowerLine == 'marquee') 	$('#printLowerLine').css('font-size', object.marqueeSize);
-	}
+	updateClock();
 }
 
 
