@@ -1,7 +1,7 @@
 var local  = { }
 var temp   = { }
 var remote = { }
-var version = "1.0.11";
+var version = "1.0.12";
 var displayChange 	= 0;
 
 try {
@@ -13,13 +13,13 @@ catch(err) {
 	local = {
 		upperLine:	"clock",
 		lowerLine:	"textarea",
-		clockSize:	"100%",
-		dateSize:	"50%",
+		//clockSize:	"100%",
+		//dateSize:	"50%",
 		timeout:	"300",
 		countdown:			"300",
-		countdownSize:		"50%",
+		//countdownSize:		"50%",
 		countdownTimeout:	"300",
-		textblockSize:		"30%",
+		//textblockSize:		"30%",
 		textblockBorder:	"none",
 		marqueeSize:	"50%",
 		marqueeSpeed:	"15s",

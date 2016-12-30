@@ -50,7 +50,7 @@ function showTimer(total){
 
 function checkTimeout(){
 	var remaining = remote.timeoutTimestamp - remote.timestamp;
-	if (remote.onOff == 'on' && remaining <= 0) {
+	if (remote.onOff == 'on' && remaining <= 0 && remote.timeout != 'inf' ) {
 		temp.onOff ='off';
 		temp.countdownState = 'stop';
 		temp.displayChange = remote.displayChange+1;

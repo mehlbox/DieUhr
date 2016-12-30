@@ -122,7 +122,8 @@ function checkButton() { // check if a change exist
 
 function checkOnOff(){
 	var remaining = remote.timeoutTimestamp - remote.timestamp;
-	if (remaining>=0) $('#autoOff').show().html(showTimer(remaining));
+	if (remaining >= 0 && local.timeout != 'inf') $('#autoOff').show().html(showTimer(remaining));
+	if (local.timeout == 'inf') $('#autoOff').show().html('&#8734;');
 	
 	if (remote.onOff == 'on') {
 		$('#switch').removeClass("grayButton");
