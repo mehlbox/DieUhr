@@ -54,7 +54,7 @@
 							<!--option value="date"      >Datum</option-->
 							<option value="countdown" >Zeitgeber</option>
 							<option value="textarea"  >Textblock</option>
-							<!--option value="marquee"	  >Laufschrift</option-->
+							<option value="marquee"	  >Laufschrift</option>
 							<option value="off"       >Aus</option>
 						</select>
 					</td>
@@ -64,7 +64,7 @@
 							<option value="date"      >Datum</option-->
 							<option value="countdown" >Zeitgeber</option>
 							<option value="textarea"  >Textblock</option>
-							<!--option value="marquee"	  >Laufschrift</option-->
+							<option value="marquee"	  >Laufschrift</option>
 							<option value="off"       >Aus</option>
 						</select>
 					</td>
@@ -174,7 +174,7 @@
 					</tr>
 				</table>
 			</div>
-			<!--div class="boxin">Laufschrift:
+			<div class="boxin">Laufschrift:
 				<table>
 					<tr>
 						<td>Schriftgröße: </td>
@@ -209,7 +209,7 @@
 						</td>
 					</tr>
 				</table>
-			</div-->
+			</div>
 			<div class="boxin">Zeitgeber:
 				<table>
 					<tr>

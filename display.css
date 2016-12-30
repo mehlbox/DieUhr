@@ -1,5 +1,5 @@
 body {
-	/*font-size: 28vw;*/
+	font-size: 28vw;
 	font-family:Verdana,sans-serif;
 	background-color:black;
 	overflow: hidden;
@@ -69,6 +69,7 @@ body {
 	color:black;
 	text-shadow: 0vw 0vw 1vw red;
 	box-shadow: 0 0 5vw #FF9999;
+	margin: 0 2vw;
 }
 
 .wedding2 {
@@ -80,7 +81,12 @@ body {
 	width:30vw;
 	background: url(svg/stopwatch.svg);
 	background-repeat:no-repeat;
-	position:absolute;"
+	position:absolute;
+}
+
+.countdown {
+	border-left:solid 2vw black;
+	border-right:solid 2vw black;
 }
 
 #error {

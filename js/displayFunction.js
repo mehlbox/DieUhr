@@ -117,6 +117,7 @@ function checkDisplay(object) {
 			if (object.lowerLine == 'textarea') $('#printLowerLine').css('font-size', object.textblockSize);
 			if (object.lowerLine == 'marquee') 	$('#printLowerLine').css('font-size', object.marqueeSize);
 			*/
+
 			if (object.lowerLine == 'textarea' && object.textblockBorder != 'none') $('#printLowerLine').css('margin', '1vw');
 			
 			$('#textblock, .marquee').html(object.message);
@@ -142,6 +143,10 @@ function checkDisplay(object) {
 	}
 	if (object.upperLine == 'clock' || object.lowerLine == 'clock' || object.upperLine == 'date' || object.lowerLine == 'date' || (local.tab == 'Live' && remote.onOff == 'off') ) updateClock();
 	$('#center').bigtext({ maxfontsize: 700 }); //auto font-size
+	if ( local.tab == 'Vorschau' || (local.tab == 'Live' && remote.onOff == 'on')) { //no auto font-size for marguee
+		if (object.upperLine == 'marquee') 	$('#printUpperLine').css('font-size', object.marqueeSize); 
+		if (object.lowerLine == 'marquee') 	$('#printLowerLine').css('font-size', object.marqueeSize);
+	}
 }
 
 
