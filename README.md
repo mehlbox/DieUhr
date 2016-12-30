@@ -23,6 +23,7 @@ xinit /var/www/html/startMidori.sh
 - On yor display unit: run a browser in fullscreen and point it to http://[webserver]/display.html
 - Control your display by calling http://[webserver] on your smartphone or comupter.
 
-
+## info
+- https://github.com/zachleat/BigText is used to auto-resize font on screen
 
 
