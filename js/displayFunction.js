@@ -141,7 +141,7 @@ function checkDisplay(object) {
 		}
 	}
 	if (object.upperLine == 'clock' || object.lowerLine == 'clock' || object.upperLine == 'date' || object.lowerLine == 'date' || (local.tab == 'Live' && remote.onOff == 'off') ) updateClock();
-	$('#center').bigtext(); //auto font-size
+	$('#center').bigtext({ maxfontsize: 700 }); //auto font-size
 }
 
 
