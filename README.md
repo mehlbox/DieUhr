@@ -9,10 +9,9 @@ apt-get update && apt-get upgrade -y
 apt-get install midori matchbox xinit xdotool x11-xserver-utils git apache2 php5 libapache2-mod-php5 -y
 rm /var/www/html/index.html
 git clone https://github.com/mehlbox/DieUhr.git /var/www/html/
-cd /var/www/html
-echo "{}" > data.json
-chmod 777 data.json
-xinit ./startMidori.sh
+echo "{}" > /var/www/html/data.json
+chmod 777 /var/www/html/data.json
+xinit /var/www/html/startMidori.sh
 ```
 - add ```xinit /var/www/html/startMidori.sh``` to ```/etc/rc.local``` for autostart
 - control your display by calling http://raspberrypi on your smartphone
