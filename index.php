@@ -302,7 +302,10 @@
 <?php if ($desktop) { echo '
 		<div class="button" style="float: right;">
 			<button id="switch" type="button" ><img src="svg/OnOff.svg" alt="On/Off" width="90%" /></button>
-		</div> 
+		</div>
+		<div style="float: right;">
+			<span id="autoOff"></span>
+		</div>
 ';} ?>
 	<div id="bth">
 			<div class="button" style="float: right;">
