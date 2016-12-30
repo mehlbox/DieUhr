@@ -1,8 +1,9 @@
 body {
-	font-size: 28vw;
+	/*font-size: 28vw;*/
 	font-family:Verdana,sans-serif;
 	background-color:black;
 	overflow: hidden;
+	color:#FFF;
 }
 
 #wrap {
@@ -11,9 +12,11 @@ body {
 	height:100vh;
 	width: 100vw;
 	text-align:center;
+	
 }
 
 #center {
+  margin: 0 3vw;
   position: relative;
   top: 50%;
   -webkit-transform: perspective(1px) translateY(-50%);
@@ -22,15 +25,13 @@ body {
 }
 
 #printUpperLine {
-	font-size:30%;
-	margin-top: -2%;
-	color:#FFFFFF;
+	/*font-size:30%;*/
+	margin-top: -3%;
 }
 
 #printLowerLine {
-	font-size:30%;
-	margin-top: -2%;
-	color:#FFFFFF;
+	/*font-size:30%;*/
+	margin-top: -3%;
 }
 
 @-webkit-keyframes marquee {
@@ -57,7 +58,7 @@ body {
 
 #textblock {
 	position: relative;
-	white-space: pre-wrap;
+	white-space: pre;
 }
 
 .wedding1, .wedding2 {

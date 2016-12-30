@@ -54,7 +54,7 @@
 							<!--option value="date"      >Datum</option-->
 							<option value="countdown" >Zeitgeber</option>
 							<option value="textarea"  >Textblock</option>
-							<option value="marquee"	  >Laufschrift</option>
+							<!--option value="marquee"	  >Laufschrift</option-->
 							<option value="off"       >Aus</option>
 						</select>
 					</td>
@@ -64,7 +64,7 @@
 							<option value="date"      >Datum</option-->
 							<option value="countdown" >Zeitgeber</option>
 							<option value="textarea"  >Textblock</option>
-							<option value="marquee"	  >Laufschrift</option>
+							<!--option value="marquee"	  >Laufschrift</option-->
 							<option value="off"       >Aus</option>
 						</select>
 					</td>
@@ -98,7 +98,7 @@
 		<div id="option">
 			<div class="boxin">Haupteinstellungen:
 				<table>
-					<tr>
+					<!--tr>
 						<td>Schriftgröße Uhrzeit: </td>
 						<td><select id="clockSize">
 								<option value="10%" >10%</option>
@@ -124,7 +124,7 @@
 								<option value="50%" >50%</option>
 							</select>
 						</td>
-					</tr>
+					</tr-->
 					<tr>
 						<td>zurücksetzen nach: </td>
 						<td><select id="timeout">
@@ -145,7 +145,7 @@
 			</div>
 			<div class="boxin">Textblock:
 				<table>
-					<tr>
+					<!--tr>
 						<td>Schriftgröße: </td>
 						<td><select id="textblockSize">
 								<option value="10%" >10%</option>
@@ -162,7 +162,7 @@
 								<option value="100%">100%</option>
 							</select>
 						</td>
-					</tr>
+					</tr-->
 					<tr>
 						<td>Rahmen: </td>
 						<td><select id="textblockBorder">
@@ -174,7 +174,7 @@
 					</tr>
 				</table>
 			</div>
-			<div class="boxin">Laufschrift:
+			<!--div class="boxin">Laufschrift:
 				<table>
 					<tr>
 						<td>Schriftgröße: </td>
@@ -209,7 +209,7 @@
 						</td>
 					</tr>
 				</table>
-			</div>
+			</div-->
 			<div class="boxin">Zeitgeber:
 				<table>
 					<tr>
@@ -239,7 +239,7 @@
 							</select>
 						</td>
 					</tr>
-					<tr>
+					<!--tr>
 						<td>Schriftgröße: </td>
 						<td><select id="countdownSize">
 								<option value="10%" >10%</option>
@@ -255,7 +255,7 @@
 							</select>
 						</td>
 						<td></td>
-					</tr>
+					</tr-->
 					<tr>
 						<td>überziehen: </td>
 						<td>

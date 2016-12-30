@@ -36,7 +36,6 @@ function timeloop() {
 	setTimeout("timeloop()",1000);
 	}
 	checkTimeout();
-	
 };
 
 function showTimer(total){
@@ -103,8 +102,8 @@ function checkDisplay(object) {
 			if (object.lowerLine == 'textarea' && object.textblockBorder == 'wedding2') 	$('#printLowerLine').html('<span class="wedding2"><span style="color:red;">❤</span> <span id="textblock"></span> <span style="color:red;">❤</span></span>');
 			if (object.lowerLine == 'marquee') 	$('#printLowerLine').html('<div class="marquee"></div>');
 			if (object.lowerLine == 'off') 		$('#printLowerLine').html('');
-
-
+			
+			/*
 			if (object.upperLine == 'clock') 	$('#printUpperLine').css('font-size', object.clockSize);
 			if (object.upperLine == 'date')		$('#printUpperLine').css('font-size', object.dateSize);
 			if (object.upperLine == 'countdown')$('#printUpperLine').css('font-size', object.countdownSize);
@@ -117,8 +116,9 @@ function checkDisplay(object) {
 			if (object.lowerLine == 'countdown')$('#printLowerLine').css('font-size', object.countdownSize);
 			if (object.lowerLine == 'textarea') $('#printLowerLine').css('font-size', object.textblockSize);
 			if (object.lowerLine == 'marquee') 	$('#printLowerLine').css('font-size', object.marqueeSize);
+			*/
 			if (object.lowerLine == 'textarea' && object.textblockBorder != 'none') $('#printLowerLine').css('margin', '1vw');
-
+			
 			$('#textblock, .marquee').html(object.message);
 			$('.marquee').css('animation-duration', object.marqueeSpeed).css('-moz-animation-duration', object.marqueeSpeed).css('-webkit-animation-duration', object.marqueeSpeed);
 		}
@@ -136,11 +136,12 @@ function checkDisplay(object) {
 	if (local.tab == 'Live' && remote.onOff == 'off') {
 		if (displayChange != object.displayChange) { // keep refresh action low
 			displayChange = object.displayChange;		
-			$('#printUpperLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>').css('font-size', '100%');
-			$('#printLowerLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>').css('font-size', '50%');
+			$('#printUpperLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>');//.css('font-size', '100%');
+			$('#printLowerLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>');//.css('font-size', '50%');
 		}
 	}
 	if (object.upperLine == 'clock' || object.lowerLine == 'clock' || object.upperLine == 'date' || object.lowerLine == 'date' || (local.tab == 'Live' && remote.onOff == 'off') ) updateClock();
+	$('#center').bigtext(); //auto font-size
 }
 
 
