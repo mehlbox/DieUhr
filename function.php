@@ -1,5 +1,7 @@
 <?php
 $file  = $_SERVER['DOCUMENT_ROOT'].'/data.json';
+if (!file_exists($file)) file_put_contents($file,'{}');;
+
 $data = json_decode(file_get_contents($file), true); // data from file
 
 if (!empty($_POST['data'])) {
