@@ -3,8 +3,10 @@ function timeloop() {
 	  // in frame
 		if (local.tab == 'Live' || selectDisplay == 'Live') { 
 			checkDisplay(remote);
+			//console.log("frame remote");
 		} else {
 			checkDisplay(local);
+			//console.log("frame local");
 		}
 		$('#error').hide();
 	setTimeout("timeloop()",1000);
@@ -74,7 +76,9 @@ function urlParam(name){
 function checkDisplay(object) {
 	if (local.displayChange == undefined) local.displayChange = 1;
 	if (remote.displayChange == undefined) remote.displayChange = 2;
+	
 	if ( local.tab == 'Vorschau' || (local.tab == 'Live' && remote.onOff == 'on')) {
+		
 		if (displayChange != object.displayChange) { // keep refresh action low
 			//console.log('Var: '+displayChange+'  Object: '+object.displayChange+' '+local.tab);
 			displayChange = object.displayChange;
