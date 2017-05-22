@@ -22,7 +22,7 @@ if (!empty($_POST['command'])) { // not all commands are tested
 	if ($_POST['command'] == 'stop') 	echo shell_exec('killall midori 2>&1');
 	if ($_POST['command'] == 'start') 	echo shell_exec('xinit /var/www/startMidori.sh 2>&1');
 	if ($_POST['command'] == 'reboot') 	echo shell_exec('reboot 2>&1');
-	if ($_POST['command'] == 'delete') 	echo shell_exec('echo "{}" >'.$file);
+	if ($_POST['command'] == 'delete') 	echo shell_exec('rm '.$file);
 	if ($_POST['command'] == 'linux') 	echo shell_exec('uname -a 2>&1');
 	if ($_POST['command'] == 'user') 	echo shell_exec('whoami 2>&1');
 	exit();
