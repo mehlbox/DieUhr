@@ -91,7 +91,7 @@ function checkDisplay(object) {
 
 			if (object.lowerLine == 'clock') 	$('#printLowerLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>');
 			if (object.lowerLine == 'date')		$('#printLowerLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>');
-			if (object.lowerLine == 'countdown')$('#printLowerLine').html('<div class="stopwatch" style="background-size:'+object.countdownSize+';"></div><span class="countdown"></span>');
+			if (object.lowerLine == 'countdown')$('#printLowerLine').html('<div class="stopwatch" style="background-size:20vw;"></div><span class="countdown"></span>');
 			if (object.lowerLine == 'textarea' && object.textblockBorder == 'none') 		$('#printLowerLine').html('<span id="textblock"></span>');
 			if (object.lowerLine == 'textarea' && object.textblockBorder == 'wedding1') 	$('#printLowerLine').html('<span class="wedding1"><span style="color:red;">❤</span> <span id="textblock"></span> <span style="color:red;">❤</span></span>');
 			if (object.lowerLine == 'textarea' && object.textblockBorder == 'wedding2') 	$('#printLowerLine').html('<span class="wedding2"><span style="color:red;">❤</span> <span id="textblock"></span> <span style="color:red;">❤</span></span>');
@@ -140,7 +140,7 @@ function checkDisplay(object) {
 		}
 	}
 	updateClock();
-	$('#center').bigtext({ maxfontsize: 700 }); //auto font-size
+	$('#center').bigtext({ maxfontsize: 600 }); //auto font-size
 	//if (object.upperLine == 'marquee') 	$('#printUpperLine').css('font-size', object.marqueeSize); //overwrite auto font-size
 	//if (object.lowerLine == 'marquee') 	$('#printLowerLine').css('font-size', object.marqueeSize); //overwrite auto font-size
 }
