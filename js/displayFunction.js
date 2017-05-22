@@ -140,7 +140,7 @@ function checkDisplay(object) {
 		}
 	}
 	updateClock();
-	$('#center').bigtext({ maxfontsize: 600 }); //auto font-size
+	$('#center').bigtext({ maxfontsize: 500 }); //auto font-size
 	//if (object.upperLine == 'marquee') 	$('#printUpperLine').css('font-size', object.marqueeSize); //overwrite auto font-size
 	//if (object.lowerLine == 'marquee') 	$('#printLowerLine').css('font-size', object.marqueeSize); //overwrite auto font-size
 }
