@@ -1,15 +1,13 @@
-<?php if (!empty($_GET["d"])) $desktop = TRUE; ?>
 <!DOCTYPE html>
 <html>
 	<meta charset="UTF-8">
 	<title>DieUhr</title>
 	<link href="index.css" rel="stylesheet"/>
-	<?php if ($desktop) echo '<link href="desktop.css" rel="stylesheet"/>'; ?>
+	<link href="desktop.css" rel="stylesheet"/>
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/indexFunction.js"></script>
 </head>
 <body>
-<?php if ($desktop) { echo '
 	<div class="box">Vorschau:
 		<div id="wrapD">
 			<iframe id="display" src="/display.html?selectDisplay=Vorschau" width="100%" height="100%" scrolling="no" frameborder="0"></iframe>
@@ -20,21 +18,6 @@
 			<iframe id="display2" src="/display.html?selectDisplay=Live"    width="100%" height="100%" scrolling="no" frameborder="0"></iframe>
 		</div>
 	</div>
-'; } else { echo '
-	<div class="onOff" style="float: right;">
-		<button id="switch" type="button" ><img src="svg/OnOff.svg" alt="On/Off" width="90%" /></button>
-	</div>
-	<div style="float: right;">
-		<span id="autoOff"></span>
-	</div>
-	<ul id="tab" class="tabrow">
-	  <li id="Vorschau"><input type="button" name="Vorschau" value="Vorschau"/></li>
-	  <li id="Live">    <input type="button" name="Live"     value="Live"/></li>
-	</ul>
-	<div class="boxw">
-		<div id="wrapC"><iframe id="display" src="display.html" width="100%" height="100%" scrolling="no" frameborder="0"></iframe></div>
-	</div>
-';} ?>
 	<div id="error"></div>
 	<div class="boxw">
 		<div style="margin-top:-2vw;">
@@ -299,14 +282,12 @@
 		<div id="del" class="button" style="float: left;">
 			<button type="button" style="background-color:#FFFF66;"><img src="svg/delete.svg" alt="löschen" width="85%"/></button>
 		</div>
-<?php if ($desktop) { echo '
 		<div class="button" style="float: right;">
 			<button id="switch" type="button" ><img src="svg/OnOff.svg" alt="On/Off" width="90%" /></button>
 		</div>
 		<div style="float: right;">
 			<span id="autoOff"></span>
 		</div>
-';} ?>
 	<div id="bth">
 			<div class="button" style="float: right;">
 				<button id="confirm" type="button" style="background-color:#99DD55;"><img src="svg/done.svg" alt="senden" width="85%"/></button>
@@ -327,11 +308,7 @@
 		</div>
 	</div>
 	<div style="clear: left; margin:2vw;">
-	<?php if ($desktop) { echo '
 		<a href="/">mobile Version</a>
-';} else { echo '
-		<a href="/?d=1">Desktop Version</a>
-'; } ?>
 	</br>
 	<a href="/display.html">Vollbild</a>
 	</div>
