@@ -1,6 +1,6 @@
 <?php
 $file  = $_SERVER['DOCUMENT_ROOT'].'/data.json';
-if (!file_exists($file)) file_put_contents($file,'{}');;
+if (!file_exists($file)) file_put_contents($file,'{"onOff":"off","displayChange":0}');;
 
 $data = json_decode(file_get_contents($file), true); // data from file
 

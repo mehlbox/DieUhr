@@ -16,13 +16,6 @@ function timeloop() {
 		})
 		.done(function(response) {
 			remote = response;
-			if (remote.onOff == undefined ) { // empty file
-				console.log('empty file')
-				temp.onOff = "off";
-				temp.timeout = 300;
-				temp.displayChange = 0;
-				sendDisplay();
-			}
 			checkDisplay(remote);
 			$('#error').hide();
 		})
@@ -32,10 +25,12 @@ function timeloop() {
 			remote.displayChange = 0;
 			checkDisplay(remote);
 			$('#error').show().html('Keine Verbindung zum Server ! Fernsteuerung nicht möglich.');
+			console.error("Keine Verbindung zum Server!");
 		})
 	setTimeout("timeloop()",1000);
 	}
 	checkTimeout();
+	console.log("test");
 };
 
 function showTimer(total){
@@ -78,7 +73,6 @@ function urlParam(name){
 }
 
 function checkDisplay(object) {
-if (object.upperLine != undefined) {
 	if (object.displayChange == undefined) object.displayChange = 0;
 	if ( local.tab == 'Vorschau' || (local.tab == 'Live' && remote.onOff == 'on')) {
 		if (displayChange != object.displayChange) { // keep refresh action low
@@ -149,7 +143,6 @@ if (object.upperLine != undefined) {
 	$('#center').bigtext({ maxfontsize: 700 }); //auto font-size
 	//if (object.upperLine == 'marquee') 	$('#printUpperLine').css('font-size', object.marqueeSize); //overwrite auto font-size
 	//if (object.lowerLine == 'marquee') 	$('#printLowerLine').css('font-size', object.marqueeSize); //overwrite auto font-size
-}
 }
 
 

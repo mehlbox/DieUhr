@@ -1,7 +1,7 @@
 var local  = { }
 var temp   = { }
 var remote = { }
-var version = "1.0.13";
+var version = "1.0.14";
 var displayChange 	= 0;
 
 try {
