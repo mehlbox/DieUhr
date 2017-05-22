@@ -30,7 +30,6 @@ function timeloop() {
 	setTimeout("timeloop()",1000);
 	}
 	checkTimeout();
-	console.log("test");
 };
 
 function showTimer(total){
@@ -73,7 +72,8 @@ function urlParam(name){
 }
 
 function checkDisplay(object) {
-	if (object.displayChange == undefined) object.displayChange = 0;
+	if (local.displayChange == undefined) local.displayChange = 1;
+	if (remote.displayChange == undefined) remote.displayChange = 2;
 	if ( local.tab == 'Vorschau' || (local.tab == 'Live' && remote.onOff == 'on')) {
 		if (displayChange != object.displayChange) { // keep refresh action low
 			//console.log('Var: '+displayChange+'  Object: '+object.displayChange+' '+local.tab);
