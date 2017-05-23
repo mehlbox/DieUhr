@@ -7,6 +7,7 @@
 sudo su
 apt-get update && apt-get upgrade -y
 apt-get install midori matchbox xinit xdotool x11-xserver-utils git apache2 php5 libapache2-mod-php5 -y
+apt-get install xorg -y # for rpi2
 rm /var/www/html/index.html
 git clone https://github.com/mehlbox/DieUhr.git /var/www/html/
 chmod 777 /var/www/html
