@@ -22,6 +22,7 @@ xinit /var/www/html/startMidori.sh
 - Webserver can run independent on a seperate machine. Any webserver with php capabilities is good enough. Use just one webserver for many display units.
 - On yor display unit: run a browser in fullscreen and point it to http://[webserver]/display.html
 - Control your display by calling http://[webserver] on your smartphone or comupter.
+- Use ```/etc/systemd/timesyncd.conf``` to manually choose the prefered ntp server.
 
 ## info
 - https://github.com/zachleat/BigText is used to auto-resize font on screen
