@@ -65,10 +65,18 @@ function checkPage() {
 	$("#"+local.tab).siblings().removeClass();
 	$("#"+local.tab).addClass("selected");
 	
-	if (remote.upperLine == 'countdown' || remote.lowerLine == 'countdown') {
+	if (remote.upperLine == 'countdown' || remote.lowerLine == 'countdown' || local.upperLine == 'countdown' || local.lowerLine == 'countdown') {
 		$('#countdownControl').show();
 	} else {
 		$('#countdownControl').hide();
+	}
+	
+    if (remote.upperLine == 'textarea' || remote.lowerLine == 'textarea' || local.upperLine == 'textarea' || local.lowerLine == 'textarea') {
+		$('#messageBox').show();
+		$('#messageBoxControl').show();
+	} else {
+		$('#messageBox').hide();
+		$('#messageBoxControl').hide();
 	}
 }
 

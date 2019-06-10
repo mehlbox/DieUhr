@@ -1,6 +1,12 @@
 <?php
 $file  = $_SERVER['DOCUMENT_ROOT'].'/data.json';
-if (!file_exists($file)) file_put_contents($file,'{"onOff":"off"}');;
+
+if (!file_exists($file)) {
+	if (! file_put_contents($file,'{"onOff":"off"}')) {
+		header('HTTP/1.0 500 Internal Server Error');
+		exit(1);
+	}
+}
 
 $data = json_decode(file_get_contents($file), true); // data from file
 

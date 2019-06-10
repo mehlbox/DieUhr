@@ -36,8 +36,8 @@
 					<td>
 						<select id="upperLine">
 							<option value="clock"     >Uhrzeit</option>
-							<!--option value="date"      >Datum</option-->
-							<option value="countdown" >Zeitgeber</option>
+							<option value="date"      >Datum</option>
+							<!--option value="countdown" >Zeitgeber</option-->
 							<option value="textarea"  >Textblock</option>
 							<!--option value="marquee"	  >Laufschrift</option-->
 							<option value="off"       >Aus</option>
@@ -45,8 +45,8 @@
 					</td>
 					<td>
 						<select id="lowerLine">
-							<!--option value="clock"  >Uhrzeit</option>
-							<option value="date"      >Datum</option-->
+							<option value="clock"  >Uhrzeit</option>
+							<option value="date"      >Datum</option>
 							<option value="countdown" >Zeitgeber</option>
 							<option value="textarea"  >Textblock</option>
 							<!--option value="marquee"	  >Laufschrift</option-->
@@ -81,7 +81,7 @@
 			</table>
 		</div>
 		<div id="option">
-			<div class="boxin">Haupteinstellungen:
+			<div class="boxin">Globale Einstellungen:
 				<table>
 					<!--tr>
 						<td>Schriftgröße Uhrzeit: </td>
@@ -276,16 +276,27 @@
 				</table>
 			</div>
 		</div>
-		Textblock:
-		<textarea id="message" name="message" rows="4" ></textarea>
-
-		<div class="button" style="float: left;">
-			<button id="new" type="button" style="background-color:#FFFF66;"><img src="svg/doc.svg" alt="Vorlage" width="85%"/></button>
+		<div id="messageBox">
+			Textblock:
+			<textarea id="message" name="message" rows="4" ></textarea>
 		</div>
-		<div id="del" class="button" style="float: left;">
-			<button type="button" style="background-color:#FFFF66;"><img src="svg/delete.svg" alt="löschen" width="85%"/></button>
+		<div id="countdownControl">
+			<div class="button" style="float: left;">
+				<button id="stop" type="button" style="background-color:#ECD580;"><img src="svg/stop.svg"   alt="stop"  width="85%"/></button>
+			</div>
+			<div class="button" style="float: left;">
+				<button id="start" type="button" style="background-color:#ECD580;"><img src="svg/start.svg" alt="start" width="85%"/></button>
+			</div>
 		</div>
-	<div id="bth">
+		<div id="messageBoxControl">
+			<div class="button" style="float: left;">
+				<button id="new" type="button" style="background-color:#FFFF66;"><img src="svg/doc.svg" alt="Vorlage" width="85%"/></button>
+			</div>
+			<div id="del" class="button" style="float: left;">
+				<button type="button" style="background-color:#FFFF66;"><img src="svg/delete.svg" alt="löschen" width="85%"/></button>
+			</div>
+		</div>
+		<div id="bth">
 			<div class="button" style="float: right;">
 				<button id="confirm" type="button" style="background-color:#99DD55;"><img src="svg/done.svg" alt="senden" width="85%"/></button>
 			</div>
@@ -294,21 +305,11 @@
 			</div>
 		</div>
 	</div>
-	<div id="countdownControl" class="box">Zeitgeber:
-		<div>
-			<div class="button" style="float: left;">
-				<button id="stop" type="button" style="background-color:#ECD580;"><img src="svg/stop.svg"   alt="stop"  width="85%"/></button>
-			</div>
-			<div class="button" style="float: left;">
-				<button id="start" type="button" style="background-color:#ECD580;"><img src="svg/start.svg" alt="start" width="85%"/></button>
-			</div>
-		</div>
-	</div>
 	<div style="clear: left; margin:2vw;">
-			<a href="/index.html">Mobile Version</a>
+			<!--a href="/index.html">Mobile Version</a>
 	</br>
 		<a href="/indexd.html">Desktop Version</a>
-	</br>
+	</br-->
 	<a href="/display.html">Vollbild</a>
 	</div>
 <script type="text/javascript" src="js/index.js"></script>
