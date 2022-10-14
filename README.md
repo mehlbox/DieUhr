@@ -13,7 +13,8 @@ git clone https://github.com/mehlbox/DieUhr.git /var/www/html/
 chmod 777 /var/www/html
 xinit /var/www/html/startMidori.sh
 ```
-- add ```xinit /var/www/html/startMidori.sh``` to ```/etc/rc.local``` for autostart
+- add ```xinit /var/www/html/startMidori.sh``` to ```/etc/rc.local``` for autostart with Midori
+- add ```sudo -u pi xinit /var/www/html/startChromium.sh``` to ```/etc/rc.local``` for autostart with Chromium
 - control your display by calling http://raspberrypi on your smartphone
 
 ## advanced
