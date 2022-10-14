@@ -4,5 +4,6 @@ export DISPLAY=:0
 /usr/bin/xset s off             # disable screen saver
 /usr/bin/xset s noblank         # don't blank the video device
 sleep 1                         # prevent network issues
-#unclutter &
-/usr/bin/chromium --start-fullscreen --kiosk --no-proxy-server --incognito http://localhost/display.html
+matchbox-window-manager -use_cursor no &
+unclutter &
+sudo -u pi /usr/bin/chromium --kiosk http://localhost/display.html
