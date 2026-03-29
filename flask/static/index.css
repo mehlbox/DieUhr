@@ -22,12 +22,19 @@
     box-sizing: border-box;
 }
 
+html {
+    overflow-x: clip;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+}
+
 body {
     margin: 0;
     min-height: 100vh;
     color: var(--ink);
     font-family: "Bahnschrift", "Trebuchet MS", "Franklin Gothic Medium", sans-serif;
     background: linear-gradient(120deg, var(--bg-0), var(--bg-1) 45%, var(--bg-2));
+    overflow-x: clip;
 }
 
 .bg-glow {
