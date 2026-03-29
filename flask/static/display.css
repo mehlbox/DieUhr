@@ -79,17 +79,18 @@ body {
 .stopwatch {
 	height:20vw;
 	width:20vw;
-	margin-top: 3vw;
 	background: url(svg/stopwatch.svg);
 	background-repeat:no-repeat;
-	position:absolute;
 	background-size:20vw;
+	display:inline-block;
+	vertical-align: middle;
 }
 
 .countdown {
-	margin-left:20vw;
-	margin-right:10vw;
-	
+	display:inline-block;
+	vertical-align: middle;
+	margin-left:2vw;
+	margin-right:0;
 }
 
 #error {

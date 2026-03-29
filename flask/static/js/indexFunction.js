@@ -8,17 +8,22 @@ function timeloop() {
 		remote = response;
 		checkOnOff();
 		checkPage();
-		checkButton();
 		checkProgVersion();
-		window.frames[0].local 	= local;
-		window.frames[0].remote = remote;
-		if (decodeURIComponent(urlParam('d')) != '') window.frames[1].remote = remote;
+		syncDisplayFrames();
 	})
 	.fail(function() {
 		$("#error").show().html("Keine Verbindung");
 	})
 	setTimeout("timeloop()",1000);
 };
+
+function syncDisplayFrames() {
+	var previewFrame = document.getElementById('display');
+	if (previewFrame && previewFrame.contentWindow) {
+		previewFrame.contentWindow.local = $.extend({}, local, { tab: 'Live' });
+		previewFrame.contentWindow.remote = remote;
+	}
+}
 
 function command(command) {
 	$.ajax({
@@ -60,7 +65,6 @@ function sendDisplay() {
 		$("#error").hide();
 		checkOnOff();
 		checkPage();
-		checkButton();
 	})
 	.fail(function(xhr) {
 		if (xhr.status === 409 && xhr.responseJSON) {
@@ -68,33 +72,23 @@ function sendDisplay() {
 			$("#error").show().html("Konflikt: Ein anderer Client hat gerade aktualisiert.");
 			checkOnOff();
 			checkPage();
-			checkButton();
 		}
 	});
 }
 
-function targetDisplay(displaySelect) {
-	if (local.tab != displaySelect) {
-		local.tab = displaySelect;
-		displayChange = local.displayChange+1;
-	}
-}
-
 function checkPage() {
-	$("#"+local.tab).siblings().removeClass();
-	$("#"+local.tab).addClass("selected");
-	
 	if (remote.upperLine == 'countdown' || remote.lowerLine == 'countdown' || local.upperLine == 'countdown' || local.lowerLine == 'countdown') {
-		$('#countdownControl').show();
+		$('#countdownControl').css('display', 'flex');
 		$('#countdownOption').show();
 	} else {
 		$('#countdownControl').hide();
 		$('#countdownOption').hide();
 	}
+	updateTimerFormState();
 	
     if (remote.upperLine == 'textarea' || remote.lowerLine == 'textarea' || local.upperLine == 'textarea' || local.lowerLine == 'textarea') {
 		$('#messageBox').show();
-		$('#messageBoxControl').show();
+		$('#messageBoxControl').css('display', 'flex');
 	} else {
 		$('#messageBox').hide();
 		$('#messageBoxControl').hide();
@@ -102,8 +96,7 @@ function checkPage() {
 }
 
 function checkOption() {
-	$("#upperLine").val(local.upperLine);
-	$("#lowerLine").val(local.lowerLine);
+	syncLineDropdowns();
 	$("#timeout").val(local.timeout);
 
 	$("#countdownMin").val(parseInt(local.countdown/60)*60); // get just the minutes in second
@@ -114,20 +107,54 @@ function checkOption() {
 	
 }
 
-function checkButton() { // check if a change exist
-	if (local.upperLine 		== remote.upperLine &&
-		local.lowerLine 		== remote.lowerLine &&
-		
-		local.countdown 		== remote.countdown &&
-		local.countdownTimeout 	== remote.countdownTimeout &&
+function updateTimerFormState() {
+	var isRunning = remote.countdownState === 'start';
+	$("#countdownMin, #countdownSec, #countdownTimeout").prop("disabled", isRunning);
+}
 
-		local.message 			== remote.message)
-	{
-		// $('#bth').hide();
-		$("#confirm").removeClass("grayButton");
-    } else {
-		$('#bth').show();
+function getLineOptions() {
+	return [
+		{ value: 'clock', label: 'Uhrzeit' },
+		{ value: 'date', label: 'Datum' },
+		{ value: 'countdown', label: 'Timer' },
+		{ value: 'textarea', label: 'Text' },
+		{ value: 'off', label: 'Aus' }
+	];
+}
+
+function renderLineSelect($select, excludedValue, selectedValue) {
+	var options = getLineOptions();
+	$select.empty();
+
+	for (var i = 0; i < options.length; i++) {
+		if (options[i].value === excludedValue) continue;
+		$select.append($('<option></option>').val(options[i].value).text(options[i].label));
 	}
+
+	if ($select.find('option[value="' + selectedValue + '"]').length === 0) {
+		selectedValue = $select.find('option:first').val();
+	}
+	$select.val(selectedValue);
+	return selectedValue;
+}
+
+function syncLineDropdowns() {
+	var options = getLineOptions();
+
+	if (!local.upperLine) local.upperLine = 'clock';
+	if (!local.lowerLine) local.lowerLine = 'textarea';
+
+	if (local.upperLine === local.lowerLine) {
+		for (var i = 0; i < options.length; i++) {
+			if (options[i].value !== local.upperLine) {
+				local.lowerLine = options[i].value;
+				break;
+			}
+		}
+	}
+
+	local.upperLine = renderLineSelect($("#upperLine"), local.lowerLine, local.upperLine);
+	local.lowerLine = renderLineSelect($("#lowerLine"), local.upperLine, local.lowerLine);
 }
 
 function checkOnOff(){
@@ -136,12 +163,10 @@ function checkOnOff(){
 	if (local.timeout == 'inf') $('#autoOff').show().html('&#8734;');
 	
 	if (remote.onOff == 'on') {
-		$('#switch').removeClass("grayButton");
-		$('#switch').css("background-color", "#99DD55");
+		$('#switch').removeClass("grayButton is-off").addClass("is-on");
 	} 
 	if (remote.onOff == 'off') {
-		$('#switch').removeClass("grayButton");
-		$('#switch').css("background-color", "#FF7755");
+		$('#switch').removeClass("grayButton is-on").addClass("is-off");
 		$('#autoOff').hide();
 	}
 }

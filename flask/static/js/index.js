@@ -3,6 +3,8 @@ var temp   = { }
 var remote = { }
 var version = "1.1.0";
 var displayChange 	= 0;
+var offStateSessionKey = "DieUhrBeforeOff";
+var messageDraft = "";
 
 try {
 	local = JSON.parse(getCookie('DieUhr'));
@@ -25,39 +27,89 @@ catch(err) {
 }
 
 checkOption();
-targetDisplay('Vorschau');
+messageDraft = local.message || "";
 
-$("#tab input").click(function(){ // tab buttons
-	targetDisplay($(this).val());
-	checkPage();
-});
+function saveStateBeforeOff() {
+	try {
+		sessionStorage.setItem(offStateSessionKey, JSON.stringify(local));
+	} catch (err) {
+		console.log("could not save off-state snapshot", err);
+	}
+}
+
+function restoreStateAfterOff() {
+	try {
+		var raw = sessionStorage.getItem(offStateSessionKey);
+		if (!raw) return false;
+		var saved = JSON.parse(raw);
+		if (!saved || typeof saved !== "object") return false;
+		local = $.extend({}, local, saved);
+		return true;
+	} catch (err) {
+		console.log("could not restore off-state snapshot", err);
+		return false;
+	}
+}
+
+function pushLiveState(options) {
+	options = options || {};
+	setCookie('DieUhr', JSON.stringify(local));
+	temp.upperLine = local.upperLine;
+	temp.lowerLine = local.lowerLine;
+	temp.countdown = local.countdown;
+	temp.countdownTimeout = local.countdownTimeout;
+	temp.message = local.message;
+	temp.displayChange = (remote.displayChange || 0) + 1;
+	temp.onOff = options.onOff || 'on';
+	if (options.countdownState !== undefined) temp.countdownState = options.countdownState;
+	if (options.timeoutTimestamp !== undefined) temp.timeoutTimestamp = options.timeoutTimestamp;
+	sendDisplay();
+}
+
+function updateTextPreview() {
+	if(local.upperLine == 'marquee' || local.upperLine == 'textarea' || local.lowerLine == 'marquee' || local.lowerLine == 'textarea') {
+		$('#display').contents().find('#textblock, .marquee').html(messageDraft);
+	}
+}
+
+function pushTextMessage() {
+	local.message = messageDraft;
+	setCookie('DieUhr', JSON.stringify(local));
+	temp.message = messageDraft;
+	temp.displayChange = (remote.displayChange || 0) + 1;
+	sendDisplay();
+}
 
 $('#switch').click(function(){ // on off switch
 	$(this).addClass("grayButton");
 	if (remote.onOff == 'on') {
-		temp.onOff 	= 'off';
-		temp.countdownState = 'stop';
-		temp.displayChange = remote.displayChange+1;
+		saveStateBeforeOff();
+		local.upperLine = 'clock';
+		local.lowerLine = 'date';
+		syncLineDropdowns();
+		pushLiveState({ onOff: 'off', countdownState: 'stop', timeoutTimestamp: local.timeout });
 	} else {
-		temp.onOff 	= 'on';
-		targetDisplay('Live');
-		temp.countdownState = 'stop';
-		temp.timeoutTimestamp = remote.timeout
-		temp.displayChange = remote.displayChange+1;
+		restoreStateAfterOff();
+		syncLineDropdowns();
+		checkOption();
+		messageDraft = local.message || "";
+		pushLiveState({ onOff: 'on', countdownState: 'stop', timeoutTimestamp: local.timeout });
 	} 
-	sendDisplay();
+	checkPage();
 });
 
 $("#upperLine").change(function(){ // dropdown menu upperLine
 	local.upperLine = $("#upperLine option:selected").val();
+	syncLineDropdowns();
 	local.displayChange++;
-	targetDisplay('Vorschau');
+	pushLiveState();
 });
 
 $("#lowerLine").change(function(){ // dropdown menu lowerLine
 	local.lowerLine = $("#lowerLine option:selected").val();
+	syncLineDropdowns();
 	local.displayChange++;
-	targetDisplay('Vorschau');
+	pushLiveState();
 });
 
 $("#moreOption").click(function(){ // button option
@@ -67,148 +119,97 @@ $("#moreOption").click(function(){ // button option
 $("#clockSize").change(function(){ // dropdown menu clockSize
 	local.clockSize = $( "#clockSize option:selected" ).val();
 	local.displayChange++;
+	pushLiveState();
 });
 
 $("#dateSize").change(function(){ // dropdown menu dateSize
 	local.dateSize = $( "#dateSize option:selected" ).val();
 	local.displayChange++;
+	pushLiveState();
 });
 
 $("#timeout").change(function(){ // dropdown menu timeout
 	local.timeout = $( "#timeout option:selected" ).val();
-	temp.timeout = local.timeout;
-	sendDisplay();
+	pushLiveState({ timeoutTimestamp: local.timeout });
 });
 
 $("#countdownMin").change(function(){ // dropdown menu countdown minute
 	local.countdown = parseInt($( "#countdownMin option:selected" ).val()) + parseInt($( "#countdownSec option:selected" ).val());
-	temp.countdown = local.countdown;
-	sendDisplay();
+	pushLiveState();
 });
 
 $("#countdownSec").change(function(){ // dropdown menu countdown second
 	local.countdown = parseInt($( "#countdownMin option:selected" ).val()) + parseInt($( "#countdownSec option:selected" ).val());
-	temp.countdown = local.countdown;
-	sendDisplay();
+	pushLiveState();
 });
 
 $("#countdownSize").change(function(){ // dropdown menu countdownSize
 	local.countdownSize = $( "#countdownSize option:selected" ).val();
 	local.displayChange++;
-	targetDisplay('Vorschau');
+	pushLiveState();
 });
 
 $("#countdownTimeout").change(function(){ // dropdown menu countdownTimeout
 	local.countdownTimeout = $( "#countdownTimeout option:selected" ).val();
-	temp.countdownTimeout = local.countdownTimeout;
-	sendDisplay();
+	pushLiveState();
 });
 
 $("#textblockSize").change(function(){ // dropdown menu textblockSize
 	local.textblockSize = $( "#textblockSize option:selected" ).val();
 	local.displayChange++;
-	targetDisplay('Vorschau');
+	pushLiveState();
 });
 
 $("#textblockBorder").change(function(){ // dropdown menu textblockBorder
 	local.textblockBorder = $( "#textblockBorder option:selected" ).val();
 	local.displayChange  = local.displayChange+1;
-	targetDisplay('Vorschau');
+	pushLiveState();
 });
 
 $("#marqueeSize").change(function(){ // dropdown menu marqueeSize
 	local.marqueeSize = $( "#marqueeSize option:selected" ).val();
 	local.displayChange++;
-	targetDisplay('Vorschau');
+	pushLiveState();
 });
 
 $("#marqueeSpeed").change(function(){ // dropdown menu marqueeSpeed
 	local.marqueeSpeed = $( "#marqueeSpeed option:selected" ).val();
 	local.displayChange++;
-	targetDisplay('Vorschau');
+	pushLiveState();
 });
 
 $('#message').bind('keyup',function(){ // textarea
-	local.message = $("#message").val();
-	targetDisplay('Vorschau');
-	if(local.upperLine == 'marquee' || local.upperLine == 'textarea' || local.lowerLine == 'marquee' || local.lowerLine == 'textarea') {
-		$('#display').contents().find('#textblock, .marquee').html(local.message);
-	}
+	messageDraft = $("#message").val();
+	updateTextPreview();
 });
 
 $('#new').click(function(){ // template button
-	local.message = "Das Lied Nr.: ";
-	targetDisplay('Vorschau');
-	$("#message").val(local.message);
-	if(local.upperLine == 'marquee' || local.upperLine == 'textarea' || local.lowerLine == 'marquee' || local.lowerLine == 'textarea') {
-		$('#display').contents().find('#textblock, .marquee').html(local.message);
-	}
+	messageDraft = "Das Lied Nr.: ";
+	$("#message").val(messageDraft);
+	updateTextPreview();
 });
 
 $('#del').click(function(){ // trash button
-	local.message = "";
-	$("#message").val(local.message);
-	targetDisplay('Vorschau');
-	if(local.upperLine == 'marquee' || local.upperLine == 'textarea' || local.lowerLine == 'marquee' || local.lowerLine == 'textarea') {
-		$('#display').contents().find('#textblock, .marquee').html(local.message);
-	}
+	messageDraft = "";
+	$("#message").val(messageDraft);
+	updateTextPreview();
+});
+
+$('#confirmText').click(function(){ // send text only
+	pushTextMessage();
 });
 
 $('#stop').click(function(){ // stop button
-	temp.countdownState = 'stop';
-	temp.timeoutTimestamp = remote.timeout;
-	sendDisplay();
+	pushLiveState({ countdownState: 'stop', timeoutTimestamp: local.timeout });
 });
 
 $('#start').click(function(){ // start button
-	temp.timeoutTimestamp = parseInt(remote.countdown) + parseInt(remote.countdownTimeout);
-	temp.countdownState   = 'start';
-
-	temp.upperLine 			= local.upperLine;
-	temp.lowerLine 			= local.lowerLine;
-		
-	temp.countdown 			= local.countdown;
-	temp.countdownTimeout 	= local.countdownTimeout;
-
-	temp.message 			= local.message;
-	temp.displayChange 		= remote.displayChange+1;
-	temp.onOff 			  = 'on';
-	
-	if (local.upperLine == 'countdown' || local.lowerLine == 'countdown') { // countdown confirmed
-		if (temp.countdownState == 'stop') temp.timeoutTimestamp = local.timeout; // start normal timeout if countdown is stopped
-	} else { // is not countdown
-		temp.timeoutTimestamp = local.timeout; // start normal timeout
-		temp.countdownState = 'stop'; // stop countdown
-	}
-	sendDisplay();
-	targetDisplay('Live');
-});
-
-$("#confirm").click(function(){ //confirm button
-	$(this).addClass("grayButton");
-	temp.upperLine 			= local.upperLine;
-	temp.lowerLine 			= local.lowerLine;
-		
-	temp.countdown 			= local.countdown;
-	temp.countdownTimeout 	= local.countdownTimeout;
-
-	temp.message 			= local.message;
-	temp.displayChange 		= remote.displayChange+1;
-	temp.onOff 				= 'on';
-	
-	if (local.upperLine == 'countdown' || local.lowerLine == 'countdown') { // countdown confirmed
-		if (temp.countdownState == 'stop') temp.timeoutTimestamp = local.timeout; // start normal timeout if countdown is stopped
-	} else { // is not countdown
-		temp.timeoutTimestamp = local.timeout; // start normal timeout
-		temp.countdownState = 'stop'; // stop countdown
-	}
-	sendDisplay();
-	targetDisplay('Live');
-	
+	var startDuration = parseInt(local.countdown) + parseInt(local.countdownTimeout);
+	pushLiveState({ countdownState: 'start', timeoutTimestamp: startDuration });
 });
 
 
-$("*").change(function(){ // all
+$("*").change(function(event){ // all
 	event.stopPropagation();
 	setCookie('DieUhr', JSON.stringify(local));
 	checkPage();

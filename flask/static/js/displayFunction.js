@@ -1,12 +1,14 @@
 function timeloop() {
 	if (window.frameElement) {
 	  // in frame
-		if (local.tab == 'Live' || selectDisplay == 'Live') { 
+		if (selectDisplay == 'Live') {
 			checkDisplay(remote);
-			//console.log("frame remote");
+		} else if (selectDisplay == 'Vorschau') {
+			checkDisplay(local);
+		} else if (local.tab == 'Live') { 
+			checkDisplay(remote);
 		} else {
 			checkDisplay(local);
-			//console.log("frame local");
 		}
 		$('#error').hide();
 	setTimeout("timeloop()",1000);
@@ -87,8 +89,13 @@ function urlParam(name){
 function checkDisplay(object) {
 	if (local.displayChange == undefined) local.displayChange = 1;
 	if (remote.displayChange == undefined) remote.displayChange = 2;
+
+	var activeTab = local.tab;
+	if (selectDisplay == 'Vorschau' || selectDisplay == 'Live') {
+		activeTab = selectDisplay;
+	}
 	
-	if ( local.tab == 'Vorschau' || (local.tab == 'Live' && remote.onOff == 'on')) {
+	if ( activeTab == 'Vorschau' || (activeTab == 'Live' && remote.onOff == 'on')) {
 		
 		if (displayChange != object.displayChange) { // keep refresh action low
 			//console.log('Var: '+displayChange+'  Object: '+object.displayChange+' '+local.tab);
@@ -122,7 +129,7 @@ function checkDisplay(object) {
 		}
 	}
 	
-	if (local.tab == 'Live' && remote.onOff == 'off') {
+	if (activeTab == 'Live' && remote.onOff == 'off') {
 		if (displayChange != object.displayChange) { // keep refresh action low
 			displayChange = object.displayChange;		
 			$('#printUpperLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>');//.css('font-size', '100%');

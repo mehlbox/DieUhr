@@ -1,21 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>DieUhr</title>
-		<link href="display.css" rel="stylesheet"/>
-		<script type="text/javascript" src="js/jquery.js"></script>
-		<script type="text/javascript" src="js/bigtext.js"></script>
-		<script type="text/javascript" src="js/displayFunction.js"></script>
+		<link href="display.css" rel="stylesheet">
+		<script src="js/jquery.js" defer></script>
+		<script src="js/bigtext.js" defer></script>
+		<script src="js/displayFunction.js" defer></script>
+		<script src="js/display.js" defer></script>
 	</head>
 	<body>
-		<div id="wrap">
+		<main id="wrap">
 			<div id="center">
 				<div id="printUpperLine"></div>
 				<div id="printLowerLine"></div>
-				<div id="error"></div>
-			</div>	
-		</div>
-		<script type="text/javascript" src="js/display.js"></script>
+				<div id="error" role="status" aria-live="polite"></div>
+			</div>
+		</main>
 	</body>
 </html>
