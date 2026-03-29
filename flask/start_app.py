@@ -2,20 +2,40 @@ from flask import Flask, request, jsonify
 import os
 import json
 import time
+import threading
 from datetime import datetime
 
 app = Flask(__name__, static_url_path='', static_folder='static')
 
-data = {"onOff": "off"}
+state_lock = threading.RLock()
+
+DEFAULT_DATA = {
+    'onOff': 'off',
+    'upperLine': 'clock',
+    'lowerLine': 'textarea',
+    'displayChange': 0,
+    'timeout': '300',
+    'timeoutTimestamp': 'inf',
+    'countdown': 300,
+    'countdownTimeout': 300,
+    'countdownState': 'stop',
+    'message': '',
+    'stateVersion': 0,
+}
+
+data = DEFAULT_DATA.copy()
 
 def init_data():
     global data
-    data = {
-        'onOff': 'off',
-        'upperLine': 'clock',
-        'lowerLine': 'textarea',
-        'displayChange': 0,
-        }
+    with state_lock:
+        data = DEFAULT_DATA.copy()
+
+
+def snapshot_data():
+    with state_lock:
+        snapshot = data.copy()
+    snapshot['timestamp'] = int(time.time())
+    return snapshot
 
  
 @app.route('/command', methods=['POST'])
@@ -45,31 +65,56 @@ def handle_command():
 
 @app.route('/data', methods=['GET'])
 def get_data():
-    return jsonify(data)
+    return jsonify(snapshot_data())
 
 @app.route('/main', methods=['GET', 'POST'])
 def main():
     global data
     if request.method == 'GET':
-        new_data = {'timestamp': int(time.time())}
-        data.update(new_data)
-        print(data)
-        return jsonify(data)
+        snapshot = snapshot_data()
+        print(snapshot)
+        return jsonify(snapshot)
 
     if request.method == 'POST' and 'data' in request.form:
-        new_data = json.loads(request.form['data'])    
+        try:
+            new_data = json.loads(request.form['data'])
+        except json.JSONDecodeError:
+            return jsonify({'error': 'Invalid JSON in form field "data".'}), 400
 
-        if 'timeoutTimestamp' in new_data and new_data['timeoutTimestamp'] != 'inf':
-            new_data['timeoutTimestamp'] =  int(new_data['timeoutTimestamp']) + int(time.time())
+        if not isinstance(new_data, dict):
+            return jsonify({'error': 'Payload must be a JSON object.'}), 400
 
-        data.update(new_data)
+        requested_base_version = new_data.pop('baseVersion', None)
+        try:
+            if requested_base_version is not None:
+                requested_base_version = int(requested_base_version)
+        except (TypeError, ValueError):
+            return jsonify({'error': '"baseVersion" must be an integer.'}), 400
+
+        with state_lock:
+            current_version = int(data.get('stateVersion', 0))
+            if requested_base_version is not None and requested_base_version != current_version:
+                conflict_snapshot = data.copy()
+                conflict_snapshot['timestamp'] = int(time.time())
+                conflict_snapshot['error'] = 'State changed by another client.'
+                return jsonify(conflict_snapshot), 409
+
+            if 'timeoutTimestamp' in new_data and new_data['timeoutTimestamp'] != 'inf':
+                new_data['timeoutTimestamp'] = int(new_data['timeoutTimestamp']) + int(time.time())
+
+            data.update(new_data)
+            data['stateVersion'] = current_version + 1
+            response_data = data.copy()
+            response_data['timestamp'] = int(time.time())
 
         if new_data.get('onOff') == 'on' and 'message' in new_data:
             log_entry = f"{datetime.now().strftime('%a %d.%m.%Y %H:%M:%S')} Message: {new_data['message']} by: {request.remote_addr}"
-            with open(os.path.join(app.root_path, 'log.txt'), 'a') as log_file:
+            with open(os.path.join(app.root_path, 'log.txt'), 'a', encoding='utf-8') as log_file:
                 log_file.write(log_entry + '\n')
 
-        return 'OK', 204
+        return jsonify(response_data), 200
+
+    return jsonify({'error': 'Missing form field "data".'}), 400
 
 @app.route('/', methods=['GET'])
 def index():

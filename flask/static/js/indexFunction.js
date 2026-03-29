@@ -46,13 +46,31 @@ function urlParam(name){
 }
 
 function sendDisplay() {
-	console.log(temp)
+	var payload = $.extend({}, temp);
+	payload.baseVersion = remote.stateVersion || 0;
+	temp = { };
+
 	$.ajax({
 	method: "POST",
 	url: "main",
-	data: { data: JSON.stringify(temp) }
+	data: { data: JSON.stringify(payload) }
 	})
-	temp = { };
+	.done(function(response) {
+		remote = response;
+		$("#error").hide();
+		checkOnOff();
+		checkPage();
+		checkButton();
+	})
+	.fail(function(xhr) {
+		if (xhr.status === 409 && xhr.responseJSON) {
+			remote = xhr.responseJSON;
+			$("#error").show().html("Konflikt: Ein anderer Client hat gerade aktualisiert.");
+			checkOnOff();
+			checkPage();
+			checkButton();
+		}
+	});
 }
 
 function targetDisplay(displaySelect) {
