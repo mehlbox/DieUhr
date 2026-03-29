@@ -1,6 +1,6 @@
-# DieUhr
+# DieUhr 1.1 - Flask edition
 - A Clock on a monitor which can be switched to display announcements or a countdown clock.
-- Tested on RASPBIAN JESSIE LITE from https://www.raspberrypi.org/downloads/raspbian/ 
+- will be tested on RASPBIAN JESSIE LITE from https://www.raspberrypi.org/downloads/raspbian/ 
 
 ## how to install on a raspberry pi:
 ```bash

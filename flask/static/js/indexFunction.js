@@ -1,6 +1,6 @@
 function timeloop() {
 	$.ajax({
-	url: "function.php",
+	url: "main",
 	cache: false
 	})
 	.done(function(response) {
@@ -23,7 +23,7 @@ function timeloop() {
 function command(command) {
 	$.ajax({
 	method: "POST",
-	url: "function.php",
+	url: "command",
 	data: { command: command }
 	})
 }
@@ -46,9 +46,10 @@ function urlParam(name){
 }
 
 function sendDisplay() {
+	console.log(temp)
 	$.ajax({
 	method: "POST",
-	url: "function.php",
+	url: "main",
 	data: { data: JSON.stringify(temp) }
 	})
 	temp = { };
@@ -67,8 +68,10 @@ function checkPage() {
 	
 	if (remote.upperLine == 'countdown' || remote.lowerLine == 'countdown' || local.upperLine == 'countdown' || local.lowerLine == 'countdown') {
 		$('#countdownControl').show();
+		$('#countdownOption').show();
 	} else {
 		$('#countdownControl').hide();
+		$('#countdownOption').hide();
 	}
 	
     if (remote.upperLine == 'textarea' || remote.lowerLine == 'textarea' || local.upperLine == 'textarea' || local.lowerLine == 'textarea') {
@@ -83,20 +86,11 @@ function checkPage() {
 function checkOption() {
 	$("#upperLine").val(local.upperLine);
 	$("#lowerLine").val(local.lowerLine);
-	$("#clockSize").val(local.clockSize);
-	$("#dateSize").val(local.dateSize);
 	$("#timeout").val(local.timeout);
 
 	$("#countdownMin").val(parseInt(local.countdown/60)*60); // get just the minutes in second
 	$("#countdownSec").val(local.countdown%60);		// get just the seconds
-	$("#countdownSize").val(local.countdownSize);
 	$("#countdownTimeout").val(local.countdownTimeout);
-
-	$("#textblockSize").val(local.textblockSize);
-	$("#textblockBorder").val(local.textblockBorder);
-	
-	$("#marqueeSize").val(local.marqueeSize);
-	$("#marqueeSpeed").val(local.marqueeSpeed);
 
 	$("#message").val(local.message);
 	
@@ -106,22 +100,12 @@ function checkButton() { // check if a change exist
 	if (local.upperLine 		== remote.upperLine &&
 		local.lowerLine 		== remote.lowerLine &&
 		
-		local.clockSize 		== remote.clockSize &&
-		local.dateSize 			== remote.dateSize &&
-		
-		local.textblockSize		== remote.textblockSize &&
-		local.textblockBorder	== remote.textblockBorder &&
-		
-		local.marqueeSize		== remote.marqueeSize &&
-		local.marqueeSpeed		== remote.marqueeSpeed &&
-		
 		local.countdown 		== remote.countdown &&
-		local.countdownSize 	== remote.countdownSize &&
 		local.countdownTimeout 	== remote.countdownTimeout &&
 
 		local.message 			== remote.message)
 	{
-		$('#bth').hide();
+		// $('#bth').hide();
 		$("#confirm").removeClass("grayButton");
     } else {
 		$('#bth').show();

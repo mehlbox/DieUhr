@@ -13,7 +13,7 @@ function timeloop() {
 	} else {
 	  // independent, not in frame
 		$.ajax({
-		url: "function.php",
+		url: "main",
 		cache: false
 		})
 		.done(function(response) {
@@ -57,7 +57,7 @@ function checkTimeout(){
 function sendDisplay() {
 	$.ajax({
 	method: "POST",
-	url: "function.php",
+	url: "main",
 	data: { data: JSON.stringify(temp) }
 	})
 	temp = { };
@@ -83,43 +83,18 @@ function checkDisplay(object) {
 			//console.log('Var: '+displayChange+'  Object: '+object.displayChange+' '+local.tab);
 			displayChange = object.displayChange;
 
-			if (object.upperLine == 'clock') 	$('#printUpperLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>');
-			if (object.upperLine == 'date')		$('#printUpperLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>');
-			if (object.upperLine == 'countdown')$('#printUpperLine').html('<div class="stopwatch" style="background-size:'+object.countdownSize+';"></div><span class="countdown"></span>');
-			if (object.upperLine == 'textarea' && object.textblockBorder == 'none') 		$('#printUpperLine').html('<span id="textblock"></span>');
-			if (object.upperLine == 'textarea' && object.textblockBorder == 'wedding1') 	$('#printUpperLine').html('<span class="wedding1"><span style="color:red;">❤</span> <span id="textblock"></span> <span style="color:red;">❤</span></span>');
-			if (object.upperLine == 'textarea' && object.textblockBorder == 'wedding2') 	$('#printUpperLine').html('<span class="wedding2"><span style="color:red;">❤</span> <span id="textblock"></span> <span style="color:red;">❤</span></span>');
-			if (object.upperLine == 'marquee') 	$('#printUpperLine').html('<div class="marquee"></div>');
-			if (object.upperLine == 'off')		$('#printUpperLine').html('');
-			
+			const html_code = {
+				clock 		: '<span class="cl_hours"></span><span class="cl_minutes"></span>',
+				date 		: '<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>',
+				countdown 	: '<span class="stopwatch"></span><span class="countdown"></span>',
+				textarea 	: '<span id="textblock"></span>',
+				off 		: ''
+			}
 
-			if (object.lowerLine == 'clock') 	$('#printLowerLine').html('<span class="cl_hours"></span><span class="cl_minutes"></span>');
-			if (object.lowerLine == 'date')		$('#printLowerLine').html('<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>');
-			if (object.lowerLine == 'countdown')$('#printLowerLine').html('<div class="stopwatch" style="background-size:20vw;"></div><span class="countdown"></span>');
-			if (object.lowerLine == 'textarea' && object.textblockBorder == 'none') 		$('#printLowerLine').html('<span id="textblock"></span>');
-			if (object.lowerLine == 'textarea' && object.textblockBorder == 'wedding1') 	$('#printLowerLine').html('<span class="wedding1"><span style="color:red;">❤</span> <span id="textblock"></span> <span style="color:red;">❤</span></span>');
-			if (object.lowerLine == 'textarea' && object.textblockBorder == 'wedding2') 	$('#printLowerLine').html('<span class="wedding2"><span style="color:red;">❤</span> <span id="textblock"></span> <span style="color:red;">❤</span></span>');
-			if (object.lowerLine == 'marquee') 	$('#printLowerLine').html('<div class="marquee"></div>');
-			if (object.lowerLine == 'off') 		$('#printLowerLine').html('');
-			
-			/*
-			if (object.upperLine == 'clock') 	$('#printUpperLine').css('font-size', object.clockSize);
-			if (object.upperLine == 'date')		$('#printUpperLine').css('font-size', object.dateSize);
-			if (object.upperLine == 'countdown')$('#printUpperLine').css('font-size', object.countdownSize);
-			if (object.upperLine == 'textarea') $('#printUpperLine').css('font-size', object.textblockSize);
-			if (object.upperLine == 'marquee') 	$('#printUpperLine').css('font-size', object.marqueeSize);
-			if (object.upperLine == 'textarea' && object.textblockBorder != 'none') $('#printUpperLine').css('margin', '1vw');
-
-			if (object.lowerLine == 'clock') 	$('#printLowerLine').css('font-size', object.clockSize);
-			if (object.lowerLine == 'date')		$('#printLowerLine').css('font-size', object.dateSize);
-			if (object.lowerLine == 'countdown')$('#printLowerLine').css('font-size', object.countdownSize);
-			if (object.lowerLine == 'textarea') $('#printLowerLine').css('font-size', object.textblockSize);
-			if (object.lowerLine == 'marquee') 	$('#printLowerLine').css('font-size', object.marqueeSize);
-			if (object.lowerLine == 'textarea' && object.textblockBorder != 'none') $('#printLowerLine').css('margin', '1vw');
-			*/
-			
-			$('#textblock, .marquee').html(object.message);
-			$('.marquee').css('animation-duration', object.marqueeSpeed).css('-moz-animation-duration', object.marqueeSpeed).css('-webkit-animation-duration', object.marqueeSpeed);
+			$('#printUpperLine').html(html_code[object.upperLine]);
+			$('#printLowerLine').html(html_code[object.lowerLine]);
+						
+			$('#textblock').html(object.message);
 		}
 		if (object.upperLine == 'countdown' || object.lowerLine == 'countdown') {
 		var total = remote.timeoutTimestamp - remote.timestamp - remote.countdownTimeout
@@ -145,8 +120,6 @@ function checkDisplay(object) {
 	}
 	updateClock();
 	$('#center').bigtext({ maxfontsize: 600 }); //auto font-size
-	//if (object.upperLine == 'marquee') 	$('#printUpperLine').css('font-size', object.marqueeSize); //overwrite auto font-size
-	//if (object.lowerLine == 'marquee') 	$('#printLowerLine').css('font-size', object.marqueeSize); //overwrite auto font-size
 }
 
 

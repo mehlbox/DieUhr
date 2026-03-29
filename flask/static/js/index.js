@@ -1,7 +1,7 @@
 var local  = { }
 var temp   = { }
 var remote = { }
-var version = "1.0.15";
+var version = "1.1.0";
 var displayChange 	= 0;
 
 try {
@@ -11,19 +11,12 @@ try {
 catch(err) {
 	console.log('reset settings');
 	local = {
-		upperLine:	"clock",
-		lowerLine:	"textarea",
-		//clockSize:	"100%",
-		//dateSize:	"50%",
-		timeout:	"300",
+		upperLine:			"clock",
+		lowerLine:			"textarea",
+		timeout:			"300",
 		countdown:			"300",
-		//countdownSize:		"50%",
 		countdownTimeout:	"300",
-		//textblockSize:		"30%",
-		textblockBorder:	"none",
-		//marqueeSize:	"50%",
-		//marqueeSpeed:	"15s",
-		message:	"Das Lied Nr.: "
+		message:			"Das Lied Nr.: "
 		
 	}
 	setCookie('DieUhr', JSON.stringify(local));
@@ -65,17 +58,6 @@ $("#lowerLine").change(function(){ // dropdown menu lowerLine
 	local.lowerLine = $("#lowerLine option:selected").val();
 	local.displayChange++;
 	targetDisplay('Vorschau');
-});
-
-$("#symbol").change(function(){ // dropdown menu symbol
-	local.message = $("#message").val() + $( "#symbol option:selected" ).val();
-	$("#message").val(local.message);
-	$("#symbol option:selected").prop("selected", false)
-	$("#symbol option[value='']").prop("selected", true)
-	targetDisplay('Vorschau');
-	if(local.upperLine == 'marquee' || local.upperLine == 'textarea' || local.lowerLine == 'marquee' || local.lowerLine == 'textarea') {
-		$('#display').contents().find('#textblock, .marquee').html(local.message);
-	}
 });
 
 $("#moreOption").click(function(){ // button option
@@ -180,26 +162,34 @@ $('#stop').click(function(){ // stop button
 
 $('#start').click(function(){ // start button
 	temp.timeoutTimestamp = parseInt(remote.countdown) + parseInt(remote.countdownTimeout);
-	temp.countdownState = 'start';
+	temp.countdownState   = 'start';
+
+	temp.upperLine 			= local.upperLine;
+	temp.lowerLine 			= local.lowerLine;
+		
+	temp.countdown 			= local.countdown;
+	temp.countdownTimeout 	= local.countdownTimeout;
+
+	temp.message 			= local.message;
+	temp.displayChange 		= remote.displayChange+1;
+	temp.onOff 			  = 'on';
+	
+	if (local.upperLine == 'countdown' || local.lowerLine == 'countdown') { // countdown confirmed
+		if (temp.countdownState == 'stop') temp.timeoutTimestamp = local.timeout; // start normal timeout if countdown is stopped
+	} else { // is not countdown
+		temp.timeoutTimestamp = local.timeout; // start normal timeout
+		temp.countdownState = 'stop'; // stop countdown
+	}
 	sendDisplay();
+	targetDisplay('Live');
 });
 
 $("#confirm").click(function(){ //confirm button
 	$(this).addClass("grayButton");
 	temp.upperLine 			= local.upperLine;
 	temp.lowerLine 			= local.lowerLine;
-	
-	temp.clockSize 			= local.clockSize;
-	temp.dateSize 			= local.dateSize;
-	
-	temp.textblockSize		= local.textblockSize;
-	temp.textblockBorder	= local.textblockBorder;
-	
-	temp.marqueeSize		= local.marqueeSize;
-	temp.marqueeSpeed		= local.marqueeSpeed;
-	
+		
 	temp.countdown 			= local.countdown;
-	temp.countdownSize 		= local.countdownSize;
 	temp.countdownTimeout 	= local.countdownTimeout;
 
 	temp.message 			= local.message;
@@ -214,23 +204,9 @@ $("#confirm").click(function(){ //confirm button
 	}
 	sendDisplay();
 	targetDisplay('Live');
+	
 });
 
-$("#revert").click(function(){ //revert button
-	$(this).addClass("grayButton");
-	$.ajax({
-	url: "data.json",
-	cache: false
-	})
-	.done(function(response) {
-		$("#revert").removeClass("grayButton");
-		response.displayChange = undefined;
-		$.extend(local,response); //merge object
-		local.displayChange++;
-		targetDisplay('Vorschau');
-		checkOption();
-	});
-});
 
 $("*").change(function(){ // all
 	event.stopPropagation();
@@ -238,12 +214,9 @@ $("*").change(function(){ // all
 	checkPage();
 });
 
-$('#resetUnit').click(function(){ // resetUnit button
+$('#resetUnit').click(function(){
 	setCookie('DieUhr', '');
 	location.reload(true);
-});
-
-$('#resetDisplay').click(function(){ // resetDisplay button
 	command('delete');
 });
 

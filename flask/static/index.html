@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+	<meta charset="UTF-8">
+	<title>DieUhr</title>
+	<link href="index.css" rel="stylesheet"/>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/indexFunction.js"></script>
+</head>
+<body>
+	<div class="onOff" style="float: right;">
+		<button id="switch" type="button" ><img src="svg/OnOff.svg" alt="On/Off" width="90%" /></button>
+	</div>
+	<div style="float: right;">
+		<span id="autoOff"></span>
+	</div>
+	<ul id="tab" class="tabrow">
+	  <li id="Vorschau"><input type="button" name="Vorschau" value="Vorschau"/></li>
+	  <li id="Live">    <input type="button" name="Live"     value="Live"/></li>
+	</ul>
+	<div class="boxw">
+		<div id="wrapC"><iframe id="display" src="display.html" width="100%" height="100%" scrolling="no" frameborder="0"></iframe></div>
+	</div>
+	<div id="error"></div>
+	<div class="boxw">
+		<div style="margin-top:-2vw;">
+			<button id="moreOption" class="smallButton" type="button">
+				<img src="svg/plus.svg" alt="mehr" width="85%" />
+			</button>
+			<table>
+				<tr>
+					<td>Oben:</td>
+					<td>Unten:</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>
+						<select id="upperLine">
+							<option value="clock"     >Uhrzeit</option>
+							<option value="date"      >Datum</option>
+							<option value="countdown" >Timer</option>
+							<option value="textarea"  >Text</option>
+							<option value="off"       >Aus</option>
+						</select>
+					</td>
+					<td>
+						<select id="lowerLine">
+							<option value="clock"  >Uhrzeit</option>
+							<option value="date"      >Datum</option>
+							<option value="countdown" >Timer</option>
+							<option value="textarea"  >Text</option>
+							<option value="off"       >Aus</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id ="countdownOption">
+			<div class="boxin">Timer:
+				<table>
+					<tr>
+						<td>Zeitvorgabe:</td>
+						<td>
+							<select id="countdownMin">
+								<option value="0"   >0 Min</option>
+								<option value="60"  >1 Min</option>
+								<option value="120" >2 Min</option>
+								<option value="180" >3 Min</option>
+								<option value="240" >4 Min</option>
+								<option value="300" >5 Min</option>
+								<option value="360" >6 Min</option>
+								<option value="420" >7 Min</option>
+								<option value="480" >8 Min</option>
+								<option value="540" >9 Min</option>
+								<option value="600" >10Min</option>
+								<option value="660" >11Min</option>
+								<option value="720" >12Min</option>
+								<option value="780" >13Min</option>
+								<option value="840" >14Min</option>
+								<option value="900" >15Min</option>
+								<option value="960" >16Min</option>
+								<option value="1200">20Min</option>
+								<option value="1500">25Min</option>
+								<option value="1800">30Min</option>
+							</select>
+						</td>
+						<td>
+							<select id="countdownSec">
+								<option value="0"  >0 Sec</option>
+								<option value="10" >10Sec</option>
+								<option value="20" >20Sec</option>
+								<option value="30" >30Sec</option>
+								<option value="40" >40Sec</option>
+								<option value="50" >50Sec</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>überziehen anzeigen: </td>
+						<td>
+							<select id="countdownTimeout">
+								<option value="0"   >0 Min</option>
+								<option value="60"  >1 Min</option>
+								<option value="180" >3 Min</option>
+								<option value="300" >5 Min</option>
+								<option value="420" >7 Min</option>
+								<option value="600" >10Min</option>
+								<option value="900" >15Min</option>
+								<option value="1200">20Min</option>
+								<option value="1500">25Min</option>
+								<option value="1800">30Min</option>
+								<option value="inf" >&#8734;</option>
+							</select>
+						</td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div id="option">
+			<div class="boxin">Globale Einstellungen:
+				<table>
+					<tr>
+						<td>Standby nach: </td>
+						<td><select id="timeout">
+								<option value="60"  >1 Min</option>
+								<option value="180" >3 Min</option>
+								<option value="300" >5 Min</option>
+								<option value="420" >7 Min</option>
+								<option value="600" >10Min</option>
+								<option value="900" >15Min</option>
+								<option value="1200">20Min</option>
+								<option value="1500">25Min</option>
+								<option value="1800">30Min</option>
+								<option value="inf" >&#8734;</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="boxin">Einstellung zurücksetzen:
+				<table>
+					<tr>
+						<td>Die Uhr</td>
+						<td><input id="resetUnit" type="button" value="Reset" /></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div id="messageBox">
+			Text:
+			<textarea id="message" name="message" rows="4" ></textarea>
+		</div>
+		<div id="countdownControl">
+			<div class="button">
+				<button id="stop" type="button"><img src="svg/stop.svg"   alt="stop"  width="85%"/></button>
+			</div>
+			<div class="button">
+				<button id="start" type="button"><img src="svg/start.svg" alt="start" width="85%"/></button>
+			</div>
+		</div>
+		<div id="messageBoxControl">
+			<div class="button">
+				<button id="new" type="button"><img src="svg/doc.svg" alt="Vorlage" width="85%"/></button>
+			</div>
+			<div id="del" class="button">
+				<button type="button"><img src="svg/delete.svg" alt="löschen" width="85%"/></button>
+			</div>
+		</div>
+		<div id="bth">
+			<div class="button" style="float: right;">
+				<button id="confirm" type="button"><img src="svg/done.svg" alt="senden" width="85%"/></button>
+			</div>
+		</div>
+	</div>
+	<div style="clear: left; margin:2vw;">
+	<a href="/display.html">Vollbild</a>
+	</div>
+<script type="text/javascript" src="js/index.js"></script>
+</body>
+</html>
