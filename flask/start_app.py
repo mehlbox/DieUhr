@@ -1,11 +1,29 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response, render_template, redirect, url_for
 import os
 import json
 import time
 import threading
+import secrets
 from datetime import datetime
 
 app = Flask(__name__, static_url_path='', static_folder='static')
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+
+AUTH_USERNAME = os.getenv('BASIC_AUTH_USERNAME', '')
+AUTH_PASSWORD = os.getenv('BASIC_AUTH_PASSWORD', '')
+ASSET_VERSION = os.getenv('ASSET_VERSION') or str(int(time.time()))
+
+PUBLIC_PATHS = {
+    '/display',
+    '/display.html',
+    '/display.css',
+    '/favicon.ico',
+    '/svg/stopwatch.svg',
+    '/js/jquery.js',
+    '/js/bigtext.js',
+    '/js/displayFunction.js',
+    '/js/display.js',
+}
 
 state_lock = threading.RLock()
 
@@ -24,6 +42,49 @@ DEFAULT_DATA = {
 }
 
 data = DEFAULT_DATA.copy()
+
+
+def unauthorized_response():
+    return Response(
+        'Authentication required',
+        401,
+        {'WWW-Authenticate': 'Basic realm="Restricted"'}
+    )
+
+
+@app.before_request
+def enforce_basic_auth():
+    if request.path in PUBLIC_PATHS:
+        return None
+
+    if request.path == '/data' and request.method == 'GET':
+        return None
+
+    auth = request.authorization
+    if (
+        auth
+        and auth.type == 'basic'
+        and secrets.compare_digest(auth.username or '', AUTH_USERNAME)
+        and secrets.compare_digest(auth.password or '', AUTH_PASSWORD)
+    ):
+        return None
+
+    return unauthorized_response()
+
+
+@app.after_request
+def disable_ui_asset_cache(response):
+    cache_sensitive_paths = ('/', '/display', '/index.html', '/display.html')
+    cache_sensitive_extensions = ('.js', '.css')
+
+    if request.method == 'GET' and (
+        request.path in cache_sensitive_paths
+        or request.path.endswith(cache_sensitive_extensions)
+    ):
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate, max-age=0'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
+    return response
 
 def init_data():
     global data
@@ -118,11 +179,21 @@ def main():
 
 @app.route('/', methods=['GET'])
 def index():
-    return app.send_static_file('index.html')
+    return render_template('index.html', asset_version=ASSET_VERSION)
+
+
+@app.route('/index.html', methods=['GET'])
+def index_static_redirect():
+    return redirect(url_for('index', v=ASSET_VERSION), code=302)
 
 @app.route('/display', methods=['GET'])
 def display():
-    return app.send_static_file('display.html')
+    return render_template('display.html', asset_version=ASSET_VERSION)
+
+
+@app.route('/display.html', methods=['GET'])
+def display_static_redirect():
+    return redirect(url_for('display', v=ASSET_VERSION), code=302)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

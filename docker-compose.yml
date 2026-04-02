@@ -1,0 +1,55 @@
+services:
+  deps:
+    image: python:3.11-slim
+    container_name: ${CONTAINER_NAME}-deps
+    working_dir: /app/flask
+    restart: "no"
+    networks:
+      - default
+    volumes:
+      - ./:/app:ro         # read requirements.txt
+      - venv:/venv         # write the virtualenv here
+    command: >
+      sh -c "
+        python -m venv /venv &&
+        . /venv/bin/activate &&
+        pip install --no-cache-dir -r /app/flask/requirements.txt
+      "
+
+  flask-app:
+    image: python:3.11-slim
+    container_name: ${CONTAINER_NAME}
+    restart: always
+    working_dir: /app/flask
+    volumes:
+      - ./:/app
+      - venv:/venv              # use the same venv created by deps
+    environment:
+      - FLASK_APP=start_app.py
+      - SECRET_KEY=${SECRET_KEY}
+      - BASIC_AUTH_USERNAME=${BASIC_AUTH_USERNAME}
+      - BASIC_AUTH_PASSWORD=${BASIC_AUTH_PASSWORD}
+      - TZ=Europe/Berlin
+      - PATH=/venv/bin:${PATH}     # ensure gunicorn/eventlet are found
+    depends_on:
+      deps:
+        condition: service_completed_successfully
+    networks:
+      - default
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      # HTTP router (HTTPS handled upstream)
+      - "traefik.http.routers.${CONTAINER_NAME}.rule=${HOST_RULE}"
+      - "traefik.http.routers.${CONTAINER_NAME}.entrypoints=web"
+      - "traefik.http.services.${CONTAINER_NAME}.loadbalancer.server.port=5000"
+    command: >
+      sh -c "sleep 5 && . /venv/bin/activate && python start_app.py"
+
+networks:
+  traefik:
+    external: true
+
+volumes:
+  venv:

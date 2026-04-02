@@ -15,7 +15,7 @@ function timeloop() {
 	} else {
 	  // independent, not in frame
 		$.ajax({
-		url: "main",
+		url: "data",
 		cache: false
 		})
 		.done(function(response) {
@@ -33,7 +33,10 @@ function timeloop() {
 		})
 	setTimeout("timeloop()",1000);
 	}
-	checkTimeout();
+	// Standalone display must stay read-only and never trigger auth-protected writes.
+	if (window.frameElement) {
+		checkTimeout();
+	}
 };
 
 function showTimer(total){

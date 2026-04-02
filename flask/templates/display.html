@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="de">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>DieUhr</title>
+		<link href="{{ url_for('static', filename='display.css', v=asset_version) }}" rel="stylesheet">
+		<script src="{{ url_for('static', filename='js/jquery.js', v=asset_version) }}" defer></script>
+		<script src="{{ url_for('static', filename='js/bigtext.js', v=asset_version) }}" defer></script>
+		<script src="{{ url_for('static', filename='js/displayFunction.js', v=asset_version) }}" defer></script>
+		<script src="{{ url_for('static', filename='js/display.js', v=asset_version) }}" defer></script>
+	</head>
+	<body>
+		<main id="wrap">
+			<div id="center">
+				<div id="printUpperLine"></div>
+				<div id="printLowerLine"></div>
+				<div id="error" role="status" aria-live="polite"></div>
+			</div>
+		</main>
+	</body>
+</html>
