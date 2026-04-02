@@ -475,6 +475,37 @@ textarea:disabled {
     }
 }
 
+@media (min-width: 1120px) {
+    .app {
+        width: min(1320px, calc(100vw - 2rem));
+        display: grid;
+        grid-template-columns: minmax(360px, 42%) minmax(0, 1fr);
+        gap: 1rem;
+        align-items: start;
+    }
+
+    .app-header {
+        grid-column: 1 / -1;
+        margin-bottom: 0;
+    }
+
+    .preview-card {
+        grid-column: 1;
+        grid-row: 2 / 5;
+        margin-bottom: 0;
+    }
+
+    #error,
+    .control-grid {
+        grid-column: 2;
+        margin-bottom: 0;
+    }
+
+    .app-footer {
+        grid-column: 1 / -1;
+    }
+}
+
 @media (max-width: 640px) {
     .app {
         width: calc(100vw - 1rem);
@@ -495,5 +526,4 @@ textarea:disabled {
         flex: 1;
     }
 }
-
 
