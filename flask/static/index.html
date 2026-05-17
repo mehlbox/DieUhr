@@ -9,18 +9,24 @@
     <script type="text/javascript" src="js/indexFunction.js"></script>
 </head>
 <body>
-    <div class="bg-glow"></div>
-    <main class="app">
-        <header class="app-header">
-            <div class="brand">
-                <h1>DieUhr</h1>
-                <p>Live Controller für lokale Displays</p>
+    <div class="scene scene-top"></div>
+    <div class="scene scene-bottom"></div>
+    <main class="app-shell">
+        <header class="topbar">
+            <div class="brand-block">
+                <p class="eyebrow">Digital Signage Suite</p>
+                <h1>DieUhr Control Center</h1>
+                <p class="subtitle">Zentrale Steuerung für Uhrzeit, Hinweise und Timer auf allen verbundenen Displays.</p>
             </div>
-            <div class="top-actions">
-                <div class="status-chip">
-                    <span>Auto-Off</span>
-                    <strong id="autoOff"></strong>
-                </div>
+            <div class="status-cluster">
+                <article class="status-tile">
+                    <span class="label">Auto-Off</span>
+                    <strong id="autoOff">-</strong>
+                </article>
+                <article class="status-tile">
+                    <span class="label">Kiosk</span>
+                    <strong id="kioskState">Unbekannt</strong>
+                </article>
                 <div class="onOff">
                     <button id="switch" type="button" aria-label="Anzeige ein oder aus">
                         <img src="svg/OnOff.svg" alt="On/Off">
@@ -29,55 +35,122 @@
             </div>
         </header>
 
-        <section class="preview-card">
-            <div class="preview-grid">
-                <div class="preview-pane active">
-                    <h3>Anzeige</h3>
-                    <div class="wrapC">
+        <div id="error" role="alert"></div>
+
+        <section class="workspace-grid">
+            <aside class="preview-column">
+                <article class="panel preview-panel">
+                    <div class="panel-head">
+                        <h2>Live-Vorschau</h2>
+                    </div>
+                    <div class="display-shell">
                         <iframe id="display" src="display.html" scrolling="no" frameborder="0" title="Display"></iframe>
                     </div>
-                </div>
-            </div>
-        </section>
+                </article>
+            </aside>
 
-        <div id="error"></div>
-
-        <section class="control-grid">
-            <div class="card primary">
-                <div class="card-header">
-                    <h2>Layout</h2>
-                    <button id="moreOption" class="smallButton" type="button" aria-label="Erweiterte Optionen anzeigen">
-                        <img src="svg/plus.svg" alt="Mehr">
-                    </button>
-                </div>
-                <div class="row fields">
-                    <div class="field">
-                        <label for="upperLine">Obere Zeile</label>
-                        <select id="upperLine">
-                            <option value="clock">Uhrzeit</option>
-                            <option value="date">Datum</option>
-                            <option value="countdown">Timer</option>
-                            <option value="textarea">Text</option>
-                            <option value="off">Aus</option>
-                        </select>
+            <section class="control-column">
+                <article class="panel main-controls">
+                    <div class="panel-head">
+                        <h2>Anzeigenlayout</h2>
+                        <button id="moreOption" class="smallButton" type="button" aria-label="Erweiterte Optionen anzeigen">
+                            <img src="svg/plus.svg" alt="Mehr">
+                        </button>
                     </div>
-                    <div class="field">
-                        <label for="lowerLine">Untere Zeile</label>
-                        <select id="lowerLine">
-                            <option value="clock">Uhrzeit</option>
-                            <option value="date">Datum</option>
-                            <option value="countdown">Timer</option>
-                            <option value="textarea">Text</option>
-                            <option value="off">Aus</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="option" class="options-inline">
-                    <h2>Erweiterte Optionen</h2>
-                    <div class="row fields">
+                    <div class="row fields two-col">
                         <div class="field">
-                            <label for="timeout">Standby nach</label>
-                            <select id="timeout">
+                            <label for="upperLine">Obere Zeile</label>
+                            <select id="upperLine">
+                                <option value="clock">Uhrzeit</option>
+                                <option value="date">Datum</option>
+                                <option value="countdown">Timer</option>
+                                <option value="textarea">Text</option>
+                                <option value="off">Aus</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="lowerLine">Untere Zeile</label>
+                            <select id="lowerLine">
+                                <option value="clock">Uhrzeit</option>
+                                <option value="date">Datum</option>
+                                <option value="countdown">Timer</option>
+                                <option value="textarea">Text</option>
+                                <option value="off">Aus</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="option" class="options-inline">
+                        <h3>Erweiterte Optionen</h3>
+                        <div class="row fields two-col">
+                            <div class="field">
+                                <label for="timeout">Standby nach</label>
+                                <select id="timeout">
+                                    <option value="60">1 Min</option>
+                                    <option value="180">3 Min</option>
+                                    <option value="300">5 Min</option>
+                                    <option value="420">7 Min</option>
+                                    <option value="600">10 Min</option>
+                                    <option value="900">15 Min</option>
+                                    <option value="1200">20 Min</option>
+                                    <option value="1500">25 Min</option>
+                                    <option value="1800">30 Min</option>
+                                    <option value="inf">&#8734;</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label for="resetUnit">System</label>
+                                <input id="resetUnit" type="button" value="Einstellungen zurücksetzen">
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article id="countdownOption" class="panel">
+                    <div class="panel-head">
+                        <h2>Timer-Steuerung</h2>
+                    </div>
+                    <div class="row fields timer-grid">
+                        <div class="field">
+                            <label for="countdownMin">Dauer Minuten</label>
+                            <select id="countdownMin">
+                                <option value="0">0 Min</option>
+                                <option value="60">1 Min</option>
+                                <option value="120">2 Min</option>
+                                <option value="180">3 Min</option>
+                                <option value="240">4 Min</option>
+                                <option value="300">5 Min</option>
+                                <option value="360">6 Min</option>
+                                <option value="420">7 Min</option>
+                                <option value="480">8 Min</option>
+                                <option value="540">9 Min</option>
+                                <option value="600">10 Min</option>
+                                <option value="660">11 Min</option>
+                                <option value="720">12 Min</option>
+                                <option value="780">13 Min</option>
+                                <option value="840">14 Min</option>
+                                <option value="900">15 Min</option>
+                                <option value="960">16 Min</option>
+                                <option value="1200">20 Min</option>
+                                <option value="1500">25 Min</option>
+                                <option value="1800">30 Min</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="countdownSec">Dauer Sekunden</label>
+                            <select id="countdownSec">
+                                <option value="0">0 Sek</option>
+                                <option value="10">10 Sek</option>
+                                <option value="20">20 Sek</option>
+                                <option value="30">30 Sek</option>
+                                <option value="40">40 Sek</option>
+                                <option value="50">50 Sek</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label for="countdownTimeout">Überziehen anzeigen</label>
+                            <select id="countdownTimeout">
+                                <option value="0">0 Min</option>
                                 <option value="60">1 Min</option>
                                 <option value="180">3 Min</option>
                                 <option value="300">5 Min</option>
@@ -90,100 +163,40 @@
                                 <option value="inf">&#8734;</option>
                             </select>
                         </div>
-                        <div class="field reset-field">
-                            <label for="resetUnit">Einstellungen</label>
-                            <input id="resetUnit" type="button" value="Zurücksetzen">
+                    </div>
+                    <div id="countdownControl" class="action-group card-actions">
+                        <div class="button">
+                            <button id="stop" type="button" aria-label="Timer stoppen"><img src="svg/stop.svg" alt="Stop"></button>
+                        </div>
+                        <div class="button">
+                            <button id="start" type="button" aria-label="Timer starten"><img src="svg/start.svg" alt="Start"></button>
                         </div>
                     </div>
-                </div>
-            </div>
+                </article>
 
-            <div id="countdownOption" class="card">
-                <h2>Timer</h2>
-                <div class="row fields">
-                    <div class="field">
-                        <label for="countdownMin">Dauer Minuten</label>
-                        <select id="countdownMin">
-                            <option value="0">0 Min</option>
-                            <option value="60">1 Min</option>
-                            <option value="120">2 Min</option>
-                            <option value="180">3 Min</option>
-                            <option value="240">4 Min</option>
-                            <option value="300">5 Min</option>
-                            <option value="360">6 Min</option>
-                            <option value="420">7 Min</option>
-                            <option value="480">8 Min</option>
-                            <option value="540">9 Min</option>
-                            <option value="600">10 Min</option>
-                            <option value="660">11 Min</option>
-                            <option value="720">12 Min</option>
-                            <option value="780">13 Min</option>
-                            <option value="840">14 Min</option>
-                            <option value="900">15 Min</option>
-                            <option value="960">16 Min</option>
-                            <option value="1200">20 Min</option>
-                            <option value="1500">25 Min</option>
-                            <option value="1800">30 Min</option>
-                        </select>
+                <article id="messageBox" class="panel">
+                    <div class="panel-head">
+                        <h2>Textnachricht</h2>
                     </div>
-                    <div class="field">
-                        <label for="countdownSec">Dauer Sekunden</label>
-                        <select id="countdownSec">
-                            <option value="0">0 Sek</option>
-                            <option value="10">10 Sek</option>
-                            <option value="20">20 Sek</option>
-                            <option value="30">30 Sek</option>
-                            <option value="40">40 Sek</option>
-                            <option value="50">50 Sek</option>
-                        </select>
+                    <textarea id="message" name="message" rows="5" placeholder="Nachricht eingeben..."></textarea>
+                    <div id="messageBoxControl" class="action-group card-actions">
+                        <div class="button">
+                            <button id="new" type="button" aria-label="Vorlage einfügen"><img src="svg/doc.svg" alt="Vorlage"></button>
+                        </div>
+                        <div id="del" class="button">
+                            <button type="button" aria-label="Text löschen"><img src="svg/delete.svg" alt="Löschen"></button>
+                        </div>
+                        <div class="button">
+                            <button id="confirmText" type="button" aria-label="Text senden"><img src="svg/send.svg" alt="Senden"></button>
+                        </div>
                     </div>
-                    <div class="field">
-                        <label for="countdownTimeout">Überziehen anzeigen</label>
-                        <select id="countdownTimeout">
-                            <option value="0">0 Min</option>
-                            <option value="60">1 Min</option>
-                            <option value="180">3 Min</option>
-                            <option value="300">5 Min</option>
-                            <option value="420">7 Min</option>
-                            <option value="600">10 Min</option>
-                            <option value="900">15 Min</option>
-                            <option value="1200">20 Min</option>
-                            <option value="1500">25 Min</option>
-                            <option value="1800">30 Min</option>
-                            <option value="inf">&#8734;</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="countdownControl" class="action-group card-actions">
-                    <div class="button">
-                        <button id="stop" type="button" aria-label="Timer stoppen"><img src="svg/stop.svg" alt="Stop"></button>
-                    </div>
-                    <div class="button">
-                        <button id="start" type="button" aria-label="Timer starten"><img src="svg/start.svg" alt="Start"></button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="messageBox" class="card">
-                <h2>Textnachricht</h2>
-                <textarea id="message" name="message" rows="4" placeholder="Nachricht eingeben..."></textarea>
-                <div id="messageBoxControl" class="action-group card-actions">
-                    <div class="button">
-                        <button id="new" type="button" aria-label="Vorlage einfügen"><img src="svg/doc.svg" alt="Vorlage"></button>
-                    </div>
-                    <div id="del" class="button">
-                        <button type="button" aria-label="Text löschen"><img src="svg/delete.svg" alt="Löschen"></button>
-                    </div>
-                    <div class="button">
-                        <button id="confirmText" type="button" aria-label="Text senden"><img src="svg/send.svg" alt="Senden"></button>
-                    </div>
-                </div>
-            </div>
-
+                </article>
+            </section>
         </section>
 
         <footer class="app-footer">
-            <a href="/display" target="_blank" rel="noopener noreferrer">Vollbild-Display öffnen</a>
+            <div id="kioskMeta" class="footer-meta">Warte auf Verbindung</div>
+            <a href="/display" target="_blank" rel="noopener noreferrer">Vollbild-Display in neuem Tab</a>
         </footer>
     </main>
     <script type="text/javascript" src="js/index.js"></script>

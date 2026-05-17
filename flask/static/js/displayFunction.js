@@ -175,7 +175,84 @@ function checkDisplay(object) {
 		}
 	}
 	updateClock();
-	$('#center').bigtext({ maxfontsize: 600 }); //auto font-size
+
+	var renderedUpperType = object.upperLine;
+	var renderedLowerType = object.lowerLine;
+	if (activeTab == 'Live' && remote.onOff == 'off') {
+		renderedUpperType = 'clock';
+		renderedLowerType = 'date';
+	}
+
+	fitDisplay(renderedUpperType, renderedLowerType);
+}
+
+function fitDisplay(upperType, lowerType) {
+	var $center = $('#center');
+	var viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1080;
+	var hasUpperLine = upperType != 'off';
+	var hasLowerLine = lowerType != 'off';
+	var isClockDate = (upperType == 'clock' && lowerType == 'date');
+	var isDateClock = (upperType == 'date' && lowerType == 'clock');
+
+	$center.removeClass('layout-time-date layout-date-time layout-single-upper layout-single-lower');
+
+	if (isClockDate) {
+		$center.addClass('layout-time-date');
+		fitLine('#printUpperLine', Math.floor(viewportHeight * 0.68));
+		fitLine('#printLowerLine', Math.floor(viewportHeight * 0.24));
+		return;
+	}
+
+	if (isDateClock) {
+		$center.addClass('layout-date-time');
+		fitLine('#printUpperLine', Math.floor(viewportHeight * 0.3));
+		fitLine('#printLowerLine', Math.floor(viewportHeight * 0.62));
+		return;
+	}
+
+	if (hasUpperLine && !hasLowerLine) {
+		$center.addClass('layout-single-upper');
+		fitLine('#printUpperLine', Math.floor(viewportHeight * 0.9));
+		return;
+	}
+
+	if (!hasUpperLine && hasLowerLine) {
+		$center.addClass('layout-single-lower');
+		fitLine('#printLowerLine', Math.floor(viewportHeight * 0.9));
+		return;
+	}
+
+	fitLine('#printUpperLine', Math.floor(viewportHeight * 0.44));
+	fitLine('#printLowerLine', Math.floor(viewportHeight * 0.44));
+}
+
+function fitLine(selector, maxfontsize) {
+	if (!$(selector).children().length) return;
+
+	$(selector).bigtext({ maxfontsize: Math.max(1, maxfontsize) });
+	clampLineToWidth(selector);
+}
+
+function clampLineToWidth(selector) {
+	var el = $(selector).get(0);
+	if (!el) return;
+
+	var attempt = 0;
+	while (el.scrollWidth > el.clientWidth && attempt < 20) {
+		var $targets = $(selector).find('.bigtext-line');
+		if (!$targets.length) {
+			$targets = $(selector).children();
+		}
+
+		$targets.each(function() {
+			var fontSize = parseFloat($(this).css('font-size'));
+			if (!isNaN(fontSize) && fontSize > 1) {
+				$(this).css('font-size', (fontSize * 0.96) + 'px');
+			}
+		});
+
+		attempt++;
+	}
 }
 
 
