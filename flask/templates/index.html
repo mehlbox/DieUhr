@@ -10,16 +10,20 @@
 </head>
 <body>
     <div class="bg-glow"></div>
-    <main class="app">
+    <main class="app" data-debug-mode="{{ 'true' if debug_mode else 'false' }}">
         <header class="app-header">
             <div class="brand">
                 <h1>DieUhr</h1>
-                <p>Live Controller fuer lokale Displays</p>
+                <p>Live Controller für lokale Displays</p>
             </div>
             <div class="top-actions">
                 <div class="status-chip">
                     <span>Auto-Off</span>
                     <strong id="autoOff"></strong>
+                </div>
+                <div class="status-chip status-chip-kiosk">
+                    <span>Kiosk</span>
+                    <strong id="kioskState">Unbekannt</strong>
                 </div>
                 <div class="onOff">
                     <button id="switch" type="button" aria-label="Anzeige ein oder aus">
@@ -29,15 +33,46 @@
             </div>
         </header>
 
-        <section class="preview-card">
-            <div class="preview-grid">
-                <div class="preview-pane active">
-                    <h3>Anzeige</h3>
-                    <div class="wrapC">
-                        <iframe id="display" src="{{ url_for('display', v=asset_version) }}" scrolling="no" frameborder="0" title="Display"></iframe>
+        <section class="preview-layout">
+            <div class="preview-card">
+                <div class="preview-grid">
+                    <div class="preview-pane active">
+                        <h3>Anzeige</h3>
+                        <div class="wrapC">
+                            <iframe id="display" src="{{ url_for('display', v=asset_version) }}" scrolling="no" frameborder="0" title="Display"></iframe>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            {% if debug_mode %}
+            <div class="preview-card preview-card-kiosk">
+                <div class="preview-pane">
+                    <div class="preview-pane-header">
+                        <h3>Kiosk Screenshot</h3>
+                        <div class="preview-actions">
+                            <button id="restartKioskChromium" class="text-button text-button-warn" type="button">Chromium neu starten</button>
+                            <button id="requestKioskScreenshot" class="text-button" type="button">Neu holen</button>
+                        </div>
+                    </div>
+                    <div class="kiosk-shot-card">
+                        <div class="kiosk-status-row">
+                            <span id="kioskBadge" class="kiosk-badge is-unknown">Unbekannt</span>
+                            <span id="kioskHint">Noch kein Kiosk verbunden.</span>
+                        </div>
+                        <div class="kiosk-shot-frame">
+                            <img id="kioskScreenshot" alt="Letzter echter Screenshot vom Kiosk">
+                            <div id="kioskScreenshotEmpty" class="kiosk-shot-empty">Noch kein echter Screenshot vorhanden.</div>
+                            <div id="kioskScreenshotResolution" class="kiosk-shot-resolution" aria-hidden="true"></div>
+                            <div id="kioskScreenshotLoading" class="kiosk-shot-loading" aria-hidden="true">
+                                <div class="kiosk-shot-spinner"></div>
+                                <span>Screenshot läuft</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
         </section>
 
         <div id="error"></div>
@@ -92,7 +127,7 @@
                         </div>
                         <div class="field reset-field">
                             <label for="resetUnit">Einstellungen</label>
-                            <input id="resetUnit" type="button" value="Zuruecksetzen">
+                            <input id="resetUnit" type="button" value="Zurücksetzen">
                         </div>
                     </div>
                 </div>
@@ -138,7 +173,7 @@
                         </select>
                     </div>
                     <div class="field">
-                        <label for="countdownTimeout">Ueberziehen anzeigen</label>
+                        <label for="countdownTimeout">Überziehen anzeigen</label>
                         <select id="countdownTimeout">
                             <option value="0">0 Min</option>
                             <option value="60">1 Min</option>
@@ -169,10 +204,10 @@
                 <textarea id="message" name="message" rows="4" placeholder="Nachricht eingeben..."></textarea>
                 <div id="messageBoxControl" class="action-group card-actions">
                     <div class="button">
-                        <button id="new" type="button" aria-label="Vorlage einfuegen"><img src="svg/doc.svg" alt="Vorlage"></button>
+                        <button id="new" type="button" aria-label="Vorlage einfügen"><img src="svg/doc.svg" alt="Vorlage"></button>
                     </div>
                     <div id="del" class="button">
-                        <button type="button" aria-label="Text loeschen"><img src="svg/delete.svg" alt="Loeschen"></button>
+                        <button type="button" aria-label="Text löschen"><img src="svg/delete.svg" alt="Löschen"></button>
                     </div>
                     <div class="button">
                         <button id="confirmText" type="button" aria-label="Text senden"><img src="svg/send.svg" alt="Senden"></button>
@@ -183,7 +218,8 @@
         </section>
 
         <footer class="app-footer">
-            <a href="/display" target="_blank" rel="noopener noreferrer">Vollbild-Display oeffnen</a>
+            <div id="kioskMeta" class="footer-meta">Warte auf Verbindung</div>
+            <a href="/display" target="_blank" rel="noopener noreferrer">Vollbild-Display öffnen</a>
         </footer>
     </main>
     <script type="text/javascript" src="{{ url_for('static', filename='js/index.js', v=asset_version) }}"></script>

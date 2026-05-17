@@ -2,3 +2,4 @@ log.txt
 data.json
 __pycache__
 .env
+flask/kiosk_screenshots/

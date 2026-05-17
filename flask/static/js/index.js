@@ -5,6 +5,7 @@ var version = "1.1.0";
 var displayChange 	= 0;
 var offStateSessionKey = "DieUhrBeforeOff";
 var messageDraft = "";
+var currentKioskId = "";
 
 try {
 	local = JSON.parse(getCookie('DieUhr'));
@@ -64,12 +65,6 @@ function pushLiveState(options) {
 	if (options.countdownState !== undefined) temp.countdownState = options.countdownState;
 	if (options.timeoutTimestamp !== undefined) temp.timeoutTimestamp = options.timeoutTimestamp;
 	sendDisplay();
-}
-
-function updateTextPreview() {
-	if(local.upperLine == 'marquee' || local.upperLine == 'textarea' || local.lowerLine == 'marquee' || local.lowerLine == 'textarea') {
-		$('#display').contents().find('#textblock, .marquee').html(messageDraft);
-	}
 }
 
 function pushTextMessage() {
@@ -180,19 +175,16 @@ $("#marqueeSpeed").change(function(){ // dropdown menu marqueeSpeed
 
 $('#message').bind('keyup',function(){ // textarea
 	messageDraft = $("#message").val();
-	updateTextPreview();
 });
 
 $('#new').click(function(){ // template button
 	messageDraft = "Das Lied Nr.: ";
 	$("#message").val(messageDraft);
-	updateTextPreview();
 });
 
 $('#del').click(function(){ // trash button
 	messageDraft = "";
 	$("#message").val(messageDraft);
-	updateTextPreview();
 });
 
 $('#confirmText').click(function(){ // send text only
@@ -219,6 +211,48 @@ $('#resetUnit').click(function(){
 	setCookie('DieUhr', '');
 	location.reload(true);
 	command('delete');
+});
+
+$('#requestKioskScreenshot').click(function() {
+	if (!currentKioskId) return;
+
+	$(this).prop('disabled', true);
+	$.ajax({
+		method: "POST",
+		url: "/api/kiosks/" + encodeURIComponent(currentKioskId) + "/request-screenshot"
+	})
+	.done(function(response) {
+		if (response && response.kiosk) {
+			renderKioskStatus(response.kiosk);
+		}
+	})
+	.fail(function() {
+		$('#kioskHint').text('Screenshot-Anforderung fehlgeschlagen.');
+	})
+	.always(function() {
+		$('#requestKioskScreenshot').prop('disabled', false);
+	});
+});
+
+$('#restartKioskChromium').click(function() {
+	if (!currentKioskId) return;
+
+	$(this).prop('disabled', true);
+	$.ajax({
+		method: "POST",
+		url: "/api/kiosks/" + encodeURIComponent(currentKioskId) + "/restart-browser"
+	})
+	.done(function(response) {
+		if (response && response.kiosk) {
+			renderKioskStatus(response.kiosk);
+		}
+	})
+	.fail(function() {
+		$('#kioskHint').text('Chromium-Neustart konnte nicht angefordert werden.');
+	})
+	.always(function() {
+		$('#restartKioskChromium').prop('disabled', false);
+	});
 });
 
 timeloop();

@@ -1,6 +1,38 @@
+var remoteTimestampBase = null;
+var remoteTimestampSyncedAtMs = 0;
+
+function syncRemoteClock(timestampSeconds) {
+	var parsedTimestamp = parseInt(timestampSeconds, 10);
+	if (isNaN(parsedTimestamp)) return;
+	remoteTimestampBase = parsedTimestamp;
+	remoteTimestampSyncedAtMs = Date.now();
+	remote.timestamp = parsedTimestamp;
+}
+
+function getRemoteTimestampNow() {
+	if (remoteTimestampBase === null) {
+		var fallbackTimestamp = Math.round(Date.now() / 1000);
+		remote.timestamp = fallbackTimestamp;
+		return fallbackTimestamp;
+	}
+
+	var elapsedSeconds = Math.floor((Date.now() - remoteTimestampSyncedAtMs) / 1000);
+	var currentTimestamp = remoteTimestampBase + elapsedSeconds;
+	remote.timestamp = currentTimestamp;
+	return currentTimestamp;
+}
+
+function applyRemoteState(nextRemote) {
+	remote = nextRemote || { };
+	syncRemoteClock(remote.timestamp);
+	getRemoteTimestampNow();
+	return remote;
+}
+
 function timeloop() {
 	if (window.frameElement) {
 	  // in frame
+		getRemoteTimestampNow();
 		if (selectDisplay == 'Live') {
 			checkDisplay(remote);
 		} else if (selectDisplay == 'Vorschau') {
@@ -19,14 +51,17 @@ function timeloop() {
 		cache: false
 		})
 		.done(function(response) {
-			remote = response;
+			applyRemoteState(response);
 			checkDisplay(remote);
 			$('#error').hide();
 		})
 		.fail(function() { // fall back if no conection
-			remote.timestamp = Math.round(new Date / 1000);
-			remote.onOff = "off";
-			remote.displayChange = 0;
+			if (!remote || remoteTimestampBase === null) {
+				remote = remote || { };
+				syncRemoteClock(Math.round(Date.now() / 1000));
+			} else {
+				getRemoteTimestampNow();
+			}
 			checkDisplay(remote);
 			$('#error').show().html('Keine Verbindung zum Server ! Fernsteuerung nicht möglich.');
 			console.error("Keine Verbindung zum Server!");
@@ -50,7 +85,7 @@ function showTimer(total){
 }
 
 function checkTimeout(){
-	var remaining = remote.timeoutTimestamp - remote.timestamp;
+	var remaining = remote.timeoutTimestamp - getRemoteTimestampNow();
 	if (remote.onOff == 'on' && remaining <= 0 && remote.timeout != 'inf' ) {
 		temp.onOff ='off';
 		temp.countdownState = 'stop';
@@ -70,11 +105,11 @@ function sendDisplay() {
 	data: { data: JSON.stringify(payload) }
 	})
 	.done(function(response) {
-		remote = response;
+		applyRemoteState(response);
 	})
 	.fail(function(xhr) {
 		if (xhr.status === 409 && xhr.responseJSON) {
-			remote = xhr.responseJSON;
+			applyRemoteState(xhr.responseJSON);
 		}
 	});
 }
@@ -118,7 +153,7 @@ function checkDisplay(object) {
 			$('#textblock').html(object.message);
 		}
 		if (object.upperLine == 'countdown' || object.lowerLine == 'countdown') {
-		var total = remote.timeoutTimestamp - remote.timestamp - remote.countdownTimeout
+		var total = remote.timeoutTimestamp - getRemoteTimestampNow() - remote.countdownTimeout
 			if (remote.countdownState == 'start') {
 				$('.countdown').html(showTimer(total));
 				if(total<0) {
@@ -185,7 +220,7 @@ function getNameMonth(month) {
 }
 
 function updateClock(){
-	var Datum 	= new Date(remote.timestamp * 1000);
+	var Datum 	= new Date(getRemoteTimestampNow() * 1000);
 	var std 	= Datum.getHours();
 	var min 	= Datum.getMinutes();
 	var day 	= Datum.getDate();

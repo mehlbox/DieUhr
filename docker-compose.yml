@@ -29,6 +29,8 @@ services:
       - SECRET_KEY=${SECRET_KEY}
       - BASIC_AUTH_USERNAME=${BASIC_AUTH_USERNAME}
       - BASIC_AUTH_PASSWORD=${BASIC_AUTH_PASSWORD}
+      - KIOSK_SHARED_SECRET=${KIOSK_SHARED_SECRET}
+      - KIOSK_STALE_AFTER=${KIOSK_STALE_AFTER:-20}
       - TZ=Europe/Berlin
       - PATH=/venv/bin:${PATH}     # ensure gunicorn/eventlet are found
     depends_on:

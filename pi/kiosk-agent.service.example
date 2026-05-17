@@ -1,0 +1,21 @@
+[Unit]
+Description=DieUhr Kiosk Agent
+After=network-online.target kiosk.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/pi
+Environment=KIOSK_SERVER=https://dieuhr.bethaus-speyer.de
+Environment=KIOSK_ID=display
+Environment="KIOSK_NAME=Bethaus Display"
+Environment=KIOSK_SECRET=replace-me
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/home/pi/.Xauthority
+ExecStart=/usr/bin/python3 /home/pi/kiosk_agent.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
