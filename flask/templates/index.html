@@ -138,41 +138,11 @@
                         <h2>Timer-Steuerung</h2>
                     </div>
                     <div class="row fields timer-grid">
-                        <div class="field">
-                            <label for="countdownMin">Dauer Minuten</label>
-                            <select id="countdownMin">
-                                <option value="0">0 Min</option>
-                                <option value="60">1 Min</option>
-                                <option value="120">2 Min</option>
-                                <option value="180">3 Min</option>
-                                <option value="240">4 Min</option>
-                                <option value="300">5 Min</option>
-                                <option value="360">6 Min</option>
-                                <option value="420">7 Min</option>
-                                <option value="480">8 Min</option>
-                                <option value="540">9 Min</option>
-                                <option value="600">10 Min</option>
-                                <option value="660">11 Min</option>
-                                <option value="720">12 Min</option>
-                                <option value="780">13 Min</option>
-                                <option value="840">14 Min</option>
-                                <option value="900">15 Min</option>
-                                <option value="960">16 Min</option>
-                                <option value="1200">20 Min</option>
-                                <option value="1500">25 Min</option>
-                                <option value="1800">30 Min</option>
-                            </select>
-                        </div>
-                        <div class="field">
-                            <label for="countdownSec">Dauer Sekunden</label>
-                            <select id="countdownSec">
-                                <option value="0">0 Sek</option>
-                                <option value="10">10 Sek</option>
-                                <option value="20">20 Sek</option>
-                                <option value="30">30 Sek</option>
-                                <option value="40">40 Sek</option>
-                                <option value="50">50 Sek</option>
-                            </select>
+                        <div class="field field-span-2">
+                            <label for="countdownDuration">Dauer (MM:SS)</label>
+                            <input id="countdownDuration" type="text" inputmode="numeric" placeholder="05:00" aria-describedby="countdownDurationHint countdownDurationError" autocomplete="off">
+                            <div id="countdownDurationHint" class="field-hint">Format MM:SS, zum Beispiel 05:00. Die Dauer muss größer als 00:00 sein.</div>
+                            <div id="countdownDurationError" class="field-error" aria-live="polite"></div>
                         </div>
                         <div class="field">
                             <label for="countdownTimeout">Überziehen anzeigen</label>

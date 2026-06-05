@@ -131,21 +131,90 @@ function checkPage() {
 	}
 }
 
+function padCountdownPart(value) {
+	return value < 10 ? '0' + value : '' + value;
+}
+
+function formatCountdownDuration(totalSeconds) {
+	totalSeconds = parseInt(totalSeconds, 10);
+	if (isNaN(totalSeconds) || totalSeconds < 0) return '';
+
+	var minutes = Math.floor(totalSeconds / 60);
+	var seconds = totalSeconds % 60;
+	return padCountdownPart(minutes) + ':' + padCountdownPart(seconds);
+}
+
+function parseCountdownDuration(value) {
+	value = $.trim(value || '');
+	if (!value.length) {
+		return { isValid: false, message: 'Bitte eine Dauer eingeben.' };
+	}
+
+	var match = value.match(/^(\d{1,3}):(\d{2})$/);
+	if (!match) {
+		return { isValid: false, message: 'Erlaubt ist nur MM:SS, z. B. 05:00.' };
+	}
+
+	var minutes = parseInt(match[1], 10);
+	var seconds = parseInt(match[2], 10);
+	if (seconds > 59) {
+		return { isValid: false, message: 'Sekunden muessen zwischen 00 und 59 liegen.' };
+	}
+
+	var totalSeconds = (minutes * 60) + seconds;
+	if (totalSeconds <= 0) {
+		return { isValid: false, message: 'Die Dauer muss groesser als 00:00 sein.' };
+	}
+
+	return {
+		isValid: true,
+		totalSeconds: totalSeconds,
+		normalizedValue: padCountdownPart(minutes) + ':' + padCountdownPart(seconds)
+	};
+}
+
+function setCountdownDurationFeedback(message) {
+	var $error = $('#countdownDurationError');
+	if (!$error.length) return;
+
+	$error.text(message);
+	$error.toggleClass('is-visible', !!message);
+}
+
+function refreshCountdownDurationValidation() {
+	var $input = $('#countdownDuration');
+	if (!$input.length) return true;
+
+	var result = parseCountdownDuration($input.val());
+	if (result.isValid) {
+		local.countdown = result.totalSeconds;
+		$input.removeClass('is-invalid');
+		setCountdownDurationFeedback('');
+	} else {
+		$input.addClass('is-invalid');
+		setCountdownDurationFeedback(result.message);
+	}
+
+	$('#start').prop('disabled', !result.isValid);
+	return result.isValid;
+}
+
 function checkOption() {
 	syncLineDropdowns();
 	$("#timeout").val(local.timeout);
 
-	$("#countdownMin").val(parseInt(local.countdown/60)*60); // get just the minutes in second
-	$("#countdownSec").val(local.countdown%60);		// get just the seconds
+	$("#countdownDuration").val(formatCountdownDuration(local.countdown));
 	$("#countdownTimeout").val(local.countdownTimeout);
 
 	$("#message").val(local.message);
+	refreshCountdownDurationValidation();
 	
 }
 
 function updateTimerFormState() {
 	var isRunning = remote.countdownState === 'start';
-	$("#countdownMin, #countdownSec, #countdownTimeout").prop("disabled", isRunning);
+	$("#countdownDuration, #countdownTimeout").prop("disabled", isRunning);
+	refreshCountdownDurationValidation();
 }
 
 function getLineOptions() {

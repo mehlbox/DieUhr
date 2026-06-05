@@ -230,12 +230,27 @@ body {
 }
 
 .timer-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.timer-grid .field label {
+    min-height: 3.2em;
+    display: flex;
+    align-items: flex-end;
+}
+
+.field-span-2 {
+    grid-column: span 2;
+}
+
+.timer-grid .field-span-2 {
+    grid-column: span 1;
 }
 
 .field {
     display: grid;
     gap: 0.35rem;
+    align-content: start;
 }
 
 .field label {
@@ -248,6 +263,7 @@ body {
 
 select,
 textarea,
+input[type="text"],
 input[type="button"] {
     width: 100%;
     border-radius: var(--radius-sm);
@@ -258,6 +274,7 @@ input[type="button"] {
 }
 
 select,
+input[type="text"],
 input[type="button"] {
     height: 2.65rem;
     padding: 0 0.75rem;
@@ -272,10 +289,16 @@ textarea {
 
 select:focus,
 textarea:focus,
+input[type="text"]:focus,
 input[type="button"]:focus,
 button:focus {
     outline: 2px solid rgba(31, 122, 224, 0.4);
     outline-offset: 2px;
+}
+
+input[type="text"].is-invalid {
+    border-color: rgba(204, 65, 89, 0.72);
+    background: rgba(204, 65, 89, 0.08);
 }
 
 button,
@@ -290,10 +313,31 @@ input[type="button"]:hover {
 
 button:disabled,
 input[type="button"]:disabled,
+input[type="text"]:disabled,
 select:disabled,
 textarea:disabled {
     opacity: 0.62;
     cursor: not-allowed;
+}
+
+.field-hint,
+.field-error {
+    font-size: 0.76rem;
+    line-height: 1.35;
+}
+
+.field-hint {
+    color: var(--ink-soft);
+}
+
+.field-error {
+    display: none;
+    color: #b21f3d;
+    font-weight: 600;
+}
+
+.field-error.is-visible {
+    display: block;
 }
 
 .options-inline {
@@ -615,6 +659,10 @@ button.text-button-warn {
     .two-col,
     .timer-grid {
         grid-template-columns: 1fr;
+    }
+
+    .timer-grid .field label {
+        min-height: 0;
     }
 }
 

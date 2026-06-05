@@ -128,14 +128,18 @@ $("#timeout").change(function(){ // dropdown menu timeout
 	pushLiveState({ timeoutTimestamp: local.timeout });
 });
 
-$("#countdownMin").change(function(){ // dropdown menu countdown minute
-	local.countdown = parseInt($( "#countdownMin option:selected" ).val()) + parseInt($( "#countdownSec option:selected" ).val());
-	pushLiveState();
+$("#countdownDuration").on("input change", function(){
+	if (refreshCountdownDurationValidation()) {
+		pushLiveState();
+	}
 });
 
-$("#countdownSec").change(function(){ // dropdown menu countdown second
-	local.countdown = parseInt($( "#countdownMin option:selected" ).val()) + parseInt($( "#countdownSec option:selected" ).val());
-	pushLiveState();
+$("#countdownDuration").blur(function(){
+	var parsed = parseCountdownDuration($(this).val());
+	if (parsed.isValid) {
+		$(this).val(parsed.normalizedValue);
+		refreshCountdownDurationValidation();
+	}
 });
 
 $("#countdownSize").change(function(){ // dropdown menu countdownSize
@@ -196,6 +200,7 @@ $('#stop').click(function(){ // stop button
 });
 
 $('#start').click(function(){ // start button
+	if (!refreshCountdownDurationValidation()) return;
 	var startDuration = parseInt(local.countdown) + parseInt(local.countdownTimeout);
 	pushLiveState({ countdownState: 'start', timeoutTimestamp: startDuration });
 });
