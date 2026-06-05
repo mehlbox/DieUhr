@@ -75,13 +75,16 @@ function timeloop() {
 };
 
 function showTimer(total){
-	var seconds = Math.floor(total % 60);
-	var minutes = Math.floor((total / 60) % 60);
-	seconds = Math.abs(seconds);
-	minutes = Math.abs(minutes);
-	if (total<0) { minutes--; minutes = '-'+minutes }
-	if (seconds<10) seconds = '0'+seconds
-	return minutes+':'+seconds
+	var isNegative = total < 0;
+	var absoluteTotal = Math.abs(total);
+	var minutes = Math.floor(absoluteTotal / 60);
+	var seconds = absoluteTotal % 60;
+	if (seconds < 10) seconds = '0' + seconds;
+	return (isNegative ? '-' : '') + minutes + ':' + seconds;
+}
+
+function setCountdownOverdueState(isOverdue) {
+	$('.countdown, .stopwatch').toggleClass('is-overdue', isOverdue);
 }
 
 function checkTimeout(){
@@ -142,7 +145,7 @@ function checkDisplay(object) {
 			const html_code = {
 				clock 		: '<span class="cl_hours"></span><span class="cl_minutes"></span>',
 				date 		: '<span class="cl_day"></span><span class="cl_month"></span><span class="cl_year"></span>',
-				countdown 	: '<span class="stopwatch"></span><span class="countdown"></span>',
+				countdown 	: '<span class="countdown-line"><span class="stopwatch"></span><span class="countdown"></span></span>',
 				textarea 	: '<span id="textblock"></span>',
 				off 		: ''
 			}
@@ -156,13 +159,10 @@ function checkDisplay(object) {
 		var total = remote.timeoutTimestamp - getRemoteTimestampNow() - remote.countdownTimeout
 			if (remote.countdownState == 'start') {
 				$('.countdown').html(showTimer(total));
-				if(total<0) {
-					$('.countdown').css('color', '#EE0000');
-				} else {
-					$('.countdown').css('color', '#FFFFFF');
-				}
+				setCountdownOverdueState(total < 0);
 			} else {
-				$('.countdown').html(showTimer(remote.countdown)).css('color', '#FFFFFF');
+				$('.countdown').html(showTimer(remote.countdown));
+				setCountdownOverdueState(false);
 			}
 		}
 	}
@@ -282,7 +282,7 @@ function printDate(day, month, year) {
 		case "dd.mon.yyyy":
 			$(".cl_day").html(day);
 			$(".cl_month").html(". "+getNameMonth(month));
-			$(".cl_year").html(" "+year);
+			$(".cl_year").html("&nbsp;"+year);
 			break;
 	
 		default:

@@ -92,6 +92,13 @@ body {
     max-width: 100%;
 }
 
+.countdown-line {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+}
+
 .cl_hours,
 .cl_minutes,
 .cl_day,
@@ -116,13 +123,38 @@ body {
     vertical-align: -0.02em;
     display: inline-block;
     flex: 0 0 auto;
-    background: url(svg/stopwatch.svg) center / contain no-repeat;
+    color: var(--fg);
+    background-color: currentColor;
+    -webkit-mask: url(svg/stopwatch.svg) center / contain no-repeat;
+    mask: url(svg/stopwatch.svg) center / contain no-repeat;
     filter: drop-shadow(0 0 0.08em rgba(0, 0, 0, 0.4));
 }
 
 .countdown {
     display: inline-block;
     min-width: 3.3ch;
+}
+
+.countdown.is-overdue {
+    color: #ff4d4d;
+    animation: countdown-overdue-pulse 2.2s ease-in-out infinite;
+}
+
+.stopwatch.is-overdue {
+    color: #ff4d4d;
+    animation: countdown-overdue-pulse 2.2s ease-in-out infinite;
+    filter: drop-shadow(0 0 0.16em rgba(255, 77, 77, 0.75));
+}
+
+@keyframes countdown-overdue-pulse {
+    0%,
+    100% {
+        opacity: 0.45;
+    }
+
+    50% {
+        opacity: 1;
+    }
 }
 
 #textblock {
