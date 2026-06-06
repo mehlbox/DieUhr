@@ -62,7 +62,7 @@ function syncDisplayFrames() {
 }
 
 function command(command) {
-	$.ajax({
+	return $.ajax({
 	method: "POST",
 	url: "command",
 	data: { command: command }

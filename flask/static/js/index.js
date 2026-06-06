@@ -72,6 +72,7 @@ function pushTextMessage() {
 	setCookie('DieUhr', JSON.stringify(local));
 	temp.message = messageDraft;
 	temp.displayChange = (remote.displayChange || 0) + 1;
+	temp.logMessage = true;
 	sendDisplay();
 }
 
@@ -111,18 +112,6 @@ $("#moreOption").click(function(){ // button option
 	$("#option").toggle();
 });
 
-$("#clockSize").change(function(){ // dropdown menu clockSize
-	local.clockSize = $( "#clockSize option:selected" ).val();
-	local.displayChange++;
-	pushLiveState();
-});
-
-$("#dateSize").change(function(){ // dropdown menu dateSize
-	local.dateSize = $( "#dateSize option:selected" ).val();
-	local.displayChange++;
-	pushLiveState();
-});
-
 $("#timeout").change(function(){ // dropdown menu timeout
 	local.timeout = $( "#timeout option:selected" ).val();
 	pushLiveState({ timeoutTimestamp: local.timeout });
@@ -142,38 +131,8 @@ $("#countdownDuration").blur(function(){
 	}
 });
 
-$("#countdownSize").change(function(){ // dropdown menu countdownSize
-	local.countdownSize = $( "#countdownSize option:selected" ).val();
-	local.displayChange++;
-	pushLiveState();
-});
-
 $("#countdownTimeout").change(function(){ // dropdown menu countdownTimeout
 	local.countdownTimeout = $( "#countdownTimeout option:selected" ).val();
-	pushLiveState();
-});
-
-$("#textblockSize").change(function(){ // dropdown menu textblockSize
-	local.textblockSize = $( "#textblockSize option:selected" ).val();
-	local.displayChange++;
-	pushLiveState();
-});
-
-$("#textblockBorder").change(function(){ // dropdown menu textblockBorder
-	local.textblockBorder = $( "#textblockBorder option:selected" ).val();
-	local.displayChange  = local.displayChange+1;
-	pushLiveState();
-});
-
-$("#marqueeSize").change(function(){ // dropdown menu marqueeSize
-	local.marqueeSize = $( "#marqueeSize option:selected" ).val();
-	local.displayChange++;
-	pushLiveState();
-});
-
-$("#marqueeSpeed").change(function(){ // dropdown menu marqueeSpeed
-	local.marqueeSpeed = $( "#marqueeSpeed option:selected" ).val();
-	local.displayChange++;
 	pushLiveState();
 });
 
@@ -214,8 +173,9 @@ $("*").change(function(event){ // all
 
 $('#resetUnit').click(function(){
 	setCookie('DieUhr', '');
-	location.reload(true);
-	command('delete');
+	command('delete').always(function(){
+		location.reload(true);
+	});
 });
 
 $('#requestKioskScreenshot').click(function() {

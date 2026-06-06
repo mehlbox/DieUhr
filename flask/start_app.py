@@ -223,26 +223,9 @@ def snapshot_kiosks():
 @app.route('/command', methods=['POST'])
 def handle_command():
     command = request.form.get('command')
-    if command:
-        response = ""
-        if command == 'refresh':
-            response = os.popen('bash -c "export DISPLAY=\":0\" && xdotool key F5"').read()
-        elif command == 'stop':
-            response = os.popen('killall midori').read()
-        elif command == 'start':
-            response = os.popen('xinit /var/www/startMidori.sh').read()
-        elif command == 'reboot':
-            response = os.popen('reboot').read()
-        elif command == 'delete':
-            init_data()
-            response = "Deleted"
-        elif command == 'linux':
-            response = os.popen('uname -a').read()
-        elif command == 'user':
-            response = os.popen('whoami').read()
-
-        return response, {'Content-Type': 'text/plain'}
-    print(f'Invalid command: {command}')
+    if command == 'delete':
+        init_data()
+        return 'Deleted', {'Content-Type': 'text/plain'}
     return f'Invalid command: {command}', 400
 
 @app.route('/data', methods=['GET'])
@@ -461,9 +444,7 @@ def get_kiosk_screenshot(kiosk_id):
 def main():
     global data
     if request.method == 'GET':
-        snapshot = snapshot_data()
-        print(snapshot)
-        return jsonify(snapshot)
+        return jsonify(snapshot_data())
 
     if request.method == 'POST' and 'data' in request.form:
         try:
@@ -481,6 +462,8 @@ def main():
         except (TypeError, ValueError):
             return jsonify({'error': '"baseVersion" must be an integer.'}), 400
 
+        log_text_submission = bool(new_data.pop('logMessage', False))
+
         with state_lock:
             current_version = int(data.get('stateVersion', 0))
             if requested_base_version is not None and requested_base_version != current_version:
@@ -497,8 +480,9 @@ def main():
             response_data = data.copy()
             response_data['timestamp'] = int(time.time())
 
-        if new_data.get('onOff') == 'on' and 'message' in new_data:
-            log_entry = f"{datetime.now().strftime('%a %d.%m.%Y %H:%M:%S')} Message: {new_data['message']} by: {request.remote_addr}"
+        if log_text_submission:
+            submitted_message = new_data.get('message', '')
+            log_entry = f"{datetime.now().strftime('%a %d.%m.%Y %H:%M:%S')} Message: {submitted_message} by: {request.remote_addr}"
             with open(os.path.join(app.root_path, 'log.txt'), 'a', encoding='utf-8') as log_file:
                 log_file.write(log_entry + '\n')
 

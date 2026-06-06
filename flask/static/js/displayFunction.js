@@ -74,6 +74,38 @@ function timeloop() {
 	}
 };
 
+// Allow rich HTML in messages, but strip anything that can execute JavaScript
+// (script/style/iframe/... elements, on* event handlers, javascript: URLs).
+function sanitizeMessageHtml(value) {
+	var raw = value == null ? '' : String(value);
+	if (raw.indexOf('<') === -1) return raw;
+
+	var doc = new DOMParser().parseFromString('<div id="dieuhr-msg">' + raw + '</div>', 'text/html');
+	var container = doc.getElementById('dieuhr-msg');
+	if (!container) return '';
+
+	var blockedTags = { script: 1, style: 1, iframe: 1, object: 1, embed: 1, link: 1, meta: 1, base: 1, form: 1 };
+	var elements = container.getElementsByTagName('*');
+	for (var i = elements.length - 1; i >= 0; i--) {
+		var el = elements[i];
+		var tag = el.tagName.toLowerCase();
+		if (blockedTags[tag]) {
+			if (el.parentNode) el.parentNode.removeChild(el);
+			continue;
+		}
+		for (var a = el.attributes.length - 1; a >= 0; a--) {
+			var attr = el.attributes[a];
+			var name = attr.name.toLowerCase();
+			var compactValue = (attr.value || '').replace(/[\s\u0000-\u001f]+/g, '').toLowerCase();
+			var isUrlAttr = (name === 'href' || name === 'src' || name === 'xlink:href' || name === 'formaction');
+			if (name.indexOf('on') === 0 || (isUrlAttr && compactValue.indexOf('javascript:') === 0)) {
+				el.removeAttribute(attr.name);
+			}
+		}
+	}
+	return container.innerHTML;
+}
+
 function showTimer(total){
 	var isNegative = total < 0;
 	var absoluteTotal = Math.abs(total);
@@ -153,7 +185,7 @@ function checkDisplay(object) {
 			$('#printUpperLine').html(html_code[object.upperLine]);
 			$('#printLowerLine').html(html_code[object.lowerLine]);
 						
-			$('#textblock').html(object.message);
+			$('#textblock').html(sanitizeMessageHtml(object.message));
 		}
 		if (object.upperLine == 'countdown' || object.lowerLine == 'countdown') {
 		var total = remote.timeoutTimestamp - getRemoteTimestampNow() - remote.countdownTimeout
